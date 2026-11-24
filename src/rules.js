@@ -51,7 +51,7 @@ function scoreSocial(cart, text, mem, opts = {}){
   if (prev.some(p => jaccard(p, text) > 0.7)){ add(main, -6); hits.push("repeat"); dirs.push({dir:"{n} notices you're repeating yourself and teases you for it.", w:6}); }
   mem._lines = [...prev, text].slice(-6);
   // the model's read is a small nudge, halved when the rules already fired
-  if (opts.rating){ const w = (opts.ratingWeight || 1) * (primaryHit ? 0.5 : 1); const v = opts.rating === "good" ? 3 : opts.rating === "bad" ? -3 : 0; if (v){ add(main, Math.round(v * w)); hits.push("model:" + opts.rating); } }
+  if (opts.rating && !meta && !negHit){ const w = (opts.ratingWeight || 1) * (primaryHit ? 0.5 : 1); const v = opts.rating === "good" ? 3 : opts.rating === "bad" ? -3 : 0; if (v){ add(main, Math.round(v * w)); hits.push("model:" + opts.rating); } }
   for (const s of cart.stats) if (s.drift) { add(s.key, s.drift); }
   for (const s of cart.stats) if (deltas[s.key] != null) deltas[s.key] = clampN(deltas[s.key], -(s.step || 16), s.step || 16);
   dirs.sort((a, b) => b.w - a.w);

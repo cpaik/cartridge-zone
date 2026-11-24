@@ -16,7 +16,7 @@ const save = () => { try { localStorage.setItem("cz", JSON.stringify(DB)); } cat
 
 /* ---------- runtimes ---------- */
 const RT = {
-  pocket:{name:"Pocket", model:"Llama 3.2 1B", f16:"Llama-3.2-1B-Instruct-q4f16_1-MLC", f32:"Llama-3.2-1B-Instruct-q4f32_1-MLC", gb:[0.9,1.1], judge:0.6},
+  pocket:{name:"Pocket", model:"Llama 3.2 1B", f16:"Llama-3.2-1B-Instruct-q4f16_1-MLC", f32:"Llama-3.2-1B-Instruct-q4f32_1-MLC", gb:[0.9,1.1], judge:0},
   desk:{name:"Desk", model:"Hermes 3 3B (a Llama 3.2 fine-tune)", f16:"Hermes-3-Llama-3.2-3B-q4f16_1-MLC", f32:"Hermes-3-Llama-3.2-3B-q4f32_1-MLC", gb:[2.3,3.0], judge:1},
   tower:{name:"Tower", model:"Llama 3.1 8B", f16:"Llama-3.1-8B-Instruct-q4f16_1-MLC", f32:"Llama-3.1-8B-Instruct-q4f32_1-MLC", gb:[5.0,6.1], judge:1.5}
 };
@@ -221,8 +221,9 @@ async function turn(text){
   let end = null;
   try {
     if (c.engine === "social"){
-      const rating = await rateLine(c, text); dbg.rating = rating;
-      const r = scoreSocial(c, text, G.mem, {rating, ratingWeight:RT[S.loaded]?.judge || 1});
+      const w = RT[S.loaded]?.judge || 0;
+      const rating = w ? await rateLine(c, text) : null; dbg.rating = rating;
+      const r = scoreSocial(c, text, G.mem, {rating, ratingWeight:w});
       const fx = applyDeltas(r.deltas); const main = c.stats[0].key, b = band(r.deltas[main] || 0);
       Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b});
       end = socialEnd();
