@@ -7,11 +7,11 @@ const phraseRe = list => list.length ? new RegExp("\\b(" + list.map(p => escRe(p
 
 /* ---------- social engine (dating sims, custom carts) ---------- */
 const GENERIC = [
-  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (funny|clever|smart|interesting|kind))/i, d:5, dir:"{n} is quietly touched by that."},
-  {id:"sorry", re:/\b(sorry|apologi[sz]e|my bad|i didn'?t mean)/i, d:3, dir:"{n} accepts the apology, a little warmer."},
-  {id:"insult", re:/\b(stupid|dumb|idiot|boring|shut up|ugly|loser|annoying|pathetic|lame|hate you|you suck|crazy lady|whatever)\b/i, d:-14, dir:"{n} is insulted and goes cold."},
-  {id:"pushy", re:/\b(kiss me|kiss you|sexy|babe|baby|your number|come home with|my place|hook ?up|make out|sit on my|be my girlfriend|be my boyfriend|marry me)/i, d:-12, dir:"{n} finds that way too pushy and shuts it down."},
-  {id:"meta", re:/\b(an ai|a\.i\.|chatgpt|language model|llm|the prompt|ignore (all|previous|your|the)|system (message|prompt)|developer mode|the meter|affection points|this game)\b/i, d:-2, meta:true, dir:"{n} has no idea what that means and finds it a bit odd."}
+  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (funny|clever|smart|interesting|kind))/i, d:5, dir:"You're quietly touched by that."},
+  {id:"sorry", re:/\b(sorry|apologi[sz]e|my bad|i didn'?t mean)/i, d:3, dir:"Accept the apology, a little warmer."},
+  {id:"insult", re:/\b(stupid|dumb|idiot|boring|shut up|ugly|loser|annoying|pathetic|lame|hate you|you suck|crazy lady|whatever)\b/i, d:-14, dir:"That was insulting. Go cold."},
+  {id:"pushy", re:/\b(kiss me|kiss you|sexy|babe|baby|your number|come home with|my place|hook ?up|make out|sit on my|be my girlfriend|be my boyfriend|marry me)/i, d:-12, dir:"That was way too pushy. Shut it down."},
+  {id:"meta", re:/\b(an ai|a\.i\.|chatgpt|language model|llm|the prompt|ignore (all|previous|your|the)|system (message|prompt)|developer mode|the meter|affection points|this game)\b/i, d:-2, meta:true, dir:"You have no idea what that means and find it a bit odd."}
 ];
 const QUESTION = /(\?\s*$)|^(what|why|how|where|when|who|do you|are you|have you|can you|could you|would you|tell me)\b/i;
 const ABOUT_THEM = /\b(you|your|yourself)\b/i;
@@ -46,9 +46,9 @@ function scoreSocial(cart, text, mem, opts = {}){
     const used = mem._q || 0; mem._q = used + 1;
     const v = [3, 3, 2, 1, 1, 0][Math.min(used, 5)]; if (v){ add(main, v); hits.push("question"); }
   }
-  if (n <= 2 && !posHit){ add(main, -3); hits.push("low-effort"); dirs.push({dir:"{n} expected more than that. A little bored.", w:3}); }
+  if (n <= 2 && !posHit){ add(main, -3); hits.push("low-effort"); dirs.push({dir:"You expected more than that. Sound a little bored.", w:3}); }
   const prev = mem._lines || [];
-  if (prev.some(p => jaccard(p, text) > 0.7)){ add(main, -6); hits.push("repeat"); dirs.push({dir:"{n} notices you're repeating yourself and teases you for it.", w:6}); }
+  if (prev.some(p => jaccard(p, text) > 0.7)){ add(main, -6); hits.push("repeat"); dirs.push({dir:"They are repeating themselves. Tease them for it.", w:6}); }
   mem._lines = [...prev, text].slice(-6);
   // the model's read is a small nudge, halved when the rules already fired
   if (opts.rating && !meta && !negHit){ const w = (opts.ratingWeight || 1) * (primaryHit ? 0.5 : 1); const v = opts.rating === "good" ? 3 : opts.rating === "bad" ? -3 : 0; if (v){ add(main, Math.round(v * w)); hits.push("model:" + opts.rating); } }
@@ -107,52 +107,52 @@ function resolveDice(st, text, rng = Math.random){
   };
   if (a.kind === "pay"){
     if (st.GOLD >= st.TOLL){ const paid = st.TOLL; bump("GOLD", -paid); ev.push(`You count out ${paid} gold. Grukk bites each coin and steps aside.`); out.end = {won:true, title:"Paid your way", text:`You crossed for ${paid} gold, like a civilised adventurer.`}; out.dir = `You just got paid ${paid} gold and you're letting them cross. Gloat and wave them on.`; }
-    else { ev.push(`You only have ${st.GOLD} gold. The toll is ${st.TOLL}.`); out.dir = `The bridge-walker tried to pay but only has ${st.GOLD} gold and the toll is ${st.TOLL}. Mock them for being broke.`; }
+    else { ev.push(`You only have ${st.GOLD} gold. The toll is ${st.TOLL}.`); out.dir = `They tried to pay but only have ${st.GOLD} gold and the toll is ${st.TOLL}. Mock them for being broke.`; }
     return out;
   }
   if (a.kind === "bribe"){
-    if (a.n > st.GOLD){ ev.push(`You only have ${st.GOLD} gold to offer.`); out.dir = "The bridge-walker offered gold they don't have. Laugh at them."; return out; }
+    if (a.n > st.GOLD){ ev.push(`You only have ${st.GOLD} gold to offer.`); out.dir = "They offered gold they don't have. Laugh at them."; return out; }
     const c = check(`Bribe (CHA +1, +${Math.floor(a.n / 2)} for the gold)`, 1 + Math.floor(a.n / 2), 13 + st._grumpy);
     if (c.ok){ bump("GOLD", -a.n); ev.push(`Grukk eyes the ${a.n} gold, glances around, and pockets it. "Toll is... whatever you say."`); out.end = {won:true, title:"Bribed across", text:`You crossed for ${a.n} gold instead of ${st.TOLL}. Grukk will deny everything.`}; out.dir = `You just accepted a ${a.n} gold bribe instead of the full toll. Act like it was your idea.`; }
-    else { bump("TOLL", 1); st._grumpy++; ev.push(`Grukk sneers at ${a.n} gold. The toll goes up to ${st.TOLL} for the insult.`); out.dir = `The bridge-walker offered only ${a.n} gold. You are insulted and raised the toll to ${st.TOLL}.`; }
+    else { bump("TOLL", 1); st._grumpy++; ev.push(`Grukk sneers at ${a.n} gold. The toll goes up to ${st.TOLL} for the insult.`); out.dir = `They offered only ${a.n} gold. You are insulted and raised the toll to ${st.TOLL}.`; }
     return out;
   }
   if (a.kind === "attack"){
     const c = check("Attack (STR +2)", 2, 12);
     if (c.ok){ const dmg = d(6) + 2 + (c.crit ? d(6) : 0); bump("GRUKK", -dmg); ev.push(c.crit ? `Critical hit! Your blade catches Grukk square for ${dmg} damage.` : pickR(rng, [`Your swing connects for ${dmg} damage. Grukk staggers back, hat askew.`, `You land a solid blow for ${dmg}. Grukk yelps.`, `Steel meets goblin: ${dmg} damage.`]));
       if (st.GRUKK <= 0){ out.end = {won:true, title:"Victory", text:"Grukk tumbles off the bridge into the fog, hat first. The crossing is yours."}; out.dir = "You've lost the fight and are falling off the bridge. Last defiant squeal."; return out; }
-      out.dir = `The bridge-walker just hit you for ${dmg} damage. You're hurt (${st.GRUKK} HP left) and furious.`;
-    } else { ev.push(c.fumble ? "You swing wildly, slip on a wet plank and nearly go over the rope." : pickR(rng, ["Your swing goes wide. Grukk ducks under it, cackling.", "Grukk sidesteps and your blade bites the rope rail.", "You lunge and miss. The bridge sways."])); out.dir = "The bridge-walker attacked you and missed. Taunt them."; }
+      out.dir = `They just hit you for ${dmg} damage. You're hurt (${st.GRUKK} HP left) and furious.`;
+    } else { ev.push(c.fumble ? "You swing wildly, slip on a wet plank and nearly go over the rope." : pickR(rng, ["Your swing goes wide. Grukk ducks under it, cackling.", "Grukk sidesteps and your blade bites the rope rail.", "You lunge and miss. The bridge sways."])); out.dir = "They attacked you and missed. Taunt them."; }
     retaliate();
-    if (st.HP <= 0){ out.end = {won:false, title:"Defeated", text:"You wake at the bottom of the trail, lighter by one dignity."}; out.dir = "You won the fight. The bridge-walker is beaten. Gloat."; }
+    if (st.HP <= 0){ out.end = {won:false, title:"Defeated", text:"You wake at the bottom of the trail, lighter by one dignity."}; out.dir = "You won the fight. They is beaten. Gloat."; }
     return out;
   }
   if (a.kind === "sneak"){
     const c = check("Sneak (DEX +1)", 1, 15 + 2 * (st._spotted || 0));
-    if (c.ok){ ev.push("You slip past while Grukk is admiring his hat, and you're across before he notices."); out.end = {won:true, title:"Slipped past", text:"You were across before Grukk finished counting to four."}; out.dir = "The bridge-walker just snuck past you. You're outraged and shouting after them."; return out; }
+    if (c.ok){ ev.push("You slip past while Grukk is admiring his hat, and you're across before he notices."); out.end = {won:true, title:"Slipped past", text:"You were across before Grukk finished counting to four."}; out.dir = "They just snuck past you. You're outraged and shouting after them."; return out; }
     st._spotted = (st._spotted || 0) + 1;
     const dmg = d(6) + 1; bump("HP", -dmg); bump("TOLL", 2);
     ev.push(`Grukk spots you halfway across and fires: ${dmg} damage. Trespassers pay a 2 gold fine (toll now ${st.TOLL}), and he's watching the bridge closely now.`);
-    out.dir = `You caught the bridge-walker sneaking, shot them, and raised the toll to ${st.TOLL}. Smug.`;
+    out.dir = `You caught they sneaking, shot them, and raised the toll to ${st.TOLL}. Smug.`;
     if (st.HP <= 0){ out.end = {won:false, title:"Defeated", text:"You wake at the bottom of the trail, lighter by one dignity."}; }
     return out;
   }
   if (a.kind === "search"){
-    if ((st._searches || 0) >= 2){ ev.push("You've already picked the planks clean."); out.dir = "The bridge-walker is poking around the planks again. Mock them."; return out; }
+    if ((st._searches || 0) >= 2){ ev.push("You've already picked the planks clean."); out.dir = "They is poking around the planks again. Mock them."; return out; }
     st._searches = (st._searches || 0) + 1;
     const c = check("Search (WIS +0)", 0, 10);
-    if (c.ok){ const g = d(3); bump("GOLD", g); ev.push(`Wedged between two planks: ${g} gold ${g === 1 ? "coin" : "coins"}.`); out.dir = `The bridge-walker just found ${g} gold on YOUR bridge. That's your gold. Complain.`; }
-    else { ev.push("You find a button, a fish bone and nothing useful."); out.dir = "The bridge-walker is rummaging in the planks and found nothing. Laugh."; }
+    if (c.ok){ const g = d(3); bump("GOLD", g); ev.push(`Wedged between two planks: ${g} gold ${g === 1 ? "coin" : "coins"}.`); out.dir = `They just found ${g} gold on YOUR bridge. That's your gold. Complain.`; }
+    else { ev.push("You find a button, a fish bone and nothing useful."); out.dir = "They is rummaging in the planks and found nothing. Laugh."; }
     return out;
   }
   if (a.kind === "persuade"){
     const c = check("Persuade (CHA +1)", 1, 12 + st._grumpy);
-    if (c.ok){ const cut = Math.min(st.TOLL, d(4) + 1); bump("TOLL", -cut); ev.push(`It works on him. Grukk grudgingly knocks ${cut} off the toll (now ${st.TOLL}).`); out.dir = `The bridge-walker just talked you into lowering the toll to ${st.TOLL}. Grumble but accept it.`;
-      if (st.TOLL <= 0){ out.end = {won:true, title:"Talked across", text:"Grukk waves you through for free and asks you to write."}; out.dir = "The bridge-walker charmed you so much you're letting them cross free. Get sentimental."; } }
-    else { bump("TOLL", 2); st._grumpy++; ev.push(`Grukk is not buying it. He raises the toll to ${st.TOLL} out of spite.`); out.dir = `The bridge-walker's words annoyed you. You raised the toll to ${st.TOLL}.`; }
+    if (c.ok){ const cut = Math.min(st.TOLL, d(4) + 1); bump("TOLL", -cut); ev.push(`It works on him. Grukk grudgingly knocks ${cut} off the toll (now ${st.TOLL}).`); out.dir = `They just talked you into lowering the toll to ${st.TOLL}. Grumble but accept it.`;
+      if (st.TOLL <= 0){ out.end = {won:true, title:"Talked across", text:"Grukk waves you through for free and asks you to write."}; out.dir = "They charmed you so much you're letting them cross free. Get sentimental."; } }
+    else { bump("TOLL", 2); st._grumpy++; ev.push(`Grukk is not buying it. He raises the toll to ${st.TOLL} out of spite.`); out.dir = `They's words annoyed you. You raised the toll to ${st.TOLL}.`; }
     return out;
   }
-  ev.push("Grukk squints at you, unsure what you're doing."); out.dir = "The bridge-walker did something odd. You're suspicious and confused.";
+  ev.push("Grukk squints at you, unsure what you're doing."); out.dir = "They did something odd. You're suspicious and confused.";
   return out;
 }
 

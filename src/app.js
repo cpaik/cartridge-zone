@@ -114,18 +114,24 @@ function cleanVoice(s, c, final){
   s = s.replace(/\(direction[^)]*\)?/gi, "").replace(/\*[^*\n]{0,120}\*?/g, " ").replace(/\[[^\]\n]*\]?/g, " ").replace(/\([^)\n]{0,80}\)/g, " ");
   s = s.replace(new RegExp("^\\s*(\\*\\*)?(" + [c.character, c.character.split(" ")[0], "Old " + c.character].map(x => x.replace(/[^\w ]/g, "")).join("|") + ")(\\*\\*)?\\s*:\\s*", "i"), "");
   s = s.replace(/^\s*["“”']+|["“”']+\s*$/g, "").replace(/\s*\n+\s*/g, " ").replace(/\s{2,}/g, " ").trim();
+  const q = s.search(/["“]/);
+  if (q > 0 && q < 90 && /^(she|he|they|i|juno|ezra|grukk|ilse|old ilse)\b[^"“]*[.,:]\s*$/i.test(s.slice(0, q))) s = s.slice(q);
+  s = s.replace(/["“”]/g, "").trim();
   if (!final) return s;
-  const sent = s.match(/[^.!?…]+[.!?…]+["”']?|[^.!?…]+$/g) || [s];
+  let sent = s.match(/[^.!?…]+[.!?…]+["”']?|[^.!?…]+$/g) || [s];
+  if (c.noNumbers) sent = sent.filter(x => !/\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\b/i.test(x));
+  if (!sent.length) return "";
   let out = ""; for (const x of sent){ if ((out + x).length > 240 && out) break; out += x; if (out.split(/[.!?…]+/).filter(t => t.trim()).length >= 3) break; }
-  return out.trim().replace(/^["“”']+|["“”']+$/g, "");
+  return out.trim().replace(/^["“”']+|["“”']+$/g, "").replace(/\.{3,}|…/g, (m, i, all) => i + m.length >= all.length - 1 ? "." : ", ").replace(/,\s*,/g, ",").replace(/\s+([,.!?])/g, "$1");
 }
 function voiceSystem(c){
   const mood = c.engine === "social" ? `\nRight now ${c.character} feels ${moodOf(c, G.stats[c.stats[0].key])} toward the player.` : "";
-  return `${c.persona}${mood}\n\nWrite ONLY ${c.character}'s next spoken line: one or two short sentences, under 35 words. No narration, no actions, no quotation marks, no emojis. Never mention being an AI, a game, points or meters.${c.voice?.length ? `\n\nExamples of how ${c.character} talks:\n${c.voice.map(v => "- " + v).join("\n")}` : ""}`;
+  return `${c.persona}${mood}\n\nWrite ONLY ${c.character}'s next spoken line, speaking directly to the player in first person: one or two short sentences, under 35 words. No narration, no describing yourself in the third person, no actions, no quotation marks, no emojis.${c.noNumbers ? " Never say any numbers or prices." : ""} Never mention being an AI, a game, points or meters.${c.voice?.length ? `\n\nExamples of how ${c.character} talks:\n${c.voice.map(v => "- " + v).join("\n")}` : ""}`;
 }
-async function voice(c, playerText, direction, onDelta){
+async function voice(c, playerText, direction, onDelta, final){
   const sys = voiceSystem(c);
-  const msgs = [{role:"system", content:sys}, ...G.history.slice(-8), {role:"user", content:`${playerText}\n\n(Direction: ${direction} Reply as ${c.character} in under 35 words.)`}];
+  const ask = final ? `(This is the last moment of the scene. ${direction} Say it as ${c.character} in under 40 words.)` : `(Direction for ${c.character}, do not narrate it: ${direction} Reply in under 35 words.)`;
+  const msgs = [{role:"system", content:sys}, ...G.history.slice(-8), {role:"user", content:`${playerText}\n\n${ask}`}];
   G.debug.at(-1).direction = direction;
   if (MOCK){ const t = mockLine(c, direction); for (const w of t.split(/(?<=\s)/)){ await sleep(30); onDelta(w); } return t; }
   let raw = "";
@@ -147,7 +153,7 @@ function newGame(c){
   Object.assign(G.stats, {_grumpy:0, _searches:0, _spotted:0, _trades:[], _charm:0, _story:0});
   DB.plays[c.id] = (DB.plays[c.id]||0) + 1; save();
   $("#log").innerHTML = ""; $("#end").classList.remove("on");
-  if (c.opening){ addMsg("npc", c.opening); G.history.push({role:"assistant", content:c.opening}); }
+  if (c.opening){ addMsg(c.narrator ? "ev" : "npc", c.opening); G.history.push({role:"assistant", content:c.voiceOpening || c.opening}); }
   $("#pPic").innerHTML = art(c); $("#pKick").textContent = `${genreName(c.genre)} · ${c.character}`; $("#pTitle").textContent = c.title;
   $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "social rules" : c.engine === "dice" ? "d20 rules" : "barter rules"}. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
   renderSugg(); renderMeters(); renderGate();
@@ -199,13 +205,14 @@ function socialEnd(){
   return null;
 }
 
-async function speak(playerText, direction, extraFx){
+async function speak(playerText, direction, opts = {}){
   const c = G.cart, bub = addMsg("npc", ""), tEl = bub.querySelector(".t"); tEl.classList.add("cur"); setSend(true);
   let raw = "";
-  try { raw = await voice(c, playerText, direction, d => { raw += d; tEl.textContent = cleanVoice(raw, c, false); scroll(); }); }
+  try { raw = await voice(c, playerText, direction, d => { raw += d; tEl.textContent = cleanVoice(raw, c, false); scroll(); }, opts.final); }
   catch (e) { console.error(e); raw = ""; }
   let line = cleanVoice(raw, c, true);
-  if (line.length < 2) line = mockLine(c, direction);
+  if (line.length < 2) line = opts.fallback || (opts.suffix ? "" : mockLine(c, direction));
+  if (opts.suffix) line = (line + " " + opts.suffix).trim();
   tEl.classList.remove("cur"); tEl.textContent = line;
   G.history.push({role:"user", content:playerText}, {role:"assistant", content:line});
   G.debug.at(-1).line = line; setSend(false);
@@ -228,7 +235,7 @@ async function turn(text){
       Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b});
       end = socialEnd();
       const dir = end ? (end.dir || end.text) : (r.dirs[0] || pick(c.reactions?.[b] || [`${c.character} feels ${b}.`])).replace(/\{n\}/g, c.character);
-      const bub = await speak(text, dir);
+      const bub = await speak(text, dir, {final:!!end});
       addFx(bub, fx, end ? null : `${c.character}: ${b}`);
     }
     else if (c.engine === "dice"){
@@ -236,7 +243,8 @@ async function turn(text){
       for (const x of r.rolls) rollEl(x);
       const evEl = addMsg("ev", r.ev.join(" ")); addFx(evEl, r.fx);
       end = r.end || (G.turn >= c.turns ? {won:false, ...c.endings.timeout} : null);
-      await speak(`(The bridge-walker says or does: ${text})`, end && !r.end ? end.dir : r.dir);
+      const plain = d => d.replace(/\s*\(\d+ HP left\)/g, "").replace(/ for \d+ damage/g, "").replace(/\b\d+ gold\b/g, "some gold").replace(/ to \d+\b/g, "").replace(/ of \d+\b/g, "");
+      await speak(`(The bridge-walker says or does: ${text})`, plain(end && !r.end ? end.dir : r.dir), {final:!!end, fallback:pick(c.voice)});
     }
     else if (c.engine === "barter"){
       const before = G.stats.PRICE;
@@ -246,7 +254,9 @@ async function turn(text){
       else if (G.stats.PATIENCE <= 0) end = {won:false, ...c.endings.lose};
       else if (G.turn >= c.turns) end = {won:false, ...c.endings.timeout};
       const dir = end && !r.deal ? end.dir : r.dir;
-      const bub = await speak(text, dir);
+      const p = G.stats.PRICE, say = r.deal ? pick([`Sold, for ${r.deal.crowns ?? r.deal.price} crowns${r.deal.item ? " and that " + r.deal.item : ""}!`, `${r.deal.crowns ?? r.deal.price} crowns${r.deal.item ? " and the " + r.deal.item : ""}. Done, and done!`])
+        : end ? "" : p !== before ? pick([`${p} crowns. Not a coin less.`, `For you, ${p} crowns.`, `I could do ${p}, and I'm robbing myself.`]) : r.note === "lowball" ? pick([`${r.offer}? I'll pretend I didn't hear that. Still ${p}.`, `${r.offer}! Ha! It's ${p}, dear.`]) : r.offer != null ? `Still ${p} crowns.` : "";
+      const bub = await speak(text, dir.replace(/ Say the (number|price) \d+\./g, "") + (say ? " React in one short sentence; the price itself will be said separately." : ""), {final:!!end, suffix:say, fallback:pick(c.voice)});
       addFx(bub, r.fx, r.deal ? `Sold for ${r.deal.crowns ?? r.deal.price}` : G.stats.PRICE !== before ? `Asking ${G.stats.PRICE}` : r.note === "lowball" ? "Insulted" : null);
     }
   } catch (e) { console.error(e); addMsg("sys", "The runtime hiccuped. Try that again."); G.turn--; }
