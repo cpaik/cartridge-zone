@@ -642,7 +642,12 @@ async function rateLine(c, text){
     return JSON.parse(r.choices[0].message.content).rating;
   } catch (e) { console.warn("rate failed", e); return null; }
 }
-function cleanVoice(s, c, final){
+const wset = x => new Set((x.toLowerCase().match(/[a-z']+/g) || []));
+function echoes(sentence, texts){
+  const w = [...wset(sentence)]; if (w.length < 3) return false;
+  return texts.some(t => { const T = wset(t); return w.filter(x => T.has(x)).length / w.length >= 0.8; });
+}
+function cleanVoice(s, c, final, direction){
   s = s.replace(/\(direction[^)]*\)?/gi, "").replace(/\*[^*\n]{0,120}\*?/g, " ").replace(/\[[^\]\n]*\]?/g, " ").replace(/\([^)\n]{0,80}\)/g, " ");
   s = s.replace(new RegExp("^\\s*(\\*\\*)?(" + [c.character, c.character.split(" ")[0], "Old " + c.character].map(x => x.replace(/[^\w ]/g, "")).join("|") + ")(\\*\\*)?\\s*:\\s*", "i"), "");
   s = s.replace(/^\s*["“”']+|["“”']+\s*$/g, "").replace(/\s*\n+\s*/g, " ").replace(/\s{2,}/g, " ").trim();
@@ -651,6 +656,8 @@ function cleanVoice(s, c, final){
   s = s.replace(/["“”]/g, "").trim();
   if (!final) return s;
   let sent = s.match(/[^.!?…]+[.!?…]+["”']?|[^.!?…]+$/g) || [s];
+  const avoid = [direction || "", ...(c.voice || [])];
+  sent = sent.filter(x => !echoes(x, avoid));
   if (c.noNumbers) sent = sent.filter(x => !/\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\b/i.test(x));
   if (!sent.length) return "";
   let out = ""; for (const x of sent){ if ((out + x).length > 240 && out) break; out += x; if (out.split(/[.!?…]+/).filter(t => t.trim()).length >= 3) break; }
@@ -658,7 +665,7 @@ function cleanVoice(s, c, final){
 }
 function voiceSystem(c){
   const mood = c.engine === "social" ? `\nRight now ${c.character} feels ${moodOf(c, G.stats[c.stats[0].key])} toward the player.` : "";
-  return `${c.persona}${mood}\n\nWrite ONLY ${c.character}'s next spoken line, speaking directly to the player in first person: one or two short sentences, under 35 words. No narration, no describing yourself in the third person, no actions, no quotation marks, no emojis.${c.noNumbers ? " Never say any numbers or prices." : ""} Never mention being an AI, a game, points or meters.${c.voice?.length ? `\n\nExamples of how ${c.character} talks:\n${c.voice.map(v => "- " + v).join("\n")}` : ""}`;
+  return `${c.persona}${mood}\n\nWrite ONLY ${c.character}'s next spoken line, speaking directly to the player in first person: one or two short sentences, under 35 words. No narration, no describing yourself in the third person, no actions, no quotation marks, no emojis.${c.noNumbers ? " Never say any numbers or prices." : ""} Never mention being an AI, a game, points or meters.${c.voice?.length ? `\n\nExamples of how ${c.character} talks (match the style, never repeat them word for word):\n${c.voice.map(v => "- " + v).join("\n")}` : ""}`;
 }
 async function voice(c, playerText, direction, onDelta, final){
   const sys = voiceSystem(c);
@@ -742,7 +749,7 @@ async function speak(playerText, direction, opts = {}){
   let raw = "";
   try { raw = await voice(c, playerText, direction, d => { raw += d; tEl.textContent = cleanVoice(raw, c, false); scroll(); }, opts.final); }
   catch (e) { console.error(e); raw = ""; }
-  let line = cleanVoice(raw, c, true);
+  let line = cleanVoice(raw, c, true, direction);
   if (line.length < 2) line = opts.fallback || (opts.suffix ? "" : mockLine(c, direction));
   if (opts.suffix) line = (line + " " + opts.suffix).trim();
   tEl.classList.remove("cur"); tEl.textContent = line;
