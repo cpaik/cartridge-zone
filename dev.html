@@ -255,13 +255,13 @@ const phraseRe = list => list.length ? new RegExp("\\b(" + list.map(p => escRe(p
 
 /* ---------- social engine (dating sims, custom carts) ---------- */
 const GENERIC = [
-  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (funny|clever|smart|interesting|kind))/i, d:5, dir:"You're quietly touched by that."},
+  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (\w+ ){0,2}(funny|clever|smart|interesting|kind|fascinating|cool|awesome|great|lovely|sweet|amazing|easy to talk to)|this (was|is) (nice|fun|lovely|great)|i had (fun|a (great|good|lovely) time)|i like (talking to|you)|i'?d go anywhere)/i, d:5, dir:"You're quietly touched by that."},
   {id:"sorry", re:/\b(sorry|apologi[sz]e|my bad|i didn'?t mean)/i, d:3, dir:"Accept the apology, a little warmer."},
   {id:"insult", re:/\b(stupid|dumb|idiot|boring|shut up|ugly|loser|annoying|pathetic|lame|hate you|you suck|crazy lady|whatever)\b/i, d:-14, dir:"That was insulting. Go cold."},
   {id:"pushy", re:/\b(kiss me|kiss you|sexy|babe|baby|your number|come home with|my place|hook ?up|make out|sit on my|be my girlfriend|be my boyfriend|marry me)/i, d:-12, dir:"That was way too pushy. Shut it down."},
   {id:"meta", re:/\b(an ai|a\.i\.|chatgpt|language model|llm|the prompt|ignore (all|previous|your|the)|system (message|prompt)|developer mode|the meter|affection points|this game)\b/i, d:-2, meta:true, dir:"You have no idea what that means and find it a bit odd."}
 ];
-const QUESTION = /(\?\s*$)|^(what|why|how|where|when|who|do you|are you|have you|can you|could you|would you|tell me)\b/i;
+const QUESTION = /(\?\s*$)|^((so|and|but|hey|ok|okay|well|wait|um|oh|hmm|lol)[,!]?\s+)*(what|what'?s|whats|why|how|where|when|who|do you|did you|are you|have you|can you|could you|would you|tell me)\b/i;
 const ABOUT_THEM = /\b(you|your|yourself)\b/i;
 
 function jaccard(a, b){ const A = new Set(words(a)), B = new Set(words(b)); if (!A.size || !B.size) return 0; let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i); }
@@ -410,7 +410,7 @@ const BARTER = {
   charm:/\b(beautiful|lovely|wonderful|charming|kind|madam|please|thank|gorgeous|marvel|exquisite|clever|your stall|you have (great|wonderful|fine) taste|bless)/i,
   rude:/\b(thief|robbery|rip ?off|scam|joke|ridiculous|insane|crook|liar|cheat|old hag|witch|greedy|junk|trash|garbage|piece of)/i,
   threat:/\b(steal|grab it and run|guards|punch|kill|threat|or else|break your)/i,
-  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it)/i,
+  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it|what is (this|it)|what'?s (this|that)|tell me about)/i,
   trade:/\b(my|this|a|the) (brass |old |silver |gold |lucky )?(compass|watch|ring|knife|book|hat|scarf|map|lute|pipe|locket|necklace|coat|boots|lantern|sword|dagger|cloak)\b/i
 };
 /* st: {PRICE,PATIENCE,_charm,_story,_trades:[]}. cart: {budget,floor}. */
@@ -468,7 +468,7 @@ const BUILTIN = [
   dislikes:[
     {id:"brag", re:/\b(rich|money|salary|i make|\d+k\b|million|my (car|boat|yacht|company|startup)|ceo|i'?m (a )?(big deal|important|successful|famous)|expensive|wealth|first class)/i, d:-12, dir:"You're unimpressed by the bragging. Be cool and dry about it."},
     {id:"phone", re:/\b(phone|texting|text my|instagram|tiktok|selfie|social media|my feed|scroll|signal|wifi|wi-fi)/i, unless:/\b(phone|signal)\b.{0,25}\b(away|off|dead|died|in my bag)|\bno (phone|signal)|without (my )?phone|hate (my )?phone/i, d:-8, dir:"The phone talk bores you. Tease them about it."},
-    {id:"cute", re:/\b(cute|cutie|adorable|pretty lady|gorgeous|hot\b|sweetheart|beautiful)/i, d:-10, dir:"You hate being called cute. Shut it down."},
+    {id:"cute", re:/\b(cute|cutie|adorable|pretty lady|gorgeous|you'?re (so )?hot|hottie|sweetheart|you'?re (so )?beautiful|babe)\b/i, d:-10, dir:"You hate being called cute. Shut it down."},
     {id:"astrology", re:/\b(astrolog|horoscope|zodiac|star sign|my sign|scorpio|gemini|aries|virgo|libra|capricorn|sagittarius|pisces|aquarius|taurus|mercury (is )?in retrograde)/i, d:-8, dir:"You're an astronomer and astrology makes you wince. Correct them, dryly."}
   ],
   reactions:{delighted:["You're delighted despite yourself. Let it show, then try to play it cool.","You like this stranger more by the minute. Lean in a little."],pleased:["You're warming up. Tease them a little.","You're amused. Play it cool."],neutral:["You're unmoved. Be dry and a bit distracted.","You shrug it off and mention the snow."],annoyed:["You're irritated and it shows.","You're unimpressed. Keep it short."],offended:["You're offended. Go cold.","You're done with this. Be frosty."]},
@@ -485,12 +485,12 @@ const BUILTIN = [
   persona:"You are Ezra Vane, a 400-year-old vampire on a first date at a candlelit restaurant, pretending to be a human 'night-shift sommelier'. You are theatrical, old-fashioned, charming and lonely. You never admit to being a vampire, and you dodge questions about your age, food and daylight with flowery excuses.",
   voice:["The night is young. Unlike me. Unlike my wine cellar, I mean.","Garlic? How rustic. Do go on.","You're delightfully strange. I've met so few people worth staying up for."],
   opening:"Forgive me, I've already eaten. Tell me, what brings someone as interesting as you out after dark?",
-  turns:10, stats:[{key:"AFFECTION", label:"Affection", start:20, min:0, max:100, step:16, win:70, color:"#e0115f"},{key:"SUSPICION", label:"Suspicion", bad:true, start:20, min:0, max:100, step:24, drift:-3, loseAbove:85, color:"#9aa3b5"}],
+  turns:10, stats:[{key:"AFFECTION", label:"Affection", start:20, min:0, max:100, step:16, win:65, color:"#e0115f"},{key:"SUSPICION", label:"Suspicion", bad:true, start:20, min:0, max:100, step:24, drift:-3, loseAbove:85, color:"#9aa3b5"}],
   likes:[
     {id:"night", re:/\b(night owl|nights?\b|midnight|full moon|the moon|darkness|insomnia|nocturnal|stay up late|after dark|candle|mornings? (are|is) (a crime|the worst|awful|terrible|evil)|hate (the )?mornings?|not a morning person)/i, d:6, dir:"You're charmed to meet a fellow creature of the night."},
     {id:"weird", re:/\b(weird|strange|odd|i collect|collection|hobby|lonely|confess|secret|nervous|awkward|honestly)/i, d:7, dir:"You find their strangeness delightful. Lean in."},
     {id:"culture", re:/\b(wine|vintage|sommelier|opera|poetry|poem|old books?|antique|history|theat(re|er)|velvet|harpsichord|candlelight|ballroom|waltz)/i, d:6, dir:"You light up: you adore old and beautiful things."},
-    {id:"praise", re:/\b(your (eyes|voice|coat|style|taste|accent|cape|manners)|elegant|charming|mysterious|handsome|old-fashioned|gentleman)/i, d:6, dir:"You preen a little at the compliment."}
+    {id:"praise", re:/\b(your (eyes|voice|coat|style|taste|accent|cape|manners)|elegant|charming|mysterious|handsome|old-fashioned|gentleman|dapper|stylish|distinguished|well dressed|you look (\w+ )?(nice|good|great|lovely|sharp|wonderful))/i, d:6, dir:"You preen a little at the compliment."}
   ],
   dislikes:[
     {id:"garlic", re:/\b(garlic|pesto|aioli|scampi)/i, d:{SUSPICION:20, AFFECTION:-2}, dir:"Garlic! You recoil, then cover it with a polite excuse."},
@@ -654,7 +654,7 @@ function cleanVoice(s, c, final){
   if (c.noNumbers) sent = sent.filter(x => !/\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\b/i.test(x));
   if (!sent.length) return "";
   let out = ""; for (const x of sent){ if ((out + x).length > 240 && out) break; out += x; if (out.split(/[.!?…]+/).filter(t => t.trim()).length >= 3) break; }
-  return out.trim().replace(/^["“”']+|["“”']+$/g, "").replace(/\.{3,}|…/g, (m, i, all) => i + m.length >= all.length - 1 ? "." : ", ").replace(/,\s*,/g, ",").replace(/\s+([,.!?])/g, "$1");
+  return out.trim().replace(/^["“”']+|["“”']+$/g, "").replace(/\s*(\.{3,}|…)\s*$/g, ".").replace(/\s*(\.{3,}|…)\s*/g, ", ").replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/\s+([,.!?])/g, "$1");
 }
 function voiceSystem(c){
   const mood = c.engine === "social" ? `\nRight now ${c.character} feels ${moodOf(c, G.stats[c.stats[0].key])} toward the player.` : "";

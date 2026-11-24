@@ -17,7 +17,7 @@ const BUILTIN = [
   dislikes:[
     {id:"brag", re:/\b(rich|money|salary|i make|\d+k\b|million|my (car|boat|yacht|company|startup)|ceo|i'?m (a )?(big deal|important|successful|famous)|expensive|wealth|first class)/i, d:-12, dir:"You're unimpressed by the bragging. Be cool and dry about it."},
     {id:"phone", re:/\b(phone|texting|text my|instagram|tiktok|selfie|social media|my feed|scroll|signal|wifi|wi-fi)/i, unless:/\b(phone|signal)\b.{0,25}\b(away|off|dead|died|in my bag)|\bno (phone|signal)|without (my )?phone|hate (my )?phone/i, d:-8, dir:"The phone talk bores you. Tease them about it."},
-    {id:"cute", re:/\b(cute|cutie|adorable|pretty lady|gorgeous|hot\b|sweetheart|beautiful)/i, d:-10, dir:"You hate being called cute. Shut it down."},
+    {id:"cute", re:/\b(cute|cutie|adorable|pretty lady|gorgeous|you'?re (so )?hot|hottie|sweetheart|you'?re (so )?beautiful|babe)\b/i, d:-10, dir:"You hate being called cute. Shut it down."},
     {id:"astrology", re:/\b(astrolog|horoscope|zodiac|star sign|my sign|scorpio|gemini|aries|virgo|libra|capricorn|sagittarius|pisces|aquarius|taurus|mercury (is )?in retrograde)/i, d:-8, dir:"You're an astronomer and astrology makes you wince. Correct them, dryly."}
   ],
   reactions:{delighted:["You're delighted despite yourself. Let it show, then try to play it cool.","You like this stranger more by the minute. Lean in a little."],pleased:["You're warming up. Tease them a little.","You're amused. Play it cool."],neutral:["You're unmoved. Be dry and a bit distracted.","You shrug it off and mention the snow."],annoyed:["You're irritated and it shows.","You're unimpressed. Keep it short."],offended:["You're offended. Go cold.","You're done with this. Be frosty."]},
@@ -34,12 +34,12 @@ const BUILTIN = [
   persona:"You are Ezra Vane, a 400-year-old vampire on a first date at a candlelit restaurant, pretending to be a human 'night-shift sommelier'. You are theatrical, old-fashioned, charming and lonely. You never admit to being a vampire, and you dodge questions about your age, food and daylight with flowery excuses.",
   voice:["The night is young. Unlike me. Unlike my wine cellar, I mean.","Garlic? How rustic. Do go on.","You're delightfully strange. I've met so few people worth staying up for."],
   opening:"Forgive me, I've already eaten. Tell me, what brings someone as interesting as you out after dark?",
-  turns:10, stats:[{key:"AFFECTION", label:"Affection", start:20, min:0, max:100, step:16, win:70, color:"#e0115f"},{key:"SUSPICION", label:"Suspicion", bad:true, start:20, min:0, max:100, step:24, drift:-3, loseAbove:85, color:"#9aa3b5"}],
+  turns:10, stats:[{key:"AFFECTION", label:"Affection", start:20, min:0, max:100, step:16, win:65, color:"#e0115f"},{key:"SUSPICION", label:"Suspicion", bad:true, start:20, min:0, max:100, step:24, drift:-3, loseAbove:85, color:"#9aa3b5"}],
   likes:[
     {id:"night", re:/\b(night owl|nights?\b|midnight|full moon|the moon|darkness|insomnia|nocturnal|stay up late|after dark|candle|mornings? (are|is) (a crime|the worst|awful|terrible|evil)|hate (the )?mornings?|not a morning person)/i, d:6, dir:"You're charmed to meet a fellow creature of the night."},
     {id:"weird", re:/\b(weird|strange|odd|i collect|collection|hobby|lonely|confess|secret|nervous|awkward|honestly)/i, d:7, dir:"You find their strangeness delightful. Lean in."},
     {id:"culture", re:/\b(wine|vintage|sommelier|opera|poetry|poem|old books?|antique|history|theat(re|er)|velvet|harpsichord|candlelight|ballroom|waltz)/i, d:6, dir:"You light up: you adore old and beautiful things."},
-    {id:"praise", re:/\b(your (eyes|voice|coat|style|taste|accent|cape|manners)|elegant|charming|mysterious|handsome|old-fashioned|gentleman)/i, d:6, dir:"You preen a little at the compliment."}
+    {id:"praise", re:/\b(your (eyes|voice|coat|style|taste|accent|cape|manners)|elegant|charming|mysterious|handsome|old-fashioned|gentleman|dapper|stylish|distinguished|well dressed|you look (\w+ )?(nice|good|great|lovely|sharp|wonderful))/i, d:6, dir:"You preen a little at the compliment."}
   ],
   dislikes:[
     {id:"garlic", re:/\b(garlic|pesto|aioli|scampi)/i, d:{SUSPICION:20, AFFECTION:-2}, dir:"Garlic! You recoil, then cover it with a polite excuse."},

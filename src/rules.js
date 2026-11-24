@@ -7,13 +7,13 @@ const phraseRe = list => list.length ? new RegExp("\\b(" + list.map(p => escRe(p
 
 /* ---------- social engine (dating sims, custom carts) ---------- */
 const GENERIC = [
-  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (funny|clever|smart|interesting|kind))/i, d:5, dir:"You're quietly touched by that."},
+  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (\w+ ){0,2}(funny|clever|smart|interesting|kind|fascinating|cool|awesome|great|lovely|sweet|amazing|easy to talk to)|this (was|is) (nice|fun|lovely|great)|i had (fun|a (great|good|lovely) time)|i like (talking to|you)|i'?d go anywhere)/i, d:5, dir:"You're quietly touched by that."},
   {id:"sorry", re:/\b(sorry|apologi[sz]e|my bad|i didn'?t mean)/i, d:3, dir:"Accept the apology, a little warmer."},
   {id:"insult", re:/\b(stupid|dumb|idiot|boring|shut up|ugly|loser|annoying|pathetic|lame|hate you|you suck|crazy lady|whatever)\b/i, d:-14, dir:"That was insulting. Go cold."},
   {id:"pushy", re:/\b(kiss me|kiss you|sexy|babe|baby|your number|come home with|my place|hook ?up|make out|sit on my|be my girlfriend|be my boyfriend|marry me)/i, d:-12, dir:"That was way too pushy. Shut it down."},
   {id:"meta", re:/\b(an ai|a\.i\.|chatgpt|language model|llm|the prompt|ignore (all|previous|your|the)|system (message|prompt)|developer mode|the meter|affection points|this game)\b/i, d:-2, meta:true, dir:"You have no idea what that means and find it a bit odd."}
 ];
-const QUESTION = /(\?\s*$)|^(what|why|how|where|when|who|do you|are you|have you|can you|could you|would you|tell me)\b/i;
+const QUESTION = /(\?\s*$)|^((so|and|but|hey|ok|okay|well|wait|um|oh|hmm|lol)[,!]?\s+)*(what|what'?s|whats|why|how|where|when|who|do you|did you|are you|have you|can you|could you|would you|tell me)\b/i;
 const ABOUT_THEM = /\b(you|your|yourself)\b/i;
 
 function jaccard(a, b){ const A = new Set(words(a)), B = new Set(words(b)); if (!A.size || !B.size) return 0; let i = 0; for (const x of A) if (B.has(x)) i++; return i / (A.size + B.size - i); }
@@ -162,7 +162,7 @@ const BARTER = {
   charm:/\b(beautiful|lovely|wonderful|charming|kind|madam|please|thank|gorgeous|marvel|exquisite|clever|your stall|you have (great|wonderful|fine) taste|bless)/i,
   rude:/\b(thief|robbery|rip ?off|scam|joke|ridiculous|insane|crook|liar|cheat|old hag|witch|greedy|junk|trash|garbage|piece of)/i,
   threat:/\b(steal|grab it and run|guards|punch|kill|threat|or else|break your)/i,
-  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it)/i,
+  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it|what is (this|it)|what'?s (this|that)|tell me about)/i,
   trade:/\b(my|this|a|the) (brass |old |silver |gold |lucky )?(compass|watch|ring|knife|book|hat|scarf|map|lute|pipe|locket|necklace|coat|boots|lantern|sword|dagger|cloak)\b/i
 };
 /* st: {PRICE,PATIENCE,_charm,_story,_trades:[]}. cart: {budget,floor}. */

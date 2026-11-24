@@ -122,7 +122,7 @@ function cleanVoice(s, c, final){
   if (c.noNumbers) sent = sent.filter(x => !/\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\b/i.test(x));
   if (!sent.length) return "";
   let out = ""; for (const x of sent){ if ((out + x).length > 240 && out) break; out += x; if (out.split(/[.!?…]+/).filter(t => t.trim()).length >= 3) break; }
-  return out.trim().replace(/^["“”']+|["“”']+$/g, "").replace(/\.{3,}|…/g, (m, i, all) => i + m.length >= all.length - 1 ? "." : ", ").replace(/,\s*,/g, ",").replace(/\s+([,.!?])/g, "$1");
+  return out.trim().replace(/^["“”']+|["“”']+$/g, "").replace(/\s*(\.{3,}|…)\s*$/g, ".").replace(/\s*(\.{3,}|…)\s*/g, ", ").replace(/,\s*,/g, ",").replace(/\s{2,}/g, " ").replace(/\s+([,.!?])/g, "$1");
 }
 function voiceSystem(c){
   const mood = c.engine === "social" ? `\nRight now ${c.character} feels ${moodOf(c, G.stats[c.stats[0].key])} toward the player.` : "";
