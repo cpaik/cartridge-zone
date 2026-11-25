@@ -232,7 +232,12 @@ async function speak(playerText, direction, opts = {}){
   try { raw = await voice(c, playerText, direction, d => { raw += d; tEl.textContent = cleanVoice(raw, c, false); scroll(); }, opts.final); }
   catch (e) { console.error(e); raw = ""; }
   let line = cleanVoice(raw, c, true, direction);
-  if (line.length < 2) line = opts.fallback || (opts.suffix ? "" : mockLine(c, direction));
+  if (line.length < 2){
+    // nothing usable from the model: let the rules' own line stand alone, or use an example line not heard recently
+    const recent = G.history.slice(-6).map(m => m.content);
+    const fresh = (c.voice || []).filter(v => !recent.some(r => r.includes(v)));
+    line = opts.suffix ? "" : fresh.length ? pick(fresh) : opts.fallback && !recent.some(r => r.includes(opts.fallback)) ? opts.fallback : mockLine(c, direction);
+  }
   if (opts.suffix) line = (line + " " + opts.suffix).trim();
   tEl.classList.remove("cur"); tEl.textContent = line;
   G.history.push({role:"user", content:playerText}, {role:"assistant", content:line});
