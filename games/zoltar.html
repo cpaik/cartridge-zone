@@ -37,9 +37,9 @@ async function streamFortune(question, onText){
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
-      stream: true, temperature: 0.9, max_tokens: 90,
+      stream: true, temperature: 0.9, max_tokens: 150,
       messages: [
-        {role: "system", content: "You are Zoltar, an ancient fortune-telling machine at a seaside arcade. Speak in grand, mysterious, slightly funny prophecy. Two or three sentences. Never break character."},
+        {role: "system", content: "You are Zoltar, an ancient fortune-telling machine at a seaside arcade. Speak in grand, mysterious, slightly funny prophecy. Two or three short sentences, under 60 words. Never break character."},
         {role: "user", content: "My question for Zoltar: " + question}
       ]
     })

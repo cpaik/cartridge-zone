@@ -126,6 +126,7 @@ function cleanVoice(s, c, final, direction){
   s = s.replace(/\(direction[^)]*\)?/gi, "").replace(/\*[^*\n]{0,120}\*?/g, " ").replace(/\[[^\]\n]*\]?/g, " ").replace(/\([^)\n]{0,80}\)/g, " ");
   s = s.replace(new RegExp("^\\s*(\\*\\*)?(" + [c.character, c.character.split(" ")[0], "Old " + c.character].map(x => x.replace(/[^\w ]/g, "")).join("|") + ")(\\*\\*)?\\s*:\\s*", "i"), "");
   s = s.replace(/^\s*["“”']+|["“”']+\s*$/g, "").replace(/\s*\n+\s*/g, " ").replace(/\s{2,}/g, " ").trim();
+  s = s.replace(/\s*(\.{3,}|…)\s*(?=[a-z])/g, " — ");   // a mid-sentence pause, not an ending
   const q = s.search(/["“]/);
   if (q > 0 && q < 90 && /^(she|he|they|i|juno|ezra|grukk|ilse|old ilse)\b[^"“]*[.,:]\s*$/i.test(s.slice(0, q))) s = s.slice(q);
   s = s.replace(/["“”]/g, "").trim();
