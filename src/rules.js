@@ -244,6 +244,7 @@ const DEFAULT_REACTIONS = {delighted:["You're delighted and it shows."], pleased
 const meterKey = (label, i, used) => { let k = String(label || "Meter").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 14) || "METER" + i; while (used.has(k)) k += "X"; used.add(k); return k; };
 function compileCart(o){
   const c = {...o, engine:o.engine || "social"};
+  c.noNumbers = c.engine !== "social";   // dice and haggle numbers are spoken by the rules, never by the model
   c.voice = (o.voice || []).filter(Boolean);
   c.opening = o.opening || ""; c.voiceOpening = o.opening || "";
   c.narrator = o.scene ? "Narrator" : null;
