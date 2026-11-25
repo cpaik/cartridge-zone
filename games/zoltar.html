@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zoltar's Last Fortune</title>
+<style>
+  /* An example uploaded game. It only uses the standard OpenAI API shape: POST /v1/chat/completions. */
+  :root{--brass:#c9a227;--ruby:#8b1e3f;--ink:#f6ecd2}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#3a1530,#0e0610 70%);color:var(--ink);font:17px/1.5 Georgia,serif;display:grid;place-items:center;padding:18px}
+  .cab{width:min(560px,100%);background:linear-gradient(#5a1a2e,#2a0b18);border:6px solid var(--brass);border-radius:28px 28px 10px 10px;box-shadow:0 0 0 3px #000,0 30px 60px #000a,inset 0 0 40px #0008;padding:20px;display:grid;gap:14px}
+  .marquee{text-align:center;font:700 26px/1.1 Georgia,serif;letter-spacing:.08em;color:#ffe9a8;text-shadow:0 0 12px #ffb300,0 0 2px #000}
+  .glass{background:radial-gradient(circle at 50% 40%,#2e1a3f,#0b0710 75%);border:4px solid var(--brass);border-radius:16px;min-height:200px;padding:18px;display:grid;gap:10px;align-content:center;text-align:center}
+  .eye{font-size:40px;filter:drop-shadow(0 0 10px #a0f)}
+  .fortune{font-style:italic;font-size:19px;min-height:3em;white-space:pre-wrap}
+  .card{display:none;margin:0 auto;background:var(--ink);color:#2a0b18;border-radius:8px;padding:10px 16px;font:15px/1.4 Georgia,serif;border:2px dashed var(--ruby);max-width:320px}
+  .card.on{display:block}
+  form{display:flex;gap:8px}
+  input{flex:1;min-width:0;font:inherit;padding:10px 12px;border-radius:8px;border:2px solid var(--brass);background:#1a0a12;color:var(--ink)}
+  button{font:700 16px Georgia,serif;padding:10px 16px;border-radius:8px;border:0;background:linear-gradient(#ffd76a,var(--brass));color:#2a0b18;cursor:pointer;box-shadow:0 3px 0 #6b4f0f}
+  button:disabled{opacity:.5;cursor:wait}
+  .small{font-size:13px;opacity:.75;text-align:center}
+</style>
+</head>
+<body>
+<div class="cab">
+  <div class="marquee">ZOLTAR SPEAKS</div>
+  <div class="glass"><div class="eye" aria-hidden="true">◉</div><div class="fortune" id="fortune">Ask Zoltar a question, then insert a coin.</div><div class="card" id="card"></div></div>
+  <form id="f"><input id="q" placeholder="Will I find love? Should I quit my job?" aria-label="Your question" maxlength="160"><button id="go">Insert coin</button></form>
+  <div class="small" id="status">Runs on the model in your own browser. Nothing leaves this machine.</div>
+</div>
+<script>
+// 1. Streaming: a plain fetch to the OpenAI chat endpoint, read as server-sent events.
+async function streamFortune(question, onText){
+  const res = await fetch("/v1/chat/completions", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      stream: true, temperature: 0.9, max_tokens: 90,
+      messages: [
+        {role: "system", content: "You are Zoltar, an ancient fortune-telling machine at a seaside arcade. Speak in grand, mysterious, slightly funny prophecy. Two or three sentences. Never break character."},
+        {role: "user", content: "My question for Zoltar: " + question}
+      ]
+    })
+  });
+  const reader = res.body.getReader(), dec = new TextDecoder(); let buf = "";
+  while (true){
+    const {value, done} = await reader.read(); if (done) break;
+    buf += dec.decode(value, {stream: true});
+    const events = buf.split("\n\n"); buf = events.pop();
+    for (const ev of events){
+      const data = ev.replace(/^data: /, "");
+      if (data === "[DONE]") return;
+      const delta = JSON.parse(data).choices?.[0]?.delta?.content;
+      if (delta) onText(delta);
+    }
+  }
+}
+// 2. JSON mode: ask for structured output with a schema.
+async function luckyCard(question){
+  const res = await fetch("/v1/chat/completions", {
+    method: "POST",
+    body: JSON.stringify({
+      temperature: 0.8, max_tokens: 80,
+      response_format: {type: "json_object", schema: {type: "object", properties: {lucky_number: {type: "integer"}, lucky_color: {type: "string"}, avoid: {type: "string"}}, required: ["lucky_number", "lucky_color", "avoid"]}},
+      messages: [{role: "system", content: "You are Zoltar. Answer in JSON."}, {role: "user", content: "Give a lucky number, a lucky color and one thing to avoid for someone who asked: " + question}]
+    })
+  });
+  return JSON.parse((await res.json()).choices[0].message.content);
+}
+document.getElementById("f").onsubmit = async e => {
+  e.preventDefault();
+  const q = document.getElementById("q").value.trim() || "What does my future hold?";
+  const out = document.getElementById("fortune"), card = document.getElementById("card"), go = document.getElementById("go");
+  go.disabled = true; card.classList.remove("on"); out.textContent = ""; document.getElementById("status").textContent = "Zoltar is consulting the fog…";
+  try {
+    await streamFortune(q, t => out.textContent += t);
+    const c = await luckyCard(q);
+    card.textContent = `Lucky number ${c.lucky_number} · Lucky color ${c.lucky_color} · Avoid: ${c.avoid}`; card.classList.add("on");
+    document.getElementById("status").textContent = "Runs on the model in your own browser. Nothing leaves this machine.";
+  } catch (err) { out.textContent = "The machine sputters. (" + err.message + ")"; }
+  go.disabled = false;
+};
+</script>
+</body>
+</html>

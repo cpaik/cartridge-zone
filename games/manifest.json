@@ -1,0 +1,4 @@
+[
+  {"id":"zoltar", "file":"zoltar.html", "title":"Zoltar's Last Fortune", "author":"Cartridge Zone", "genre":"roleplay", "blurb":"An example uploaded game. Ask the old arcade machine a question; it streams a prophecy and prints a lucky card using JSON mode.", "colors":["#3a1530","#c9a227","#ffe9a8"], "motif":"disk"},
+  {"id":"starter", "file":"starter.html", "title":"Starter template", "author":"Cartridge Zone", "genre":"roleplay", "blurb":"The smallest possible game: a chat with an innkeeper, in about 30 lines. Copy it and make it yours.", "colors":["#16171b","#ff5b1f","#b6f23a"], "motif":"disk", "hidden":true}
+]

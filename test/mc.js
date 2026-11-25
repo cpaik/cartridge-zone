@@ -1,7 +1,8 @@
 const fs = require('fs');
 const src = f => fs.readFileSync(__dirname + '/../src/' + f, 'utf8');
-const R = new Function(src('rules.js') + src('carts.js') + '; return {resolveDice,resolveBarter,BUILTIN};')();
-const fresh = () => ({HP:12, GRUKK:14, TOLL:10, GOLD:6, _grumpy:0, _searches:0});
+const R = new Function(src('rules.js') + src('carts.js') + '; return {resolveDice,resolveBarter,compileCart,BUILTIN:BUILTIN_V3.map(compileCart),TEMPLATES};')();
+const TB = R.BUILTIN.find(c => c.id === 'tollbridge').dice;
+const fresh = () => ({HP:12, FOE:14, TOLL:10, GOLD:6, _grumpy:0, _searches:0});
 const strategies = {
   'all-out attack': st => "I attack Grukk with my sword",
   'talk, then pay': st => st.GOLD >= st.TOLL ? "I pay the toll" : "I compliment his hat and ask for a discount",
@@ -14,7 +15,7 @@ for (const [name, f] of Object.entries(strategies)){
   let wins = 0, turns = 0, hp = 0, N = 5000, titles = {};
   for (let g = 0; g < N; g++){
     const st = fresh(); let end = null, i = 0;
-    for (; i < 12 && !end; i++){ const r = R.resolveDice(st, f(st, i)); end = r.end; }
+    for (; i < 12 && !end; i++){ const r = R.resolveDice(st, f(st, i), Math.random, TB); end = r.end; }
     const t = end ? end.title : 'Nightfall'; titles[t] = (titles[t]||0)+1;
     if (end && end.won){ wins++; } turns += i; hp += st.HP;
   }
@@ -24,7 +25,7 @@ for (const [name, f] of Object.entries(strategies)){
 const baz = R.BUILTIN.find(c => c.id === 'bazaar');
 function haggle(name, lines){
   const st = {PRICE:240, PATIENCE:100, _trades:[]}; let out = [];
-  for (const l of lines){ const r = R.resolveBarter(st, l, baz); out.push(`${l.slice(0,44).padEnd(44)} -> ask ${String(st.PRICE).padStart(3)} pat ${String(st.PATIENCE).padStart(3)}${r.deal ? ' DEAL '+JSON.stringify(r.deal) : ''}${r.note?' '+r.note:''}`); if (r.deal || st.PATIENCE <= 0) break; }
+  for (const l of lines){ const r = R.resolveBarter(st, l, baz.barter); out.push(`${l.slice(0,44).padEnd(44)} -> ask ${String(st.PRICE).padStart(3)} pat ${String(st.PATIENCE).padStart(3)}${r.deal ? ' DEAL '+JSON.stringify(r.deal) : ''}${r.note?' '+r.note:''}`); if (r.deal || st.PATIENCE <= 0) break; }
   console.log('\n## ' + name + '\n' + out.join('\n'));
 }
 haggle('steady climber', ["I'll give you 60.","70?","80.","85, that's fair.","90.","90, final offer.","95.","100."]);
@@ -36,6 +37,6 @@ haggle('story then deal', ["What weather is it humming for tomorrow?","How does 
 const R2 = R;
 console.log('\n## parsing checks');
 for (const [t, st] of [["I hand over six gold coins.",{GOLD:6,TOLL:14}],["I check under the bridge for anything useful.",{GOLD:6,TOLL:10}],["Eighty-five, kind madam.",null],["I can offer 70 crowns.",null],["a hundred and twenty",null]]) {
-  if (st) { const s2 = {HP:12,GRUKK:14,_grumpy:0,_searches:0,...st}; const r = R.resolveDice(s2, t, () => 0.99); console.log(t.padEnd(46), r.kind, JSON.stringify(r.fx)); }
-  else { const s2 = {PRICE:240, PATIENCE:100, _trades:[]}; const r = R.resolveBarter(s2, t, baz); console.log(t.padEnd(46), 'offer', r.offer, r.note || '', 'ask', s2.PRICE); }
+  if (st) { const s2 = {HP:12,FOE:14,_grumpy:0,_searches:0,...st}; const r = R.resolveDice(s2, t, () => 0.99, TB); console.log(t.padEnd(46), r.kind, JSON.stringify(r.fx)); }
+  else { const s2 = {PRICE:240, PATIENCE:100, _trades:[]}; const r = R.resolveBarter(s2, t, baz.barter); console.log(t.padEnd(46), 'offer', r.offer, r.note || '', 'ask', s2.PRICE); }
 }

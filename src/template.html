@@ -140,6 +140,60 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);fon
 .msg.ev .fx{font-style:normal}
 .fx .rx{color:var(--ink);background:#ffffff14}
 .hint{font-size:13px;color:var(--dim);margin-top:4px}
+.ed{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+.edside{position:sticky;top:12px;display:grid;gap:14px;max-height:calc(100vh - 24px);overflow-y:auto}
+.edside .card{pointer-events:none}
+.es{background:var(--p1);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px;margin-bottom:16px}
+.esh h3{margin:0;font:700 22px/1.2 "Barlow Condensed",sans-serif}.esh p{margin:4px 0 0;color:var(--dim);font-size:15px}
+.es h4{margin:8px 0 0;font:700 17px/1.2 "Barlow Condensed",sans-serif}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.g6{display:grid;grid-template-columns:1.6fr 1fr .8fr .8fr .8fr .8fr;gap:8px}
+.starts{margin-bottom:16px;display:grid;gap:8px}.tpls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tpl{display:grid;gap:2px;padding:0 0 10px;height:auto;min-height:0;text-align:left;background:var(--p1);box-shadow:0 0 0 1px var(--line);overflow:hidden;font-family:Barlow,sans-serif;font-weight:500}
+.tpl .tplart{display:block;aspect-ratio:16/8;position:relative;overflow:hidden}.tpl .tplart svg{position:absolute;inset:0;width:100%;height:100%}
+.tpl b,.tpl small{padding:0 10px}.tpl b{font:700 16px "Barlow Condensed",sans-serif}.tpl small{color:var(--dim);font-size:13px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.seg button{height:auto;min-height:0;padding:10px 12px;text-align:left;display:grid;gap:4px;font-family:Barlow,sans-serif;font-weight:500;background:var(--p2);box-shadow:inset 0 0 0 2px var(--line)}
+.seg button b{font:700 17px "Barlow Condensed",sans-serif}.seg button small{color:var(--dim);font-size:13px;line-height:1.35}
+.seg button.on{box-shadow:inset 0 0 0 2px var(--or);background:#2c1d16}
+.mrow{border:1px dashed var(--line);border-radius:8px;padding:12px;display:grid;gap:8px;margin-bottom:10px}
+.narrow{width:150px}input.sw,input[type=color]{padding:2px;height:46px}
+.syntax{font-size:14px;color:var(--dim);background:#121317;border-radius:6px;padding:10px 12px}
+.syntax code,.note code{color:var(--lime)}
+.rules{display:grid;gap:12px}
+.rule{border:1px solid var(--line);border-left:4px solid var(--dim);border-radius:8px;padding:12px;display:grid;gap:10px;background:var(--p2)}
+.rule.pos{border-left-color:var(--lime)}.rule.neg{border-left-color:var(--red)}
+.rh{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.rname{flex:1 1 180px;font-weight:700;font-size:17px}
+.rtag{font-size:13px;color:var(--dim);white-space:nowrap}
+.effs{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.eff{display:flex;gap:6px;align-items:center;margin:0;color:var(--ink)}.eff input{width:84px}
+details summary{cursor:pointer;color:var(--dim);font-size:14px;min-height:32px;display:flex;align-items:center}
+.toggles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+.tog{display:flex;gap:8px;align-items:center;color:var(--ink);font:500 15px Barlow,sans-serif;margin:0;min-height:36px}.tog input{width:20px;height:20px}
+input[type=range]{padding:0;height:36px;accent-color:var(--or)}.rv{color:var(--or2)}
+.motifs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.motifs button{padding:0;height:auto;min-height:0;aspect-ratio:16/10;position:relative;overflow:hidden;box-shadow:0 0 0 2px var(--line)}.motifs button svg{position:absolute;inset:0;width:100%;height:100%}
+.motifs button.on{box-shadow:0 0 0 3px var(--or)}
+.edact{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:30px}
+button.sm{min-height:36px;font-size:15px;padding:0 12px}
+.health{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
+.health li{display:grid;grid-template-columns:22px 1fr;gap:6px;align-items:start}
+.health li span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-weight:700;font-size:12px;background:var(--lime);color:#142000}
+.health li.h-warn span{background:var(--or2);color:#1a0d05}.health li.h-bad span{background:var(--red);color:#fff}
+.bres{border-top:1px solid var(--line);padding:8px 0;font-size:14px;display:grid;gap:4px}.bq{font-style:italic;color:var(--ink)}
+.tagx{display:inline-block;background:var(--p3);border-radius:3px;padding:1px 6px;margin:1px 0;font-size:13px}
+.up{color:var(--lime)}.dn{color:var(--red)}
+.tag.up{background:#7c5cff;color:#fff}.tag.mystery{background:#c9a227;color:#1b1b2f}
+.filebtn{margin:0;display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:6px;box-shadow:inset 0 0 0 2px var(--line);cursor:pointer;color:var(--ink);font:700 15px "Barlow Condensed",sans-serif}
+.up-wrap,.up{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.drop{display:grid;gap:4px;place-items:center;text-align:center;border:2px dashed var(--line);border-radius:10px;padding:28px;cursor:pointer;color:var(--ink);font-size:16px}
+.drop.over{border-color:var(--or);background:#2c1d16}
+.docs pre{background:#0e0f12;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font:12.5px/1.5 ui-monospace,Menlo,monospace;margin:0}
+.docs ul{margin:0;padding-left:20px;display:grid;gap:4px;font-size:15px}.docs p{margin:0}
+.gh{border-radius:10px 10px 0 0;border:1px solid var(--line)}
+.gwrap{position:relative;height:min(74vh,760px);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;overflow:hidden;background:#000}
+.gwrap iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+.ggate{position:absolute;inset:0;background:#000c;display:grid;place-items:center;padding:16px}
+@media(max-width:1000px){.ed,.up{grid-template-columns:minmax(0,1fr)}.edside{position:static;max-height:none}.tpls{grid-template-columns:repeat(2,minmax(0,1fr))}.motifs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:600px){.g3,.g5,.g6,.toggles,.seg{grid-template-columns:minmax(0,1fr)}.g6{grid-template-columns:repeat(2,minmax(0,1fr))}.gwrap{height:70vh}}
 </style>
 </head>
 <body>
@@ -149,10 +203,12 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);fon
   <nav id="nav">
     <a href="#portal" data-r="portal">Front page</a>
     <a href="#cat-dating" data-r="cat-dating">Dating sims</a>
+    <a href="#cat-mystery" data-r="cat-mystery">Mystery</a>
     <a href="#cat-tabletop" data-r="cat-tabletop">Tabletop</a>
     <a href="#cat-roleplay" data-r="cat-roleplay">Roleplay</a>
     <a href="#yours" data-r="yours">Your carts</a>
     <a href="#make" data-r="make" class="mk">+ Make a cart</a>
+    <a href="#upload" data-r="upload" class="mk">↑ Upload a game</a>
   </nav>
 </div></header>
 
@@ -178,6 +234,8 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);fon
     </div>
     <div class="shelfh"><h2 id="shelfTitle">All cartridges</h2><div class="cats" id="cats"></div></div>
     <div class="grid" id="grid"></div>
+    <div class="shelfh" id="gamesH" style="margin-top:34px"><h2>Uploaded games</h2><span class="small">Any HTML game that calls the OpenAI chat API runs here, on the player's GPU. <a href="#upload">Upload yours</a>.</span></div>
+    <div class="grid" id="gamesGrid"></div>
   </section>
 
   <section class="view" id="v-play">
@@ -201,38 +259,71 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);fon
 
   <section class="view" id="v-make">
     <h1 style="margin-bottom:8px">Make a cart</h1>
-    <p class="lede" style="margin-bottom:20px">Write a character, give it meters and win or lose conditions. Give them likes and dislikes, and the rules turn what the player says into meter changes. The model voices the character.</p>
+    <p class="lede" style="margin-bottom:18px">Pick a game type, write a character, then decide what moves the meters. The rules you write decide every number; the model only plays the character. Test any line on the right as you go.</p>
     <div class="ed">
-      <form class="fs" id="edForm">
-        <div class="g2"><div><label for="eTitle">Title</label><input id="eTitle" required maxlength="60"></div>
-        <div><label for="eGenre">Category</label><select id="eGenre"><option value="dating">Dating sim</option><option value="tabletop">Tabletop</option><option value="roleplay">Roleplay</option></select></div></div>
-        <div class="g2"><div><label for="eChar">Character name</label><input id="eChar" required maxlength="40"></div>
-        <div><label for="eBlurb">One-line pitch</label><input id="eBlurb" maxlength="140"></div></div>
-        <div><label for="eSys">Who they are</label><textarea id="eSys" rows="4" required></textarea><div class="hint">Written as "You are…". This is what the model reads to play the character.</div></div>
-        <div><label for="eVoice">How they talk (optional)</label><textarea id="eVoice" rows="3"></textarea><div class="hint">Two or three example lines, one per line. Small models copy these closely.</div></div>
-        <div class="g2"><div><label for="eLikes">Likes</label><textarea id="eLikes" rows="3"></textarea><div class="hint">Words or phrases, comma-separated. Each one the player says raises the meter.</div></div>
-        <div><label for="eDislikes">Dislikes</label><textarea id="eDislikes" rows="3"></textarea><div class="hint">Each one lowers the meter. Kindness, questions and insults are scored for every cart.</div></div></div>
-        <div><label for="eOpen">Opening line</label><textarea id="eOpen" rows="2"></textarea></div>
-        <div class="g4"><div><label for="eMLabel">Meter</label><input id="eMLabel" maxlength="20"></div>
-        <div><label for="eMStart">Starts at</label><input id="eMStart" type="number" min="0" max="100"></div>
-        <div><label for="eMWin">Win at</label><input id="eMWin" type="number" min="1" max="100"></div>
-        <div><label for="eMLose">Lose at</label><input id="eMLose" type="number" min="0" max="99"></div></div>
-        <div class="g4"><div><label for="eTurns">Turns</label><input id="eTurns" type="number" min="3" max="30" value="10"></div>
-        <div><label for="eRt">Built for</label><select id="eRt"></select></div>
-        <div><label for="eC1">Colour</label><input id="eC1" type="color" value="#24314f" style="padding:2px;height:46px"></div>
-        <div><label for="eC2">Accent</label><input id="eC2" type="color" value="#ff4f9a" style="padding:2px;height:46px"></div></div>
-        <p class="note">The rules decide every change to the meter; the model only writes the character's lines. Custom LoRA adapters are coming next.</p>
-        <div class="row"><button class="go" type="submit">Test play</button><button type="button" class="ok" id="eSave">Save to your carts</button></div>
+      <div id="edMain"></div>
+      <aside class="edside">
+        <div class="panel"><h4>Shelf preview</h4><div id="edPreview"></div><p class="note" id="eSize" style="margin-top:8px"></p></div>
+        <div class="panel"><h4>Health check</h4><ul class="health" id="edHealth"></ul></div>
+        <div class="panel"><h4>Test bench</h4><p class="note" id="benchHint"></p>
+          <form id="benchForm" class="row" style="flex-wrap:nowrap"><input id="benchIn" placeholder="Try a line…" aria-label="Test line" maxlength="300"><button class="go sm">Try</button></form>
+          <div class="row" style="margin-top:8px"><button type="button" class="ghost sm" id="benchSugg">Play the suggested lines</button><button type="button" class="ghost sm" id="benchReset">Reset</button></div>
+          <div class="row" id="benchState" style="margin-top:8px;gap:6px"></div><div id="benchOut"></div></div>
+        <div class="panel"><h4>Share</h4><p class="note">A cart is just this JSON. Copy it to share; paste someone else's to import.</p>
+          <textarea id="eJson" rows="7" spellcheck="false" style="font:12px/1.4 ui-monospace,Menlo,monospace" aria-label="Cartridge JSON"></textarea>
+          <div class="row" style="margin-top:8px"><button type="button" class="sm" id="eCopy">Copy JSON</button><button type="button" class="sm" id="eImport">Import pasted JSON</button>
+          <label class="filebtn">Open file<input type="file" id="eFile" accept=".json,application/json" hidden></label></div></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="v-upload">
+    <h1 style="margin-bottom:8px">Upload a game</h1>
+    <p class="lede" style="margin-bottom:18px">Already building with the OpenAI API? Bring the game here unchanged. Calls to <code>/v1/chat/completions</code> are answered by the model on each player's own GPU. No API key, no server bill.</p>
+    <div class="up">
+      <form class="fs" id="uForm" onsubmit="return false">
+        <label class="drop" id="uDrop"><input type="file" id="uFile" accept=".html,.htm,text/html" hidden><b>Drop an .html file here</b><span class="small">or click to choose one. One self-contained file, up to 5 MB.</span></label>
+        <div><label for="uHtml">Or paste the HTML</label><textarea id="uHtml" rows="8" spellcheck="false" style="font:12px/1.4 ui-monospace,Menlo,monospace" placeholder="<!DOCTYPE html>…"></textarea><div class="hint" id="uStatus"></div></div>
+        <div class="g2"><div><label for="uTitle">Title</label><input id="uTitle" maxlength="60"></div><div><label for="uAuthor">Made by</label><input id="uAuthor" maxlength="40"></div></div>
+        <div class="g2"><div><label for="uBlurb">One-line pitch</label><input id="uBlurb" maxlength="160"></div><div><label for="uGenre">Category</label><select id="uGenre"><option value="roleplay">Roleplay</option><option value="dating">Dating sim</option><option value="mystery">Mystery</option><option value="tabletop">Tabletop</option></select></div></div>
+        <div class="row"><button type="button" class="go" id="uTest">Play test</button><button type="button" class="ok" id="uSave">Save to your games</button><button type="button" class="ghost" id="uLoadExample">Load the example</button></div>
+        <p class="note">Uploaded games are saved in this browser. To share one, send the .html file; it runs for anyone who uploads it here.</p>
       </form>
-      <div class="fs">
-        <h2 style="font-size:22px">Share it</h2>
-        <p class="note">A cart is just this JSON. Copy it to share; paste someone else's to import.</p>
-        <textarea id="eJson" rows="12" spellcheck="false" style="font:13px/1.4 ui-monospace,Menlo,monospace" aria-label="Cartridge JSON"></textarea>
-        <div class="row"><button type="button" id="eCopy">Copy JSON</button><button type="button" id="eImport">Import pasted JSON</button>
-        <label class="ghost" style="margin:0;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:6px;box-shadow:inset 0 0 0 2px var(--line);cursor:pointer;color:var(--ink);font-size:17px">Open file<input type="file" id="eFile" accept=".json,application/json" hidden></label></div>
-        <p class="note" id="eSize"></p>
+      <div class="fs docs">
+        <h2 style="font-size:22px">How games talk to the model</h2>
+        <p>Inside Cartridge Zone, these work exactly like the OpenAI API, answered by the model on the player's own device:</p>
+        <ul><li><code>POST /v1/chat/completions</code> with messages, temperature, max_tokens, stop, seed</li><li><code>stream: true</code> server-sent events, like the real API</li><li><code>response_format: {type: "json_object", schema}</code> for structured output</li><li><code>GET /v1/models</code> lists the runtimes</li></ul>
+        <h4>Plain fetch</h4>
+<pre><code>const res = await fetch("/v1/chat/completions", {
+  method: "POST",
+  body: JSON.stringify({
+    messages: [{role: "user", content: "Hello!"}],
+    max_tokens: 80
+  })
+});
+const reply = (await res.json()).choices[0].message.content;</code></pre>
+        <h4>The official OpenAI SDK</h4>
+<pre><code>import OpenAI from "https://esm.sh/openai";
+const ai = new OpenAI({ baseURL: "https://cartridge.local/v1",
+  apiKey: "local", dangerouslyAllowBrowser: true });
+const r = await ai.chat.completions.create({
+  model: "pocket", messages: [{role: "user", content: "Hi"}] });</code></pre>
+        <h4>The built-in helper</h4>
+<pre><code>const line = await cartridge.chat(messages, {max_tokens: 60});
+for await (const t of cartridge.stream(messages)) out.textContent += t;</code></pre>
+        <h4>House rules</h4>
+        <ul><li>Games run sealed off: no network, no cookies, no access to this site. Only the model and public script CDNs (jsDelivr, unpkg, esm.sh, cdnjs) are reachable, so a game can't send players' words anywhere.</li><li>Inline your images and sounds as data URLs.</li><li>Replies are capped at 1,024 tokens, and one request runs at a time.</li><li>Small models are great at short in-character lines and bad at keeping score. Keep numbers in your own code.</li></ul>
+        <div class="row"><button type="button" class="sm" id="uStarter">Copy the starter template</button></div>
       </div>
     </div>
+  </section>
+
+  <section class="view" id="v-game">
+    <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
+    <div class="gwrap" id="gFrameWrap">
+      <div class="ggate" id="gGate" hidden><div class="endc"><div class="kick">This game wants to use the model</div><p class="lede" id="gGateTxt"></p><button class="go" id="gGateBtn">Install and play</button></div></div>
+    </div>
+    <div class="small" id="gStats" style="margin-top:8px"></div>
   </section>
 </main>
 <footer><div class="wrap">To run the real version: save the file, run <code>python3 -m http.server 8000</code> in its folder, then open <code>localhost:8000/cartridge-zone.html</code> in Chrome, Edge, or Safari 26+.<br>Prototype. Models run through <a href="https://github.com/mlc-ai/web-llm">WebLLM</a> on WebGPU; weights come from Hugging Face and are cached by your browser. Ratings and plays are stored only in this browser.</div></footer>
@@ -249,6 +340,10 @@ footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);fon
 /*RULES*/
 /*CARTS*/
 /*APP*/
+/*EDITOR*/
+/*GAMES*/
+/*ARCADE*/
+/*INIT*/
 }
 </script>
 </body>

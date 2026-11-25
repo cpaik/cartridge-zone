@@ -1,6 +1,6 @@
 const fs = require('fs');
 const src = f => { const s = fs.readFileSync(__dirname + '/../src/' + f, 'utf8'); return s; };
-const R = new Function(src('rules.js') + src('carts.js') + '; return {scoreSocial,band,resolveDice,resolveBarter,classifyAction,numbersIn,BUILTIN};')();
+const R = new Function(src('rules.js') + src('carts.js') + '; return {scoreSocial,band,resolveDice,resolveBarter,classifyAction,numbersIn,compileCart,BUILTIN:BUILTIN_V3.map(compileCart),TEMPLATES};')();
 const {scoreSocial, band, resolveDice, resolveBarter, classifyAction, numbersIn, BUILTIN} = R;
 const cart = id => BUILTIN.find(c => c.id === id);
 function social(id, lines, label){
@@ -12,7 +12,7 @@ function social(id, lines, label){
     for (const s of c.stats) if (r.deltas[s.key]) st[s.key] = Math.max(s.min, Math.min(s.max, st[s.key] + r.deltas[s.key]));
     const main = c.stats[0].key;
     console.log(`${String(i).padStart(2)} ${band(r.deltas[main]||0).padEnd(9)} ${JSON.stringify(r.deltas).padEnd(34)} ${c.stats.map(s=>s.key[0]+'='+st[s.key]).join(' ').padEnd(12)} ${r.hits.join(',').padEnd(26)} | ${l.slice(0,50)}`);
-    for (const s of c.stats){ if (s.win != null && st[s.key] >= s.win) end='WIN'; if (s.loseBelow!=null && st[s.key] <= s.loseBelow) end='LOSE'; if (s.loseAbove!=null && st[s.key]>=s.loseAbove) end='LOSE'; }
+    for (const s of c.stats){ if (s.win != null && st[s.key] >= s.win) end='WIN'; if (s.winBelow != null && st[s.key] <= s.winBelow) end='WIN'; if (s.loseBelow!=null && st[s.key] <= s.loseBelow) end='LOSE'; if (s.loseAbove!=null && st[s.key]>=s.loseAbove) end='LOSE'; }
     if (end) break;
   }
   console.log('=> ' + (end || 'TIMEOUT') + ' after ' + i);
