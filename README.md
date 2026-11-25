@@ -10,8 +10,22 @@ A prototype "Newgrounds for local AI": a game portal where every game runs on a 
   - Pocket: Llama 3.2 1B, about 0.9 GB
   - Desk: Hermes 3 3B, about 2.3 GB
   - Tower: Llama 3.1 8B, about 5 GB
-- **Games are cartridges.** Each one is a character, rules and stat meters in a few KB of JSON, so loading a new game is instant.
-- **The page owns the numbers.** The model writes the dialogue and suggests stat changes with tags like `[AFFECTION +6]`; the page clamps every change. In the d20 game, the page rolls the dice and the model only narrates the result.
+- **Games are cartridges.** Each one is a character, rules and meters in a few KB, so loading a new game is instant.
+- **Rules decide, the model voices.** Playtests showed small models can't keep score: a 1B model never emitted stat tags, contradicted dice results, and agreed to prices the game didn't record. So every number comes from code:
+  - Dating sims score what you say against each character's likes and dislikes.
+  - The d20 game rolls real dice and resolves outcomes.
+  - The bazaar parses your offer and runs the merchant's counteroffers.
+
+  The model writes only the character's short reply, given a stage direction. On Desk and up, the model's read of your line adds a small nudge to the score.
+
+## Development
+
+- `src/rules.js`: all game rules (pure functions)
+- `src/carts.js`: the four built-in games
+- `src/app.js`: the UI and model calls
+- `python3 build.py index.html`: assembles the single-file page
+- `node test/sim.js` and `node test/mc.js`: scripted players and Monte Carlo balance checks
+- `?dev` in the URL exposes `window.CZ` for scripted playtests against a real model
 
 ## What's included
 

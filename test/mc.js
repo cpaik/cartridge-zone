@@ -33,3 +33,9 @@ haggle('trader', ["I'll give you 70 and my brass compass.","80 and the compass."
 haggle('rude lowballer', ["This junk? 20.","30, you old crook.","40, final.","50, scam artist.","60.","Ugh, 70."]);
 haggle('instant accept', ["Deal."]);
 haggle('story then deal', ["What weather is it humming for tomorrow?","How does it work?","Lovely. 100?","95?","Deal."]);
+const R2 = R;
+console.log('\n## parsing checks');
+for (const [t, st] of [["I hand over six gold coins.",{GOLD:6,TOLL:14}],["I check under the bridge for anything useful.",{GOLD:6,TOLL:10}],["Eighty-five, kind madam.",null],["I can offer 70 crowns.",null],["a hundred and twenty",null]]) {
+  if (st) { const s2 = {HP:12,GRUKK:14,_grumpy:0,_searches:0,...st}; const r = R.resolveDice(s2, t, () => 0.99); console.log(t.padEnd(46), r.kind, JSON.stringify(r.fx)); }
+  else { const s2 = {PRICE:240, PATIENCE:100, _trades:[]}; const r = R.resolveBarter(s2, t, baz); console.log(t.padEnd(46), 'offer', r.offer, r.note || '', 'ask', s2.PRICE); }
+}

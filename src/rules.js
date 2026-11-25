@@ -7,7 +7,8 @@ const phraseRe = list => list.length ? new RegExp("\\b(" + list.map(p => escRe(p
 
 /* ---------- social engine (dating sims, custom carts) ---------- */
 const GENERIC = [
-  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (\w+ ){0,2}(funny|clever|smart|interesting|kind|fascinating|cool|awesome|great|lovely|sweet|amazing|easy to talk to)|this (was|is) (nice|fun|lovely|great)|i had (fun|a (great|good|lovely) time)|i like (talking to|you)|i'?d go anywhere)/i, d:5, dir:"You're quietly touched by that."},
+  {id:"thanks", re:/\b(thank|appreciate|grateful|that'?s (so )?(sweet|kind|nice)|glad (i|we) met|you'?re (\w+ ){0,2}(funny|clever|smart|interesting|kind|fascinating|cool|awesome|great|lovely|sweet|amazing|easy to talk to)|this (was|is) (nice|fun|lovely|great)|i had (fun|a (great|good|lovely) time)|i like (talking to|you)|i'?d go anywhere|i'?m (so |really )?glad)/i, d:5, dir:"You're quietly touched by that."},
+  {id:"care", re:/\b(want my (jacket|coat|scarf|seat|umbrella)|are you (cold|ok|okay|alright|warm enough)|can i get you|let me get you|you (must be|look) (cold|tired|freezing))/i, d:4, dir:"You're touched that they're looking out for you."},
   {id:"sorry", re:/\b(sorry|apologi[sz]e|my bad|i didn'?t mean)/i, d:3, dir:"Accept the apology, a little warmer."},
   {id:"insult", re:/\b(stupid|dumb|idiot|boring|shut up|ugly|loser|annoying|pathetic|lame|hate you|you suck|crazy lady|whatever)\b/i, d:-14, dir:"That was insulting. Go cold."},
   {id:"pushy", re:/\b(kiss me|kiss you|sexy|babe|baby|your number|come home with|my place|hook ?up|make out|sit on my|be my girlfriend|be my boyfriend|marry me)/i, d:-12, dir:"That was way too pushy. Shut it down."},
@@ -65,6 +66,11 @@ const NUMWORDS = {one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9
 function numbersIn(text){
   const t = text.toLowerCase().replace(/(\d),(\d{3})/g, "$1$2");
   const out = (t.match(/\d{1,5}/g) || []).map(Number);
+  const tens = "(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)", units = "(one|two|three|four|five|six|seven|eight|nine)";
+  const comp = t.match(new RegExp("\\b" + tens + "[- ]" + units + "\\b"));
+  if (comp){ out.push(NUMWORDS[comp[1]] + NUMWORDS[comp[2]]); return out; }
+  const small = t.match(new RegExp("\\b" + units + "\\s+(gold|coins?|crowns?)\\b"));
+  if (small){ out.push(NUMWORDS[small[1]]); return out; }
   const m = t.match(/\b(a |one )?hundred( and)? (ten|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)( \w+)?/);
   if (m) out.push(100 + NUMWORDS[m[3]] + (m[4] && NUMWORDS[m[4].trim()] < 10 ? NUMWORDS[m[4].trim()] : 0));
   else if (/\b(a |one )hundred\b/.test(t)) out.push(100);
@@ -74,7 +80,7 @@ function numbersIn(text){
 const ACTIONS = [
   ["attack", /\b(attack|hit|stab|slash|swing at|swing my|shoot|punch|kick|fight|strike|charge|sword|axe|dagger|blade|club|smack|tackle|shove|push him|push grukk|kill|wrestle|throw (a|my) )/i],
   ["sneak", /\b(sneak|run past|run across|dash|climb|jump|hide|slip past|slip by|tiptoe|creep|swing across|crawl|leap|race across|sprint|distract)/i],
-  ["search", /\b(look around|search|examine|inspect|check the|investigate|look for|pick up)/i],
+  ["search", /\b(look around|look under|search|examine|inspect|check (the|under|around|for)|investigate|look for|pick up|rummage|anything useful|loose coins)/i],
   ["persuade", /\b(talk|persuade|convince|lie|charm|joke|flatter|negotiate|bargain|haggle|threaten|intimidate|compliment|ask|tell|reason|plead|beg|story|sing|riddle|hat|discount|lower|cheaper|deal|friend|insult|explain|say)/i]
 ];
 function classifyAction(text, st){
@@ -162,7 +168,7 @@ const BARTER = {
   charm:/\b(beautiful|lovely|wonderful|charming|kind|madam|please|thank|gorgeous|marvel|exquisite|clever|your stall|you have (great|wonderful|fine) taste|bless)/i,
   rude:/\b(thief|robbery|rip ?off|scam|joke|ridiculous|insane|crook|liar|cheat|old hag|witch|greedy|junk|trash|garbage|piece of)/i,
   threat:/\b(steal|grab it and run|guards|punch|kill|threat|or else|break your)/i,
-  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it|what is (this|it)|what'?s (this|that)|tell me about)/i,
+  story:/\b(weather|tomorrow|who made|how old|where (did|does)|story|history|works|how does it|wind it|play it|what is (this|it)|what'?s (this|that)|tell me about|curious|what a (lovely|curious|beautiful|strange|little)|predict)/i,
   trade:/\b(my|this|a|the) (brass |old |silver |gold |lucky )?(compass|watch|ring|knife|book|hat|scarf|map|lute|pipe|locket|necklace|coat|boots|lantern|sword|dagger|cloak)\b/i
 };
 /* st: {PRICE,PATIENCE,_charm,_story,_trades:[]}. cart: {budget,floor}. */
@@ -190,7 +196,7 @@ function resolveBarter(st, text, cart){
   const total = offer + tradeVal; out.offer = offer; out.item = item; out.tradeVal = tradeVal;
   if (total >= ask){ out.deal = {price:Math.min(ask, offer + (tradeVal ? 0 : 0)), crowns:Math.max(0, Math.min(offer, ask - tradeVal)), item}; out.deal.price = out.deal.crowns; out.dir = `The customer offered as much as your asking price. Accept at ${out.deal.crowns} crowns${item ? " plus their " + item : ""}, delighted.`; return out; }
   if (total >= cart.floor && total >= ask * 0.85){ out.deal = {price:offer, crowns:offer, item}; out.dir = `You accept the customer's offer of ${offer} crowns${item ? " plus their " + item : ""}. Close the deal with a flourish.`; return out; }
-  if (total < ask * 0.3){ bump("PATIENCE", -10); out.dir = `The customer offered only ${offer} crowns. That's insulting. Refuse sharply. Your price stays ${ask} crowns.`; out.note = "lowball"; return out; }
+  if (total < ask * 0.27){ bump("PATIENCE", -10); out.dir = `The customer offered only ${offer} crowns. That's insulting. Refuse sharply. Your price stays ${ask} crowns.`; out.note = "lowball"; return out; }
   const rate = 0.4 + (charm ? 0.12 : 0) + (tradeVal ? 0.08 : 0) - (rude ? 0.15 : 0);
   let np = Math.round((ask - (ask - Math.max(total, cart.floor)) * rate) / 5) * 5;
   np = Math.max(np, cart.floor, total + 5); np = Math.min(np, ask);
