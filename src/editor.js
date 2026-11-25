@@ -95,6 +95,22 @@ function renderEditor(){
       <div class="g4">${field("Asking price", "barter.price", b.price, {t:"num", min:2})}${field("Player's budget", "barter.budget", b.budget, {t:"num", min:1})}${field("Secret lowest price", "barter.floor", b.floor, {t:"num", min:1, hint:"Never sells below this."})}${field("Patience", "barter.patience", b.patience, {t:"num", min:20, max:100})}</div>
       ${field("How fast they come down", "barter.toughness", b.toughness, {range:[0.2, 0.6, 0.02], fmt:v => +v < 0.32 ? "stubborn" : +v < 0.47 ? "fair" : "a pushover", hint:"How much of the gap they give up each counteroffer. Charm makes them faster, rudeness slower."})}`);
   }
+  const MTYPES = {finish:"Reach any ending", win:"Win", lose:"Lose", ending:"Reach a specific ending", fast:"Win within N turns", nohints:"Win without hints", ...(c.engine === "social" ? {rule:"Trigger a rule", meter:"End with a meter at a value"} : {}), ...(c.engine === "dice" ? {nat20:"Roll a natural 20"} : {}), ...(c.engine === "barter" ? {price:"Win at or under a price", trade:"Offer something in trade", story:"Ask about the item"} : {})};
+  const ENDKEYS = c.engine === "social" ? [["win", "Win"], ["lose", "Lose"], ["good", "Good ending"], ["timeout", "Time ran out"]] : c.engine === "dice" ? [["victory", "Defeated the foe"], ["paid", "Paid"], ["bribed", "Bribed"], ["sneaked", "Sneaked past"], ["talked", "Talked past"], ["defeated", "Lost the fight"], ["timeout", "Time ran out"]] : [["deal", "Deal in budget"], ["overpaid", "Overpaid"], ["lose", "Thrown out"], ["timeout", "Time ran out"]];
+  const medalCards = (c.medals || []).map((m, i) => {
+    const w = m.when || {}, t = MTYPES[w.type] ? w.type : "finish";
+    const extra = t === "ending" ? field("Which ending", `medals.${i}.when.value`, w.value, {sel:ENDKEYS})
+      : t === "rule" ? field("Which rule", `medals.${i}.when.value`, w.value, {sel:(c.rules || []).map(r => [r.name, r.name])})
+      : t === "meter" ? `<div class="g3">${field("Meter", `medals.${i}.when.meter`, w.meter, {sel:(c.meters || []).map(mm => [mm.id, mm.label])})}${field("Is", `medals.${i}.when.op`, w.op, {sel:[[">=", "at least"], ["<=", "at most"]]})}${field("Value", `medals.${i}.when.value`, w.value, {t:"num", min:0, max:100})}</div>`
+      : t === "fast" || t === "price" ? field(t === "fast" ? "Turns" : "Price", `medals.${i}.when.value`, w.value, {t:"num", min:1}) : "";
+    return `<div class="rule pos" data-medal="${i}"><div class="rh">${medalIcon(m.points)}<input class="rname" data-k="medals.${i}.name" value="${esc(m.name)}" aria-label="Medal name" maxlength="40"><button type="button" class="ghost sm" data-delmedal="${i}">Remove</button></div>
+      <div class="g3">${field("Earned when the player…", `medals.${i}.when.type`, t, {sel:Object.entries(MTYPES)})}${field("Points", `medals.${i}.points`, m.points, {t:"num", sel:[[5, "5 (bronze)"], [10, "10 (silver)"], [25, "25 (gold)"], [50, "50 (rare)"], [100, "100 (legendary)"]]})}<label class="tog" style="align-self:end"><input type="checkbox" data-k="medals.${i}.secret" data-t="bool" ${m.secret ? "checked" : ""}> Secret until earned</label></div>
+      ${extra}${field("Description", `medals.${i}.desc`, m.desc, {len:120, ph:"What the player did"})}</div>`;
+  }).join("");
+  h += sec("medals", "Medals and tags", "Medals give players goals beyond winning. Without any, a cart gets three basics: finish, win, and win fast.", `
+    ${field("Tags", "tags", (c.tags || []).join(", "), {t:"list", ph:"romance, mystery, cozy", hint:"Up to five, comma-separated. Players can browse by tag."})}
+    <div class="rules">${medalCards || '<div class="empty">Using the three basic medals. Add your own to reward secrets, styles of play and near misses.</div>'}</div>
+    ${(c.medals || []).length < 12 ? `<button type="button" class="go sm" data-addmedal>+ Add a medal</button>` : ""}`);
   const E = c.endings || {};
   const endBlock = (k, title, note, withMin) => `<div class="endb"><h4>${title}</h4>${note ? `<p class="note">${note}</p>` : ""}<div class="g2">${field("Title", `endings.${k}.title`, E[k]?.title, {len:60})}${withMin ? field("Only if the first meter is at least", `endings.${k}.min`, E[k]?.min ?? 50, {t:"num", min:0, max:100}) : "<div></div>"}</div>${field("What happens (shown on the end screen)", `endings.${k}.text`, E[k]?.text, {area:true, rows:2})}${field("Final line direction", `endings.${k}.line`, E[k]?.line, {ph:"Tell the character what to say as the scene ends.", hint:"The model writes the character's last line from this."})}</div>`;
   let endH = "";
@@ -263,7 +279,7 @@ $("#edMain").addEventListener("input", e => {
 // changes that reshape the form (a meter renamed or flipped, an effect set) re-render once the field is committed
 $("#edMain").addEventListener("change", e => {
   const k = e.target.dataset.k || "";
-  if (/^meters\.\d+\.(goal|label)$/.test(k) || /\.effects\./.test(k) || /^look\.colors/.test(k)){ const y = scrollY; renderEditor(); scrollTo(0, y); }
+  if (/^meters\.\d+\.(goal|label)$/.test(k) || /\.effects\./.test(k) || /^look\.colors/.test(k) || /^medals\.\d+\.(when\.type|points)$/.test(k) || /^rules\.\d+\.name$/.test(k)){ const y = scrollY; renderEditor(); scrollTo(0, y); }
 });
 $("#edMain").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return; const y = scrollY, D = b.dataset;
@@ -273,6 +289,8 @@ $("#edMain").addEventListener("click", e => {
   if (D.addmeter != null){ ED.meters.push(newMeter(ED.meters.length)); }
   else if (D.delmeter != null){ const m = ED.meters.splice(+D.delmeter, 1)[0]; ED.rules.forEach(r => delete r.effects[m.id]); }
   else if (D.addrule != null){ ED.rules.push(newRule()); }
+  else if (D.addmedal != null){ ED.medals = ED.medals || []; ED.medals.push({id:"m" + uid(), name:"New medal", desc:"", points:10, when:{type:"win"}}); }
+  else if (D.delmedal != null){ ED.medals.splice(+D.delmedal, 1); }
   else if (D.delrule != null){ ED.rules.splice(+D.delrule, 1); }
   else if (D.uprule != null){ const i = +D.uprule; [ED.rules[i - 1], ED.rules[i]] = [ED.rules[i], ED.rules[i - 1]]; }
   else if (D.save != null){ saveED(); toast("Saved to Your carts"); return renderSide(); }

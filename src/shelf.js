@@ -64,8 +64,8 @@ async function loadCommunity(){
     COMMUNITY_CARTS = []; COMMUNITY_GAMES = [];
     for (const it of (idx.items || []).slice(0, 300)){
       try {
-        if (it.type === "cart" && it.cart){ const v3 = sanitizeV3({...it.cart, id:/^c-[a-z0-9-]+$/.test(it.id) ? it.id : undefined}); const c = runtimeCart(v3); Object.assign(c, {community:true, author:String(it.author || it.login || "").slice(0, 40), issue:+it.issue || 0}); COMMUNITY_CARTS.push(c); }
-        if (it.type === "game" && /^community\/games\/[a-z0-9-]+\.html$/.test(it.path || "")) COMMUNITY_GAMES.push({id:it.id, title:String(it.title).slice(0, 60), author:String(it.author || it.login || "").slice(0, 40), blurb:String(it.blurb || "").slice(0, 160), genre:it.genre || "roleplay", path:it.path, community:true, issue:+it.issue || 0, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk"});
+        if (it.type === "cart" && it.cart){ const v3 = sanitizeV3({...it.cart, id:/^c-[a-z0-9-]+$/.test(it.id) ? it.id : undefined}); const c = runtimeCart(v3); Object.assign(c, {community:true, author:String(it.author || it.login || "").slice(0, 40), login:String(it.login || "").slice(0, 40), added:String(it.added || ""), issue:+it.issue || 0}); COMMUNITY_CARTS.push(c); }
+        if (it.type === "game" && /^community\/games\/[a-z0-9-]+\.html$/.test(it.path || "")) COMMUNITY_GAMES.push({id:it.id, title:String(it.title).slice(0, 60), author:String(it.author || it.login || "").slice(0, 40), blurb:String(it.blurb || "").slice(0, 160), genre:it.genre || "roleplay", path:it.path, community:true, login:String(it.login || "").slice(0, 40), added:String(it.added || ""), tags:Array.isArray(it.tags) ? it.tags.slice(0, 5).map(String) : [], issue:+it.issue || 0, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk"});
       } catch (e) { console.warn("Skipped a shelf item", it?.id, e); }
     }
   } catch (e) { console.warn("No community shelf", e); }

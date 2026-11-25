@@ -25,6 +25,8 @@ A prototype "Newgrounds for local AI": a game portal where every game runs on a 
 - `src/format.js`: cart format v3 sanitising and validation, shared with the shelf Action
 - `src/editor.js`: the cart maker, health check and test bench
 - `src/shelf.js`: play links and the community shelf
+- `src/player.js`: profile, avatar, XP, medals, scores, autosave, hints
+- `src/discover.js`: browse, search, game and creator pages, votes, onboarding
 - `scripts/shelf.mjs`, `.github/`: the submission pipeline
 - `src/arcade.js`: uploaded games, the sandbox and the OpenAI-compatible bridge
 - `games/`: bundled example games
@@ -56,6 +58,17 @@ Any self-contained HTML game that calls the OpenAI chat API runs at `#upload`, u
 - the official `openai` JS SDK with `baseURL: "https://cartridge.local/v1"`
 
 Calls are answered by the model on the player's GPU, through a bridge from the sandboxed frame. Games run with `sandbox="allow-scripts allow-forms allow-modals"` and a content security policy that blocks all network access except public script CDNs. A game can't read the site's storage or send players' words anywhere. See `games/zoltar.html` (streaming and JSON mode) and `games/starter.html`.
+
+## Players
+
+- **Profiles:** a name, an avatar built from parts, and levels earned through XP from playing, winning and medals. Some avatar items unlock with levels or specific medals (win Ezra's date for the fangs; pay Grukk's toll for his tiny hat).
+- **Medals:** each cart defines its own, from 5 to 100 points. They can trigger on a win, a specific ending, a fast win, a rule firing, a meter's final value, a natural 20, a bargain price and more, and can be secret until earned. Carts without medals get three basics.
+- **Personal bests and autosave:** every finished game is scored, and an unfinished game appears under *Continue playing*.
+- **Hints and how-to-play:** each game shows its goal, and players get two hints per game.
+- **Discovery:** one browse grid with search, sorting and tags, game pages with medals and reviews, and creator pages.
+- **Community votes and reviews:** community games show votes and reviews read from their GitHub submission issues (reactions and comments), so there's no server to run.
+
+Uploaded games get the same features through `cartridge.player()`, `cartridge.unlockMedal()`, `cartridge.postScore()`, `cartridge.save()` and `cartridge.load()`.
 
 ## Share and publish
 

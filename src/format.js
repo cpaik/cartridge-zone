@@ -36,6 +36,11 @@ function sanitizeV3(o){
     character:s(o.character || "Stranger", 40), blurb:s(o.blurb, 160), persona:s(o.persona, 1500), voice:strs(o.voice, 6, 200), scene:s(o.scene, 400), opening:s(o.opening, 400),
     turns:num(o.turns, 3, 30, 10), style:{length:o.style?.length === "medium" ? "medium" : "short", creativity:num(o.style?.creativity, 0.3, 1.2, 0.8)},
     sugg:strs(o.sugg, 16, 160)};
+  const MT = ["finish","win","lose","ending","fast","rule","meter","nat20","price","trade","story","nohints"], seen = new Set();
+  out.medals = arr(o.medals, 12).map((m, i) => { let id = /^[a-z0-9-]{1,24}$/.test(m?.id || "") ? m.id : "m" + (i + 1); while (seen.has(id)) id += "x"; seen.add(id); const w = m?.when || {};
+    return {id, name:s(m?.name || "Medal", 40), desc:s(m?.desc, 120), points:[5, 10, 25, 50, 100].includes(+m?.points) ? +m.points : 10, secret:!!m?.secret,
+      when:{type:MT.includes(w.type) ? w.type : "finish", value:typeof w.value === "number" ? w.value : s(w.value, 60), meter:s(w.meter, 16), op:w.op === "<=" ? "<=" : ">="}}; });
+  out.tags = strs(o.tags, 5, 20).map(t => t.toLowerCase().replace(/[^a-z0-9-]/g, "")).filter(Boolean);
   const end = e => e ? {title:s(e.title, 60), text:s(e.text, 300), line:s(e.line, 300), ...(e.min != null ? {min:num(e.min, 0, 100, 50)} : {})} : undefined;
   out.endings = {}; for (const k of ["win", "lose", "good", "timeout"]) if (o.endings?.[k]) out.endings[k] = end(o.endings[k]);
   if (engine === "social"){

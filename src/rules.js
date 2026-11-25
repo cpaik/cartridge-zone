@@ -219,12 +219,12 @@ function resolveBarter(st, text, cfgIn){
   if (charm && (st._charm || 0) < 3){ st._charm = (st._charm || 0) + 1; bump("PATIENCE", 6); }
   if (offer == null && BARTER.accept.test(t)){ out.deal = {crowns:ask}; out.dir = `The customer accepts your price. Seal the deal happily.`; return out; }
   if (offer == null){
-    if (BARTER.story.test(t) && (st._story || 0) < 2){ st._story = (st._story || 0) + 1; bump("PATIENCE", 4); out.dir = `The customer asked about the ${I}. You love talking about it: share one odd, specific detail. Do not mention any price.`; return out; }
+    if (BARTER.story.test(t) && (st._story || 0) < 2){ st._story = (st._story || 0) + 1; bump("PATIENCE", 4); out.story = true; out.dir = `The customer asked about the ${I}. You love talking about it: share one odd, specific detail. Do not mention any price.`; return out; }
     if (charm && (st._charm || 0) <= 2){ const np = Math.max(cfg.floor, ask - Math.max(5, Math.round(cfg.price / 24 / 5) * 5)); if (np < ask){ bump("PRICE", np - ask); out.dir = "The customer flattered you, so you knock a little off the price."; return out; } }
     out.dir = rude ? "The customer is being rude. Snap back, no discount." : "The customer is chatting but hasn't made an offer. Nudge them to name a price.";
     return out;
   }
-  const total = offer + tradeVal; out.offer = offer; out.item = item; out.tradeVal = tradeVal;
+  const total = offer + tradeVal; out.offer = offer; out.item = item; out.tradeVal = tradeVal; out.trade = tradeVal > 0;
   if (total >= ask){ out.deal = {crowns:Math.max(0, Math.min(offer, ask - tradeVal)), item}; out.dir = `The customer offered your full asking price${item ? " plus their " + item : ""}. Accept, delighted.`; return out; }
   if (total >= cfg.floor && total >= ask * 0.85){ out.deal = {crowns:offer, item}; out.dir = `You accept the customer's offer${item ? " plus their " + item : ""}. Close the deal with a flourish.`; return out; }
   if (total < ask * 0.27){ bump("PATIENCE", -10); out.dir = "The customer's offer is insultingly low. Refuse sharply."; out.note = "lowball"; return out; }
@@ -250,6 +250,7 @@ function compileCart(o){
   c.style = {length:o.style?.length || "short", creativity:o.style?.creativity ?? 0.8};
   const E = o.endings || {};
   const end = x => x && (x.title || x.text) ? {title:x.title || "", text:x.text || "", dir:x.line || x.text || ""} : null;
+  c.medals = Array.isArray(o.medals) ? o.medals : []; c.tags = Array.isArray(o.tags) ? o.tags : [];
   c.endings = {win:end(E.win), lose:end(E.lose), good:E.good && (E.good.title || E.good.text) ? {...end(E.good), min:+E.good.min || 0} : null, timeout:end(E.timeout) || {title:"Time's up", text:"The scene fades out.", dir:"The scene is ending. Say a brief goodbye."}};
   if (c.engine === "social"){
     const used = new Set(), idToKey = {};
@@ -259,6 +260,7 @@ function compileCart(o){
       return {key, label:m.label || "Meter", start:clampN(+m.start || 0, 0, 100), min:0, max:100, step:clampN(+m.step || 16, 4, 40), bad:down, drift:+m.drift || 0, color:m.color,
         ...(m.win != null && m.win !== "" ? (down ? {winBelow:+m.win} : {win:+m.win}) : {}), ...(m.lose != null && m.lose !== "" ? (down ? {loseAbove:+m.lose} : {loseBelow:+m.lose}) : {})};
     });
+    c.meterIds = idToKey;
     c.likes = (o.rules || []).map((r, i) => {
       const d = {}; for (const [id, v] of Object.entries(r.effects || {})) if (idToKey[id] && +v) d[idToKey[id]] = clampN(+v, -40, 40);
       return {id:"r" + i, name:r.name || "rule " + (i + 1), re:phrasesRe(r.phrases), unless:(r.unless || []).length ? phrasesRe(r.unless) : null, d, dir:r.react || ""};

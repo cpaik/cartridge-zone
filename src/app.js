@@ -167,17 +167,17 @@ function mockLine(c, dir){
 /* ---------- game state + turns ---------- */
 let G = null;
 const st = (c, key) => c.stats.find(s => s.key === key);
-function newGame(c){
-  G = {cart:c, stats:Object.fromEntries(c.stats.map(s => [s.key, s.start])), turn:0, history:[], over:false, mem:{}, debug:[], used:new Set()};
+function newGame(c, resuming){
+  G = {cart:c, stats:Object.fromEntries(c.stats.map(s => [s.key, s.start])), turn:0, history:[], over:false, mem:{}, debug:[], used:new Set(), hints:0, medalsRun:[]};
   Object.assign(G.stats, {_grumpy:0, _searches:0, _spotted:0, _trades:[], _charm:0, _story:0});
   BR.frame = null;
-  DB.plays[c.id] = (DB.plays[c.id]||0) + 1; save();
+  if (!resuming){ DB.plays[c.id] = (DB.plays[c.id]||0) + 1; save(); }
   $("#log").innerHTML = ""; $("#end").classList.remove("on");
   if (c.scene) addMsg("ev", c.scene);
   if (c.opening){ addMsg("npc", c.opening); G.history.push({role:"assistant", content:c.opening}); }
   $("#pPic").innerHTML = art(c); $("#pKick").textContent = `${genreName(c.genre)} · ${c.character}`; $("#pTitle").textContent = c.title;
   $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.community ? ` · by ${esc(c.author)}${c.issue ? ` (<a href="${REPO_URL}/issues/${c.issue}" target="_blank" rel="noopener">submission</a>)` : ""}` : ""}${USER_CARTS.some(x => x.id === c.id) ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`} · <a href="#" data-sharecart>copy a play link</a>. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
-  renderSugg(); renderMeters(); renderGate(); renderShareBar(c);
+  renderSugg(); renderMeters(); renderGate(); renderShareBar(c); renderHelp();
 }
 function renderSugg(){
   const pool = (G.cart.sugg || []).filter(s => !G.used.has(s));
@@ -218,11 +218,11 @@ function socialEnd(){
   const c = G.cart, E = c.endings || {};
   for (const s of c.stats){
     const v = G.stats[s.key];
-    if ((s.win != null && v >= s.win) || (s.winBelow != null && v <= s.winBelow)) return {won:true, ...(E.win || {title:"You win", text:`${s.label} reached ${s.win ?? s.winBelow}.`})};
-    if (s.loseBelow != null && v <= s.loseBelow) return {won:false, ...(E.lose || {title:"Game over", text:`${s.label} fell to ${s.loseBelow}.`})};
-    if (s.loseAbove != null && v >= s.loseAbove) return {won:false, ...(E.lose || {title:"Game over", text:`${s.label} reached ${s.loseAbove}.`})};
+    if ((s.win != null && v >= s.win) || (s.winBelow != null && v <= s.winBelow)) return {won:true, key:"win", ...(E.win || {title:"You win", text:`${s.label} reached ${s.win ?? s.winBelow}.`})};
+    if (s.loseBelow != null && v <= s.loseBelow) return {won:false, key:"lose", ...(E.lose || {title:"Game over", text:`${s.label} fell to ${s.loseBelow}.`})};
+    if (s.loseAbove != null && v >= s.loseAbove) return {won:false, key:"lose", ...(E.lose || {title:"Game over", text:`${s.label} reached ${s.loseAbove}.`})};
   }
-  if (G.turn >= c.turns){ const main = G.stats[c.stats[0].key]; if (E.good && main >= E.good.min) return {won:false, ...E.good}; return {won:false, ...(E.timeout || {title:"Out of turns", text:"The scene fades out."})}; }
+  if (G.turn >= c.turns){ const main = G.stats[c.stats[0].key]; if (E.good && main >= E.good.min) return {won:false, key:"good", ...E.good}; return {won:false, key:"timeout", ...(E.timeout || {title:"Out of turns", text:"The scene fades out."})}; }
   return null;
 }
 
@@ -253,7 +253,7 @@ async function turn(text){
       const rating = w ? await rateLine(c, text) : null; dbg.rating = rating;
       const r = scoreSocial(c, text, G.mem, {rating, ratingWeight:w});
       const fx = applyDeltas(r.deltas); const main = c.stats[0].key, b = band(r.deltas[main] || 0);
-      Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b});
+      Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b}); checkMedals(c, {type:"turn", hits:r.hits});
       end = socialEnd();
       const dir = end ? (end.dir || end.text) : (r.dirs[0] || pick(c.reactions?.[b] || [`${c.character} feels ${b}.`])).replace(/\{n\}/g, c.character);
       const bub = await speak(text, dir, {final:!!end});
@@ -261,9 +261,9 @@ async function turn(text){
     }
     else if (c.engine === "dice"){
       const r = resolveDice(G.stats, text, Math.random, c.dice); Object.assign(dbg, {kind:r.kind, rolls:r.rolls, fx:r.fx});
-      for (const x of r.rolls) rollEl(x);
+      for (const x of r.rolls) rollEl(x); checkMedals(c, {type:"turn", rolls:r.rolls});
       const evEl = addMsg("ev", r.ev.join(" ")); addFx(evEl, r.fx);
-      end = r.end || (G.turn >= c.turns ? {won:false, ...c.endings.timeout} : null);
+      end = r.end || (G.turn >= c.turns ? {won:false, key:"timeout", ...c.endings.timeout} : null);
       if (r.end && r.end.method && c.dice.endTexts?.[r.end.method]) end = {...r.end, text:c.dice.endTexts[r.end.method]};
       const plain = d => d.replace(/\s*\(\d+ HP left\)/g, "").replace(/ for \d+ damage/g, "").replace(/\b\d+ (\w+)\b/g, "some $1").replace(/ to \d+\b/g, "").replace(/ of \d+\b/g, "");
       await speak(`(The player says or does: ${text})`, plain(end && !r.end ? end.dir : r.dir), {final:!!end, fallback:pick(c.voice)});
@@ -271,11 +271,11 @@ async function turn(text){
     else if (c.engine === "barter"){
       const before = G.stats.PRICE;
       const B = c.barter, cur = B.cur;
-      const r = resolveBarter(G.stats, text, B); Object.assign(dbg, {offer:r.offer, tone:r.tone, fx:r.fx, deal:r.deal});
+      const r = resolveBarter(G.stats, text, B); Object.assign(dbg, {offer:r.offer, tone:r.tone, fx:r.fx, deal:r.deal}); checkMedals(c, {type:"turn", trade:r.trade, story:r.story});
       if (r.deal){ const p = r.deal.crowns, won = p <= c.budget;
-        end = {won, title: won ? "Bargain" : "Overpaid", text: won ? `You bought the ${B.item} for ${p} ${cur}${r.deal.item ? " and your " + r.deal.item : ""}, ${c.budget - p} under budget.` : `You paid ${p} ${cur} for the ${B.item}, ${p - c.budget} over your budget of ${c.budget}.`}; }
-      else if (G.stats.PATIENCE <= 0) end = {won:false, ...c.endings.lose};
-      else if (G.turn >= c.turns) end = {won:false, ...c.endings.timeout};
+        end = {won, key:won ? "deal" : "overpaid", price:p, title: won ? "Bargain" : "Overpaid", text: won ? `You bought the ${B.item} for ${p} ${cur}${r.deal.item ? " and your " + r.deal.item : ""}, ${c.budget - p} under budget.` : `You paid ${p} ${cur} for the ${B.item}, ${p - c.budget} over your budget of ${c.budget}.`}; }
+      else if (G.stats.PATIENCE <= 0) end = {won:false, key:"lose", ...c.endings.lose};
+      else if (G.turn >= c.turns) end = {won:false, key:"timeout", ...c.endings.timeout};
       const dir = end && !r.deal ? end.dir : r.dir;
       const p = G.stats.PRICE, say = r.deal ? pick([`Sold, for ${r.deal.crowns} ${cur}${r.deal.item ? " and that " + r.deal.item : ""}!`, `${r.deal.crowns} ${cur}${r.deal.item ? " and the " + r.deal.item : ""}. Done, and done!`])
         : end ? "" : p !== before ? pick([`${p} ${cur}. Not a coin less.`, `For you, ${p} ${cur}.`, `I could do ${p}, and I'm robbing myself.`]) : r.note === "lowball" ? pick([`${r.offer}? I'll pretend I didn't hear that. Still ${p}.`, `${r.offer}! Ha! It's ${p}.`]) : r.offer != null ? `Still ${p} ${cur}.` : "";
@@ -284,12 +284,13 @@ async function turn(text){
     }
   } catch (e) { console.error(e); addMsg("sys", "The runtime hiccuped. Try that again."); G.turn--; }
   dbg.stats = {...G.stats}; S.busy = false; renderMeters();
-  if (end){ G.over = true; dbg.end = end.title; setTimeout(() => finish(end), 1400); } else renderSugg();
+  if (end){ G.over = true; dbg.end = end.title; setTimeout(() => finish(end), 1400); } else { renderSugg(); saveGame(); }
 }
 function score(){ const c = G.cart; if (c.engine === "dice") return `${G.stats.HP} HP and ${G.stats.GOLD} ${c.dice.cur} left`; if (c.engine === "barter") return `Asking price ${G.stats.PRICE} · patience ${G.stats.PATIENCE}`; return c.stats.map(s => `${s.label} ${G.stats[s.key]}`).join(" · "); }
 function finish(e){
   G.over = true; renderMeters();
   const c = G.cart; DB.best[c.id] = e.won ? "won" : (DB.best[c.id] || "played"); save();
+  endExtras(c, e); renderHelp();
   $("#endc").className = "endc" + (e.won ? " win" : ""); $("#endK").textContent = score(); $("#endT").textContent = e.title; $("#endP").textContent = e.text;
   renderRate(); $("#end").classList.add("on"); $("#again").focus();
 }
@@ -326,17 +327,18 @@ function gameCard(g){
 }
 function renderPortal(mode){
   const day = Math.floor(Date.now() / 864e5), f = BUILTIN[day % BUILTIN.length];
-  $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#play-${f.id}"><button class="go" tabindex="-1">Play now</button></a><span class="small">${kb(cartSize(f))} cartridge on a ${gbOf(f.runtime)} GB runtime you install once</span></div></div></div>`;
-  $("#featured").hidden = mode === "yours";
-  $("#cats").innerHTML = mode === "yours" ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
-  const list = mode === "yours" ? USER_CARTS : BUILTIN.filter(c => filter === "all" || c.genre === filter);
-  $("#shelfTitle").textContent = mode === "yours" ? "Your carts" : filter === "all" ? "All cartridges" : GENRES[filter];
-  const shelf = mode === "yours" ? [] : [...COMMUNITY_CARTS.filter(c => filter === "all" || c.genre === filter).map(c => card(c)), ...COMMUNITY_GAMES.filter(g => filter === "all" || g.genre === filter).map(gameCard)];
-  $("#shelfSec").hidden = mode === "yours" || !COMMUNITY_OK;
-  $("#shelfGrid").innerHTML = shelf.length ? shelf.join("") : `<div class="empty">Nothing on the shelf in this category yet. <a href="#make">Make a cart</a> and press <b>Submit to the shelf</b>.</div>`;
-  $("#grid").innerHTML = list.length ? list.map(c => card(c)).join("") : `<div class="empty">${mode==="yours" ? 'No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.' : "No carts in this category yet."}</div>`;
-  const games = allGames().filter(g => !g.hidden && !g.community && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
-  $("#gamesH").hidden = !games.length && mode !== "yours"; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
+  $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#${DB.saves[f.id] ? "continue" : "play"}-${f.id}"><button class="go" tabindex="-1">${DB.saves[f.id] ? "Continue" : "Play now"}</button></a><a href="#info-${f.id}"><button class="ghost" tabindex="-1">Details and medals</button></a></div></div></div>`;
+  const yours = mode === "yours";
+  $("#pitch").hidden = yours || PR().onboarded && (PR().stats.plays > 0 || Object.keys(DB.plays).length > 0);
+  $("#featured").hidden = yours; $("#browseBar").hidden = yours; $("#tagRow").hidden = yours; $("#contSec").hidden = true;
+  $("#cats").innerHTML = yours ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
+  $("#shelfTitle").textContent = yours ? "Your carts" : filter === "all" ? "Browse games" : GENRES[filter];
+  $("#shelfSec").hidden = true;
+  if (!yours){ renderBrowse(); $("#gamesH").hidden = true; $("#gamesGrid").innerHTML = ""; return; }
+  $("#browseCount").textContent = "";
+  $("#grid").innerHTML = USER_CARTS.length ? USER_CARTS.map(c => card(c)).join("") : `<div class="empty">No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.</div>`;
+  const games = allGames().filter(g => !g.bundled && !g.community);
+  $("#gamesH").hidden = false; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
 }
 $("#cats").onclick = e => { const k = e.target.dataset.cat; if (k) location.hash = k === "all" ? "#portal" : "#cat-" + k; };
 $("#grid").onclick = e => {
@@ -355,6 +357,11 @@ function route(){
   if (!h.startsWith("game-") && BR.frame){ BR.frame.remove(); BR.frame = null; }
   if (h.startsWith("c-")){ openSharedCart(h.slice(2)); return; }
   if (h.startsWith("g-")){ openSharedGame(h.slice(2)); return; }
+  if (h.startsWith("continue-")){ const c = cartById(h.slice(9)); if (c){ show("play"); resumeGame(c); window.scrollTo(0, 0); return; } }
+  if (h.startsWith("info-")){ show("info"); if (!renderInfo(h.slice(5))) location.hash = "#portal"; window.scrollTo(0, 0); return; }
+  if (h.startsWith("by-")){ show("info"); renderBy(decodeURIComponent(h.slice(3))); window.scrollTo(0, 0); return; }
+  if (h === "me"){ show("me"); renderMe(); return; }
+  if (h.startsWith("profile-")){ importProfile(h.slice(8)); return; }
   if (h.startsWith("play-")){ const c = cartById(h.slice(5)); if (c){ show("play"); newGame(c); window.scrollTo(0, 0); return; } }
   if (h.startsWith("game-")){ const g = h === "game-test" ? BR.pendingTest : allGames().find(x => x.id === h.slice(5)); if (g){ show("game"); playGame(g); window.scrollTo(0, 0); return; } }
   if (h.startsWith("edit-")){ const c = USER_CARTS.find(x => x.id === h.slice(5)); if (c){ show("make"); openEditor(c.src); return; } }

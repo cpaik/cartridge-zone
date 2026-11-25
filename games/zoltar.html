@@ -78,7 +78,16 @@ document.getElementById("f").onsubmit = async e => {
     await streamFortune(q, t => out.textContent += t);
     const c = await luckyCard(q);
     card.textContent = `Lucky number ${c.lucky_number} · Lucky color ${c.lucky_color} · Avoid: ${c.avoid}`; card.classList.add("on");
-    document.getElementById("status").textContent = "Runs on the model in your own browser. Nothing leaves this machine.";
+    // 3. Platform extras: medals, a scoreboard and a save slot (optional; they do nothing outside Cartridge Zone)
+    if (window.cartridge){
+      const count = ((await cartridge.load("fortunes")) || 0) + 1;
+      await cartridge.save("fortunes", count);
+      await cartridge.postScore(count, "fortunes");
+      await cartridge.unlockMedal("seeker", {name: "Seeker", desc: "Ask Zoltar a question.", points: 5});
+      if (count >= 5) await cartridge.unlockMedal("regular", {name: "Regular", desc: "Hear five fortunes.", points: 10});
+      if (/love/i.test(q)) await cartridge.unlockMedal("romantic", {name: "Hopeless Romantic", desc: "Ask Zoltar about love.", points: 5});
+      document.getElementById("status").textContent = `Fortunes told to you: ${count}. Runs on the model in your own browser.`;
+    } else document.getElementById("status").textContent = "Runs on the model in your own browser. Nothing leaves this machine.";
   } catch (err) { out.textContent = "The machine sputters. (" + err.message + ")"; }
   go.disabled = false;
 };

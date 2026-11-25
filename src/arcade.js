@@ -40,7 +40,12 @@ const SHIM = `(() => {
       call("chat", {messages, ...opts, stream:true}, c => { q.push(c.choices?.[0]?.delta?.content || ""); wake && wake(); }).then(() => { done = true; wake && wake(); }, e => { err = e; done = true; wake && wake(); });
       while (true){ if (q.length){ const t = q.shift(); if (t) yield t; continue; } if (done){ if (err) throw err; return; } await new Promise(r => wake = r); wake = null; }
     },
-    info: () => call("info")
+    info: () => call("info"),
+    player: () => call("player"),
+    unlockMedal: (id, info = {}) => call("medal", {id, ...info}),
+    postScore: (value, board = "default") => call("score", {value, board}),
+    save: (slot, data) => call("save", {slot, data}),
+    load: slot => call("load", {slot})
   };
 })();`;
 function gameDoc(html){
@@ -95,6 +100,7 @@ function mockCompletion(req){
 async function bridgeHandle(m, reply){
   if (m.path === "models") return reply("done", {object:"list", data:ORDER.map(k => ({id:k, object:"model", owned_by:"cartridge-zone", model:RT[k].model, ready:S.loaded === k}))});
   if (m.path === "info") return reply("done", {runtime:S.loaded, model:S.loaded ? RT[S.loaded].model : null, demo:MOCK});
+  if (["player", "medal", "score", "save", "load"].includes(m.path)) return reply("done", gameApi(m.path, m.body || {}));
   if (m.path !== "chat") return reply("error", {status:404, message:"Unknown endpoint"});
   let req; try { req = cleanChat(m.body); } catch (e) { return reply("error", e); }
   BR.q = BR.q.then(async () => {
@@ -118,6 +124,32 @@ async function bridgeHandle(m, reply){
     } catch (e) { console.error(e); reply("error", {status:500, message:String(e?.message || e)}); }
     finally { BR.running = null; renderGameStats(); }
   });
+}
+/* The Newgrounds.io-style API: player, medals, scoreboards and save slots, kept per game in this browser. */
+function gameData(id){ return DB.gameData[id] = DB.gameData[id] || {medals:{}, scores:{}, saves:{}}; }
+function gameApi(path, b){
+  const g = BR.game; if (!g) return null;
+  const gd = gameData(g.id), str = (v, n) => String(v ?? "").slice(0, n);
+  if (path === "player"){ const p = PR(); return {name:p.name || "Player", level:levelOf(p.xp), title:titleOf(levelOf(p.xp)), avatar:avatarSVG(p.avatar, 64)}; }
+  if (path === "medal"){
+    const id = str(b.id, 24).toLowerCase().replace(/[^a-z0-9-]/g, ""); if (!id) return {error:"A medal needs an id"};
+    if (!gd.medals[id] && Object.keys(gd.medals).length >= 30) return {error:"This game has reached its 30-medal limit"};
+    const meta = {name:str(b.name || id, 40), desc:str(b.desc, 120), points:[5, 10, 25, 50, 100].includes(+b.points) ? +b.points : 10};
+    gd.medals[id] = meta; const fresh = award(g.id, {id, ...meta}); save(); return {id, unlocked:fresh};
+  }
+  if (path === "score"){
+    const v = Number(b.value); if (!Number.isFinite(v)) return {error:"Score must be a number"};
+    const board = str(b.board || "default", 24), prev = gd.scores[board], isBest = prev == null || v > prev;
+    if (isBest) gd.scores[board] = v; if (board === "default") PR().best[g.id] = Math.max(PR().best[g.id] ?? -Infinity, v); save();
+    return {board, best:Math.max(v, prev ?? v), isBest};
+  }
+  if (path === "save"){
+    const slot = str(b.slot || "default", 24), json = JSON.stringify(b.data ?? null);
+    if (json.length > 100000) return {error:"Save data is limited to 100 KB per slot"};
+    if (!(slot in gd.saves) && Object.keys(gd.saves).length >= 10) return {error:"Games get up to 10 save slots"};
+    gd.saves[slot] = JSON.parse(json); save(); return {slot, saved:true};
+  }
+  if (path === "load") return gd.saves[str(b.slot || "default", 24)] ?? null;
 }
 addEventListener("message", e => {
   if (!BR.frame || e.source !== BR.frame.contentWindow) return;

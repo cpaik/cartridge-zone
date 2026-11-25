@@ -197,6 +197,32 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
 .sharebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:#2a1a10;border-bottom:1px solid var(--or)}
 .dlg{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:70;padding:16px}.dlg .panel{width:min(560px,100%)}
 #gActs{gap:6px}
+.mechip{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--p2);border-radius:999px;padding:3px 12px 3px 3px;min-height:40px;flex:none}
+.mechip svg{border-radius:50%}.mechip span{display:grid;line-height:1.1}.mechip b{font:700 15px "Barlow Condensed",sans-serif}.mechip small{font-size:12px;color:var(--dim)}
+.browsebar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.browsebar input{flex:1 1 260px}.browsebar select{width:auto}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tagb{min-height:32px;padding:0 10px;font:600 14px Barlow,sans-serif;background:var(--p2);border-radius:999px;color:var(--dim);text-decoration:none;display:inline-flex;align-items:center;box-shadow:none}.tagb.on{background:var(--lime);color:#142000}
+.card h3 a{color:inherit;text-decoration:none}.card .art{display:block}.votes{color:var(--lime);font-weight:700}
+.controw{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:26px}
+.contc,.nextc{display:flex;gap:12px;align-items:center;background:var(--p1);border:1px solid var(--line);border-radius:10px;padding:8px;text-decoration:none;color:var(--ink);text-align:left}
+.contc:hover,.nextc:hover{border-color:var(--or)}.nart{width:96px;flex:none;aspect-ratio:16/9;position:relative;border-radius:6px;overflow:hidden}.nart svg{position:absolute;inset:0;width:100%;height:100%}
+.contc b,.nextc b{display:block;font:700 18px/1.1 "Barlow Condensed",sans-serif}.contc small,.nextc small{color:var(--dim);font-size:13px;display:block}
+.mlist{display:grid;gap:6px;max-height:260px;overflow-y:auto}
+.mrow2{display:flex;gap:8px;align-items:center;opacity:.45}.mrow2.got{opacity:1}.mrow2 span{display:grid;line-height:1.2}.mrow2 b{font:700 15px "Barlow Condensed",sans-serif}.mrow2 small{font-size:12.5px;color:var(--dim)}
+.micon{width:30px;height:30px;flex:none}
+.mtoasts{position:fixed;right:16px;bottom:16px;display:grid;gap:8px;z-index:80}
+.mtoast{display:flex;gap:10px;align-items:center;background:#111;border:2px solid #ffd166;border-radius:10px;padding:10px 14px;min-width:260px;transform:translateX(120%);transition:transform .35s cubic-bezier(.3,1.4,.5,1);box-shadow:0 10px 30px #000a}
+.mtoast.lv{border-color:var(--lime)}.mtoast.on{transform:none}.mtoast .micon{width:40px;height:40px}.mtoast div{display:grid;line-height:1.2}.mtoast small{color:#ffd166;font-weight:700;font-size:12px}.mtoast b{font:700 18px "Barlow Condensed",sans-serif}.mtoast span{font-size:13px;color:var(--dim)}
+.scorebig{font:44px/1 Bungee,sans-serif;color:var(--or2)}.mchips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.mchip{display:inline-flex;align-items:center;gap:6px;background:var(--p2);border-radius:999px;padding:3px 10px 3px 3px;font:700 14px "Barlow Condensed",sans-serif}.mchip .micon{width:24px;height:24px}
+.msg.sys.hint{background:#1e2a12;border:1px solid #4b6b1d;color:#d8f5a8;border-radius:8px;padding:8px 12px;font-style:normal}
+.ihero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;margin-bottom:20px}.iart{aspect-ratio:16/9;position:relative;border-radius:10px;overflow:hidden;border:3px solid #000;box-shadow:0 0 0 2px var(--line)}.iart svg{position:absolute;inset:0;width:100%;height:100%}
+.itext{display:grid;gap:12px}.itext a{color:var(--or2)}.istats{display:flex;gap:8px 18px;flex-wrap:wrap;font-size:14px;color:var(--dim)}.istats b{color:var(--ink);font:700 18px "Barlow Condensed",sans-serif;margin-right:3px}
+.icols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}.review{border-top:1px solid var(--line);padding:8px 0}.review p{margin:4px 0 0;font-size:14px;white-space:pre-wrap}
+.mehero{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.mebig svg{border-radius:24px}.lvl{margin:12px 0}.lvl .mb{margin:6px 0}
+.avpart{margin-bottom:10px}.avopts{display:flex;gap:6px;flex-wrap:wrap}.avo{min-height:38px;padding:4px 10px;font:600 14px Barlow,sans-serif;display:grid;gap:2px;justify-items:center;background:var(--p2)}.avo.on{box-shadow:inset 0 0 0 2px var(--or)}.avo small{font-size:11px;color:var(--dim)}.sw2{display:block;width:22px;height:22px;border-radius:50%}
+.brow{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:6px 0}.brow a{color:var(--ink)}
+.onbp{width:min(620px,100%);display:grid;gap:14px;padding:24px}.onbp h2{font-size:clamp(22px,3vw,30px)}.onbpicks{display:grid;gap:8px}
+@media(max-width:900px){.ihero,.icols{grid-template-columns:minmax(0,1fr)}.mechip span{display:none}}
+@media(max-width:600px){.hd{gap:6px 12px}.logo{font-size:21px;flex:1}nav{order:3;flex:1 1 100%}.cost .chip:first-child,.rti label[for=rtSel]{display:none}.rti{gap:8px 10px}.rt select{flex:1;min-width:0}}
 </style>
 </head>
 <body>
@@ -205,14 +231,11 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
   <a class="logo" href="#portal">CARTRIDGE<b>.</b>ZONE</a>
   <nav id="nav">
     <a href="#portal" data-r="portal">Front page</a>
-    <a href="#cat-dating" data-r="cat-dating">Dating sims</a>
-    <a href="#cat-mystery" data-r="cat-mystery">Mystery</a>
-    <a href="#cat-tabletop" data-r="cat-tabletop">Tabletop</a>
-    <a href="#cat-roleplay" data-r="cat-roleplay">Roleplay</a>
     <a href="#yours" data-r="yours">Your carts</a>
     <a href="#make" data-r="make" class="mk">+ Make a cart</a>
     <a href="#upload" data-r="upload" class="mk">↑ Upload a game</a>
   </nav>
+  <a href="#me" class="mechip" id="meChip" aria-label="Your profile"></a>
 </div></header>
 
 <div class="rt"><div class="wrap rti">
@@ -230,12 +253,15 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
 <main class="wrap">
   <section class="view" id="v-portal">
     <div id="featured"></div>
-    <div class="pitch">
+    <div class="pitch" id="pitch">
       <div><b>Install the console once</b>One small open model downloads to your browser and stays cached. About 0.9 GB for Pocket.</div>
       <div><b>Carts are kilobytes</b>Each game is a character, rules and stats in a few KB of JSON. Loading a new one is instant.</div>
       <div><b>Your GPU, your game</b>Everything runs on this device. A hit cart costs its maker nothing, no matter how many people play it.</div>
     </div>
-    <div class="shelfh"><h2 id="shelfTitle">All cartridges</h2><div class="cats" id="cats"></div></div>
+    <div id="contSec" hidden><div class="shelfh"><h2>Continue playing</h2></div><div class="controw" id="contRow"></div></div>
+    <div class="shelfh"><h2 id="shelfTitle">Browse games</h2><div class="cats" id="cats"></div></div>
+    <div class="browsebar" id="browseBar"><input id="browseQ" type="search" placeholder="Search games, creators, tags…" aria-label="Search games"><select id="browseSort" aria-label="Sort"><option value="featured">Featured</option><option value="new">Newest</option><option value="top">Top rated</option><option value="unplayed">Not played yet</option><option value="played">Most played by you</option></select><span class="small" id="browseCount"></span></div>
+    <div class="tagrow" id="tagRow"></div>
     <div class="grid" id="grid"></div>
     <div id="shelfSec" hidden><div class="shelfh" style="margin-top:34px"><h2>Community shelf</h2><span class="small">Made by players and reviewed before they go up. <a href="#make">Make a cart</a> or <a href="#upload">upload a game</a>, then press Submit to the shelf.</span></div><div class="grid" id="shelfGrid"></div></div>
     <div class="shelfh" id="gamesH" style="margin-top:34px"><h2>Uploaded games</h2><span class="small">Any HTML game that calls the OpenAI chat API runs here, on the player's GPU. <a href="#upload">Upload yours</a>.</span></div>
@@ -257,6 +283,8 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
       <aside class="rail">
         <div class="panel"><h4>Turn</h4><div class="turns" id="turns">1 / 10</div></div>
         <div class="panel"><h4>Meters</h4><div id="meters"></div></div>
+        <div class="panel"><h4>How to play</h4><div id="howTo"></div></div>
+        <div class="panel"><h4>Medals</h4><div id="medalList" class="mlist"></div></div>
         <div class="panel"><h4>Cartridge</h4><div class="small" id="cartInfo"></div></div>
       </aside>
     </div>
@@ -319,12 +347,23 @@ const r = await ai.chat.completions.create({
         <h4>The built-in helper</h4>
 <pre><code>const line = await cartridge.chat(messages, {max_tokens: 60});
 for await (const t of cartridge.stream(messages)) out.textContent += t;</code></pre>
+        <h4>Medals, scoreboards and saves</h4>
+<pre><code>const me = await cartridge.player();   // {name, level, avatar}
+await cartridge.unlockMedal("first-win",
+  {name: "First Win", desc: "Beat level 1", points: 10});
+await cartridge.postScore(4200);           // personal best
+await cartridge.save("slot1", {level: 3}); // up to 10 slots
+const progress = await cartridge.load("slot1");</code></pre>
+        <p class="small">Medals count toward the player's level and show on their profile and your game's page. Points are 5, 10, 25, 50 or 100.</p>
         <h4>House rules</h4>
         <ul><li>Games run sealed off: no network, no cookies, no access to this site. Only the model and public script CDNs (jsDelivr, unpkg, esm.sh, cdnjs) are reachable, so a game can't send players' words anywhere.</li><li>Inline your images and sounds as data URLs.</li><li>Replies are capped at 1,024 tokens, and one request runs at a time.</li><li>Small models are great at short in-character lines and bad at keeping score. Keep numbers in your own code.</li></ul>
         <div class="row"><button type="button" class="sm" id="uStarter">Copy the starter template</button></div>
       </div>
     </div>
   </section>
+
+  <section class="view" id="v-info"><div id="infoBody"></div></section>
+  <section class="view" id="v-me"><h1 style="margin-bottom:14px">Your profile</h1><div id="meBody"></div></section>
 
   <section class="view" id="v-game">
     <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><div class="row" id="gActs"></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
@@ -338,10 +377,13 @@ for await (const t of cartridge.stream(messages)) out.textContent += t;</code></
 
 <div class="end" id="end" role="dialog" aria-modal="true" aria-labelledby="endT"><div class="endc" id="endc">
   <div class="kick" id="endK"></div><div class="big" id="endT"></div><p class="lede" id="endP" style="margin:0"></p>
+  <div id="endScore"></div><div class="mchips" id="endMedals"></div><div id="endNext" style="width:100%"></div>
   <div><div class="small">Rate this cart</div><div class="rate" id="rate"></div></div>
   <div class="row" style="justify-content:center"><button class="go" id="again">Play again</button><a href="#portal"><button class="ghost" tabindex="-1">Front page</button></a></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div class="mtoasts" id="mtoasts" aria-live="polite"></div>
+<div class="dlg" id="onb" hidden role="dialog" aria-modal="true"><div class="panel onbp" id="onbBody"></div></div>
 <div class="dlg" id="shareDlg" hidden role="dialog" aria-modal="true" aria-labelledby="shareDlgT"><div class="panel"><h4 id="shareDlgT">Copy this link</h4><textarea id="shareDlgIn" rows="4" readonly style="font:12px/1.4 ui-monospace,Menlo,monospace"></textarea><div class="row" style="margin-top:8px"><button type="button" class="sm" id="shareDlgClose">Done</button></div></div></div>
 
 <script type="module" id="app">
@@ -567,12 +609,12 @@ function resolveBarter(st, text, cfgIn){
   if (charm && (st._charm || 0) < 3){ st._charm = (st._charm || 0) + 1; bump("PATIENCE", 6); }
   if (offer == null && BARTER.accept.test(t)){ out.deal = {crowns:ask}; out.dir = `The customer accepts your price. Seal the deal happily.`; return out; }
   if (offer == null){
-    if (BARTER.story.test(t) && (st._story || 0) < 2){ st._story = (st._story || 0) + 1; bump("PATIENCE", 4); out.dir = `The customer asked about the ${I}. You love talking about it: share one odd, specific detail. Do not mention any price.`; return out; }
+    if (BARTER.story.test(t) && (st._story || 0) < 2){ st._story = (st._story || 0) + 1; bump("PATIENCE", 4); out.story = true; out.dir = `The customer asked about the ${I}. You love talking about it: share one odd, specific detail. Do not mention any price.`; return out; }
     if (charm && (st._charm || 0) <= 2){ const np = Math.max(cfg.floor, ask - Math.max(5, Math.round(cfg.price / 24 / 5) * 5)); if (np < ask){ bump("PRICE", np - ask); out.dir = "The customer flattered you, so you knock a little off the price."; return out; } }
     out.dir = rude ? "The customer is being rude. Snap back, no discount." : "The customer is chatting but hasn't made an offer. Nudge them to name a price.";
     return out;
   }
-  const total = offer + tradeVal; out.offer = offer; out.item = item; out.tradeVal = tradeVal;
+  const total = offer + tradeVal; out.offer = offer; out.item = item; out.tradeVal = tradeVal; out.trade = tradeVal > 0;
   if (total >= ask){ out.deal = {crowns:Math.max(0, Math.min(offer, ask - tradeVal)), item}; out.dir = `The customer offered your full asking price${item ? " plus their " + item : ""}. Accept, delighted.`; return out; }
   if (total >= cfg.floor && total >= ask * 0.85){ out.deal = {crowns:offer, item}; out.dir = `You accept the customer's offer${item ? " plus their " + item : ""}. Close the deal with a flourish.`; return out; }
   if (total < ask * 0.27){ bump("PATIENCE", -10); out.dir = "The customer's offer is insultingly low. Refuse sharply."; out.note = "lowball"; return out; }
@@ -598,6 +640,7 @@ function compileCart(o){
   c.style = {length:o.style?.length || "short", creativity:o.style?.creativity ?? 0.8};
   const E = o.endings || {};
   const end = x => x && (x.title || x.text) ? {title:x.title || "", text:x.text || "", dir:x.line || x.text || ""} : null;
+  c.medals = Array.isArray(o.medals) ? o.medals : []; c.tags = Array.isArray(o.tags) ? o.tags : [];
   c.endings = {win:end(E.win), lose:end(E.lose), good:E.good && (E.good.title || E.good.text) ? {...end(E.good), min:+E.good.min || 0} : null, timeout:end(E.timeout) || {title:"Time's up", text:"The scene fades out.", dir:"The scene is ending. Say a brief goodbye."}};
   if (c.engine === "social"){
     const used = new Set(), idToKey = {};
@@ -607,6 +650,7 @@ function compileCart(o){
       return {key, label:m.label || "Meter", start:clampN(+m.start || 0, 0, 100), min:0, max:100, step:clampN(+m.step || 16, 4, 40), bad:down, drift:+m.drift || 0, color:m.color,
         ...(m.win != null && m.win !== "" ? (down ? {winBelow:+m.win} : {win:+m.win}) : {}), ...(m.lose != null && m.lose !== "" ? (down ? {loseAbove:+m.lose} : {loseBelow:+m.lose}) : {})};
     });
+    c.meterIds = idToKey;
     c.likes = (o.rules || []).map((r, i) => {
       const d = {}; for (const [id, v] of Object.entries(r.effects || {})) if (idToKey[id] && +v) d[idToKey[id]] = clampN(+v, -40, 40);
       return {id:"r" + i, name:r.name || "rule " + (i + 1), re:phrasesRe(r.phrases), unless:(r.unless || []).length ? phrasesRe(r.unless) : null, d, dir:r.react || ""};
@@ -636,6 +680,8 @@ const PHONE_AWAY = ["phone .. away","phone .. off","phone .. dead","phone .. die
 const MORNING_HATE = ["mornings are a crime","mornings are the worst","mornings are awful","mornings are terrible","mornings are evil","morning is the worst","hate mornings","hate the morning","hate morning","not a morning person"];
 const BUILTIN_V3 = [
 { v:3, id:"meridian", title:"Last Train to Meridian", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"train", colors:["#1d2547","#ff4f9a","#ffd166"]},
+  tags:["romance","night","cozy"],
+  medals:[{id:"win", name:"Stars Aligned", desc:"Win Juno over.", points:10, when:{type:"win"}}, {id:"pun", name:"Groaner", desc:"Make Juno groan at a pun.", points:5, when:{type:"rule", value:"Puns and jokes"}}, {id:"unplug", name:"Unplugged", desc:"Put your phone away.", points:5, when:{type:"rule", value:"Phone away"}}, {id:"astrology", name:"Wrong Kind of Stars", desc:"Bring up astrology with an astronomer.", points:5, secret:true, when:{type:"rule", value:"Astrology"}}, {id:"maybe", name:"A Maybe", desc:"Get her number without winning outright.", points:10, when:{type:"ending", value:"good"}}, {id:"fast", name:"Express Service", desc:"Win within 6 turns.", points:25, when:{type:"fast", value:6}}, {id:"nohints", name:"Navigator", desc:"Win without using a hint.", points:10, when:{type:"nohints"}}, {id:"derailed", name:"Derailed", desc:"Drive Juno to another carriage.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Juno", blurb:"The night train is stalled in the snow. The woman across the aisle has noticed you're reading your star chart upside down.",
   persona:"You are Juno, 29, an astronomer's assistant riding a night train that is stalled in a snowstorm. The player is the stranger sitting across from you. You are dry, witty and a little guarded, but curious. You secretly love terrible puns.",
   voice:["Bold of you to assume I know where we are either.","That pun was criminal. Do another one.","Phones out on a night like this? Look up. The snow is doing the stars' job."],
@@ -664,6 +710,8 @@ const BUILTIN_V3 = [
     timeout:{title:"Next stop", text:"The train lurches forward. Juno nods goodbye and goes back to her chart.", line:"The train is moving again. Say a brief, neutral goodbye."}
   }},
 { v:3, id:"fang", title:"Blind Date With a Vampire", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"fang", colors:["#2a0d1e","#e0115f","#f5e6c8"]},
+  tags:["romance","horror","comedy"],
+  medals:[{id:"win", name:"Bitten", desc:"Win Ezra over.", points:10, when:{type:"win"}}, {id:"garlic", name:"Garlic Breath", desc:"Mention garlic to a vampire.", points:5, secret:true, when:{type:"rule", value:"Garlic"}}, {id:"oldsoul", name:"Old Soul", desc:"Bond over something old and beautiful.", points:5, when:{type:"rule", value:"Old and beautiful things"}}, {id:"clean", name:"Above Suspicion", desc:"Finish with suspicion at 5 or lower.", points:10, when:{type:"meter", meter:"m2", op:"<=", value:5}}, {id:"fast", name:"Love at First Bite", desc:"Win within 6 turns.", points:25, when:{type:"fast", value:6}}, {id:"exposed", name:"Hunter's Mark", desc:"Convince Ezra you're a hunter.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Ezra", blurb:"He says he's a night-shift sommelier. He hasn't touched his food. Win him over without making him think you're a vampire hunter.",
   persona:"You are Ezra Vane, a 400-year-old vampire on a first date at a candlelit restaurant, pretending to be a human 'night-shift sommelier'. You are theatrical, old-fashioned, charming and lonely. You never admit to being a vampire, and you dodge questions about your age, food and daylight with flowery excuses.",
   voice:["The night is young. Unlike me. Unlike my wine cellar, I mean.","Garlic? How rustic. Do go on.","You're delightfully strange. I've met so few people worth staying up for."],
@@ -691,6 +739,8 @@ const BUILTIN_V3 = [
     timeout:{title:"Into the fog", text:"Ezra pays the bill and vanishes into the fog. A second date? Unclear.", line:"The date is over. Say a polite, theatrical goodbye."}
   }},
 { v:3, id:"tollbridge", title:"The Goblin Tollbridge", genre:"tabletop", engine:"dice", runtime:"pocket", look:{motif:"bridge", colors:["#1f3326","#b6f23a","#f2c14e"]},
+  tags:["fantasy","dice","combat"],
+  medals:[{id:"paid", name:"Hat Tax", desc:"Pay Grukk's toll.", points:5, when:{type:"ending", value:"paid"}}, {id:"talked", name:"Silver Tongue", desc:"Talk the toll down to nothing.", points:25, when:{type:"ending", value:"talked"}}, {id:"sneaked", name:"Ghost", desc:"Sneak across.", points:10, when:{type:"ending", value:"sneaked"}}, {id:"victory", name:"Bridge Troll", desc:"Defeat Grukk in a fight.", points:10, when:{type:"ending", value:"victory"}}, {id:"bribed", name:"Grease the Goblin", desc:"Bribe your way across.", points:10, when:{type:"ending", value:"bribed"}}, {id:"nat20", name:"Natural 20", desc:"Roll a natural 20.", points:10, when:{type:"nat20"}}, {id:"defeated", name:"The Long Way Down", desc:"Lose the fight.", points:5, secret:true, when:{type:"ending", value:"defeated"}}],
   character:"Grukk", blurb:"A d20 encounter. A goblin with a crossbow wants 10 gold to let you cross. You have 6. Fight, talk, bribe or sneak, with real dice and real hit points.",
   persona:"You are Grukk, a greedy, cowardly, pompous goblin who guards a rope bridge with a rusty crossbow. You are very proud of your tiny hat. You talk in short, cocky, broken sentences and call the player 'bridge-walker'.",
   voice:["Hat tax not included, bridge-walker.","You scratch the hat, you pay double!","Grukk not scared. Grukk is tactically worried."],
@@ -702,6 +752,8 @@ const BUILTIN_V3 = [
   sugg:["I draw my sword and attack Grukk.","I compliment Grukk's magnificent hat.","I try to sneak past while he counts his coins.","I offer Grukk 4 gold.","I pay the toll.","I search the planks for loose coins.","I tell Grukk the bridge looks unsafe, so it should be cheaper.","I tell him a riddle."],
   endings:{timeout:{title:"Nightfall", text:"Night falls. Grukk yawns, pulls a blanket over his hat and refuses to discuss it further.", line:"It's getting dark. Tell the bridge-walker the bridge is closed for the night."}}},
 { v:3, id:"bazaar", title:"The Brass Bazaar", genre:"roleplay", engine:"barter", runtime:"pocket", look:{motif:"bazaar", colors:["#3b1d0e","#ff8a3d","#ffd166"]},
+  tags:["haggling","comedy","fantasy"],
+  medals:[{id:"win", name:"Bargain", desc:"Buy the music box within budget.", points:10, when:{type:"win"}}, {id:"robbery", name:"Daylight Robbery", desc:"Buy it for 75 crowns or less.", points:25, when:{type:"price", value:75}}, {id:"swap", name:"Swap Meet", desc:"Offer something in trade.", points:5, when:{type:"trade"}}, {id:"weather", name:"Weather Report", desc:"Ask about the music box.", points:5, when:{type:"story"}}, {id:"fast", name:"Quick Sale", desc:"Win within 5 turns.", points:25, when:{type:"fast", value:5}}, {id:"thrown", name:"Thrown Out", desc:"Run out Ilse's patience.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Ilse", blurb:"A music box that hums tomorrow's weather. Old Ilse wants 240 crowns. You have 90, a silver tongue, and maybe something to trade.",
   persona:"You are Old Ilse, a shrewd, funny merchant at a crowded brass bazaar. You are selling a music box that hums tomorrow's weather when wound. You love haggling, you love flattery, and you hate being insulted.",
   voice:["My dear, the box would weep.","Flattery is free. The box is not.","Now that is an offer I can almost hear."],
@@ -716,6 +768,7 @@ const BUILTIN_V3 = [
 /* Starting points in the cart maker. */
 const TEMPLATES = {
   dating:{ v:3, title:"Coffee With the Barista Who Hates Mornings", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"cafe", colors:["#2b1d14","#ff8a3d","#ffd166"]},
+    tags:["romance","cozy","coffee"],
     character:"Rafe", blurb:"He's been awake since 4am. You're his first customer. Make him smile before he finishes your latte.",
     persona:"You are Rafe, a sleep-deprived barista at 6am. You are sarcastic but secretly soft-hearted, and you take latte art very seriously.",
     voice:["It's 6am. Lower your voice and your expectations.","That's either genius or a cry for help. I'll make it."],
@@ -736,6 +789,8 @@ const TEMPLATES = {
       lose:{title:"Wrong name", text:"Your cup says 'Brenda'. Your name is not Brenda.", line:"You've had enough of this customer. Hand over the coffee with a deadpan goodbye."},
       timeout:{title:"Next in line", text:"The morning rush arrives and Rafe is swept away.", line:"The rush is starting. Say a quick goodbye."}}},
   mystery:{ v:3, title:"The Butler Did What?", genre:"mystery", engine:"social", runtime:"pocket", look:{motif:"castle", colors:["#1b1b2f","#c9a227","#e8e1cf"]},
+    tags:["mystery","detective"],
+    medals:[{id:"win", name:"Case Closed", desc:"Get a confession.", points:10, when:{type:"win"}}, {id:"goodcop", name:"Good Cop", desc:"Show the butler some empathy.", points:5, when:{type:"rule", value:"Empathy"}}, {id:"fast", name:"Sharp Detective", desc:"Get a confession within 7 turns.", points:25, when:{type:"fast", value:7}}, {id:"lawyer", name:"Lawyered Up", desc:"Push until he calls his solicitor.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
     character:"Pennington", blurb:"Lord Ashby is dead in the library. The butler was the last to see him. Get a confession before he calls his lawyer.",
     persona:"You are Mr. Pennington, the elderly butler of Ashby Hall, being questioned by a detective about Lord Ashby's death. You are polite, formal and proud, and you are hiding that you argued with Lord Ashby about the will the night he died.",
     voice:["I have served this house for forty years, detective.","I'm sure I couldn't say, sir.","One does not raise one's voice at Ashby Hall."],
@@ -760,6 +815,7 @@ const TEMPLATES = {
       good:{min:50, title:"A crack in the story", text:"Pennington doesn't confess, but he can't explain the muddy boots. You'll be back.", line:"The interview is ending. You're shaken. Say something that almost gives you away."},
       timeout:{title:"Case open", text:"The inspector calls time. The butler bows and withdraws.", line:"The interview is over. Bow and withdraw politely."}}},
   dungeon:{ v:3, title:"The Troll Under the Stairs", genre:"tabletop", engine:"dice", runtime:"pocket", look:{motif:"castle", colors:["#1c2430","#b6f23a","#c08457"]},
+    tags:["fantasy","dice","combat"],
     character:"Mossgut", blurb:"A troll lives under the cellar stairs and charges rent to anyone who wants the wine. Fight, haggle, sneak or bribe.",
     persona:"You are Mossgut, a lazy, sentimental troll who lives under the cellar stairs. You speak slowly, love soup, and call the player 'little climber'.",
     voice:["Rent is rent, little climber.","Mossgut hungry. Mossgut always hungry."],
@@ -769,6 +825,7 @@ const TEMPLATES = {
     sugg:["I swing my axe at the troll.","I ask Mossgut what kind of soup he likes.","I tiptoe down the stairs.","I offer 4 silver.","I search the cellar for coins."],
     endings:{timeout:{title:"Bedtime", text:"Mossgut falls asleep mid-sentence. You'll have to come back tomorrow.", line:"You're very sleepy. Tell the climber to come back tomorrow."}}},
   merchant:{ v:3, title:"The Lamp Seller", genre:"roleplay", engine:"barter", runtime:"pocket", look:{motif:"bazaar", colors:["#2b1640","#ffd166","#ff8a3d"]},
+    tags:["haggling","fantasy"],
     character:"Faruq", blurb:"A lamp that might contain a genie, or might just be a lamp. Faruq wants 500 dinars. You have 200.",
     persona:"You are Faruq, a dramatic, honey-tongued lamp seller. You are selling a brass lamp that may or may not contain a genie. You adore compliments and long stories, and you hate being called a fraud.",
     voice:["A lamp like this chooses its owner, my friend.","You wound me. Deeply. Financially."],
@@ -818,6 +875,11 @@ function sanitizeV3(o){
     character:s(o.character || "Stranger", 40), blurb:s(o.blurb, 160), persona:s(o.persona, 1500), voice:strs(o.voice, 6, 200), scene:s(o.scene, 400), opening:s(o.opening, 400),
     turns:num(o.turns, 3, 30, 10), style:{length:o.style?.length === "medium" ? "medium" : "short", creativity:num(o.style?.creativity, 0.3, 1.2, 0.8)},
     sugg:strs(o.sugg, 16, 160)};
+  const MT = ["finish","win","lose","ending","fast","rule","meter","nat20","price","trade","story","nohints"], seen = new Set();
+  out.medals = arr(o.medals, 12).map((m, i) => { let id = /^[a-z0-9-]{1,24}$/.test(m?.id || "") ? m.id : "m" + (i + 1); while (seen.has(id)) id += "x"; seen.add(id); const w = m?.when || {};
+    return {id, name:s(m?.name || "Medal", 40), desc:s(m?.desc, 120), points:[5, 10, 25, 50, 100].includes(+m?.points) ? +m.points : 10, secret:!!m?.secret,
+      when:{type:MT.includes(w.type) ? w.type : "finish", value:typeof w.value === "number" ? w.value : s(w.value, 60), meter:s(w.meter, 16), op:w.op === "<=" ? "<=" : ">="}}; });
+  out.tags = strs(o.tags, 5, 20).map(t => t.toLowerCase().replace(/[^a-z0-9-]/g, "")).filter(Boolean);
   const end = e => e ? {title:s(e.title, 60), text:s(e.text, 300), line:s(e.line, 300), ...(e.min != null ? {min:num(e.min, 0, 100, 50)} : {})} : undefined;
   out.endings = {}; for (const k of ["win", "lose", "good", "timeout"]) if (o.endings?.[k]) out.endings[k] = end(o.endings[k]);
   if (engine === "social"){
@@ -1036,17 +1098,17 @@ function mockLine(c, dir){
 /* ---------- game state + turns ---------- */
 let G = null;
 const st = (c, key) => c.stats.find(s => s.key === key);
-function newGame(c){
-  G = {cart:c, stats:Object.fromEntries(c.stats.map(s => [s.key, s.start])), turn:0, history:[], over:false, mem:{}, debug:[], used:new Set()};
+function newGame(c, resuming){
+  G = {cart:c, stats:Object.fromEntries(c.stats.map(s => [s.key, s.start])), turn:0, history:[], over:false, mem:{}, debug:[], used:new Set(), hints:0, medalsRun:[]};
   Object.assign(G.stats, {_grumpy:0, _searches:0, _spotted:0, _trades:[], _charm:0, _story:0});
   BR.frame = null;
-  DB.plays[c.id] = (DB.plays[c.id]||0) + 1; save();
+  if (!resuming){ DB.plays[c.id] = (DB.plays[c.id]||0) + 1; save(); }
   $("#log").innerHTML = ""; $("#end").classList.remove("on");
   if (c.scene) addMsg("ev", c.scene);
   if (c.opening){ addMsg("npc", c.opening); G.history.push({role:"assistant", content:c.opening}); }
   $("#pPic").innerHTML = art(c); $("#pKick").textContent = `${genreName(c.genre)} · ${c.character}`; $("#pTitle").textContent = c.title;
   $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.community ? ` · by ${esc(c.author)}${c.issue ? ` (<a href="${REPO_URL}/issues/${c.issue}" target="_blank" rel="noopener">submission</a>)` : ""}` : ""}${USER_CARTS.some(x => x.id === c.id) ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`} · <a href="#" data-sharecart>copy a play link</a>. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
-  renderSugg(); renderMeters(); renderGate(); renderShareBar(c);
+  renderSugg(); renderMeters(); renderGate(); renderShareBar(c); renderHelp();
 }
 function renderSugg(){
   const pool = (G.cart.sugg || []).filter(s => !G.used.has(s));
@@ -1087,11 +1149,11 @@ function socialEnd(){
   const c = G.cart, E = c.endings || {};
   for (const s of c.stats){
     const v = G.stats[s.key];
-    if ((s.win != null && v >= s.win) || (s.winBelow != null && v <= s.winBelow)) return {won:true, ...(E.win || {title:"You win", text:`${s.label} reached ${s.win ?? s.winBelow}.`})};
-    if (s.loseBelow != null && v <= s.loseBelow) return {won:false, ...(E.lose || {title:"Game over", text:`${s.label} fell to ${s.loseBelow}.`})};
-    if (s.loseAbove != null && v >= s.loseAbove) return {won:false, ...(E.lose || {title:"Game over", text:`${s.label} reached ${s.loseAbove}.`})};
+    if ((s.win != null && v >= s.win) || (s.winBelow != null && v <= s.winBelow)) return {won:true, key:"win", ...(E.win || {title:"You win", text:`${s.label} reached ${s.win ?? s.winBelow}.`})};
+    if (s.loseBelow != null && v <= s.loseBelow) return {won:false, key:"lose", ...(E.lose || {title:"Game over", text:`${s.label} fell to ${s.loseBelow}.`})};
+    if (s.loseAbove != null && v >= s.loseAbove) return {won:false, key:"lose", ...(E.lose || {title:"Game over", text:`${s.label} reached ${s.loseAbove}.`})};
   }
-  if (G.turn >= c.turns){ const main = G.stats[c.stats[0].key]; if (E.good && main >= E.good.min) return {won:false, ...E.good}; return {won:false, ...(E.timeout || {title:"Out of turns", text:"The scene fades out."})}; }
+  if (G.turn >= c.turns){ const main = G.stats[c.stats[0].key]; if (E.good && main >= E.good.min) return {won:false, key:"good", ...E.good}; return {won:false, key:"timeout", ...(E.timeout || {title:"Out of turns", text:"The scene fades out."})}; }
   return null;
 }
 
@@ -1122,7 +1184,7 @@ async function turn(text){
       const rating = w ? await rateLine(c, text) : null; dbg.rating = rating;
       const r = scoreSocial(c, text, G.mem, {rating, ratingWeight:w});
       const fx = applyDeltas(r.deltas); const main = c.stats[0].key, b = band(r.deltas[main] || 0);
-      Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b});
+      Object.assign(dbg, {hits:r.hits, deltas:r.deltas, band:b}); checkMedals(c, {type:"turn", hits:r.hits});
       end = socialEnd();
       const dir = end ? (end.dir || end.text) : (r.dirs[0] || pick(c.reactions?.[b] || [`${c.character} feels ${b}.`])).replace(/\{n\}/g, c.character);
       const bub = await speak(text, dir, {final:!!end});
@@ -1130,9 +1192,9 @@ async function turn(text){
     }
     else if (c.engine === "dice"){
       const r = resolveDice(G.stats, text, Math.random, c.dice); Object.assign(dbg, {kind:r.kind, rolls:r.rolls, fx:r.fx});
-      for (const x of r.rolls) rollEl(x);
+      for (const x of r.rolls) rollEl(x); checkMedals(c, {type:"turn", rolls:r.rolls});
       const evEl = addMsg("ev", r.ev.join(" ")); addFx(evEl, r.fx);
-      end = r.end || (G.turn >= c.turns ? {won:false, ...c.endings.timeout} : null);
+      end = r.end || (G.turn >= c.turns ? {won:false, key:"timeout", ...c.endings.timeout} : null);
       if (r.end && r.end.method && c.dice.endTexts?.[r.end.method]) end = {...r.end, text:c.dice.endTexts[r.end.method]};
       const plain = d => d.replace(/\s*\(\d+ HP left\)/g, "").replace(/ for \d+ damage/g, "").replace(/\b\d+ (\w+)\b/g, "some $1").replace(/ to \d+\b/g, "").replace(/ of \d+\b/g, "");
       await speak(`(The player says or does: ${text})`, plain(end && !r.end ? end.dir : r.dir), {final:!!end, fallback:pick(c.voice)});
@@ -1140,11 +1202,11 @@ async function turn(text){
     else if (c.engine === "barter"){
       const before = G.stats.PRICE;
       const B = c.barter, cur = B.cur;
-      const r = resolveBarter(G.stats, text, B); Object.assign(dbg, {offer:r.offer, tone:r.tone, fx:r.fx, deal:r.deal});
+      const r = resolveBarter(G.stats, text, B); Object.assign(dbg, {offer:r.offer, tone:r.tone, fx:r.fx, deal:r.deal}); checkMedals(c, {type:"turn", trade:r.trade, story:r.story});
       if (r.deal){ const p = r.deal.crowns, won = p <= c.budget;
-        end = {won, title: won ? "Bargain" : "Overpaid", text: won ? `You bought the ${B.item} for ${p} ${cur}${r.deal.item ? " and your " + r.deal.item : ""}, ${c.budget - p} under budget.` : `You paid ${p} ${cur} for the ${B.item}, ${p - c.budget} over your budget of ${c.budget}.`}; }
-      else if (G.stats.PATIENCE <= 0) end = {won:false, ...c.endings.lose};
-      else if (G.turn >= c.turns) end = {won:false, ...c.endings.timeout};
+        end = {won, key:won ? "deal" : "overpaid", price:p, title: won ? "Bargain" : "Overpaid", text: won ? `You bought the ${B.item} for ${p} ${cur}${r.deal.item ? " and your " + r.deal.item : ""}, ${c.budget - p} under budget.` : `You paid ${p} ${cur} for the ${B.item}, ${p - c.budget} over your budget of ${c.budget}.`}; }
+      else if (G.stats.PATIENCE <= 0) end = {won:false, key:"lose", ...c.endings.lose};
+      else if (G.turn >= c.turns) end = {won:false, key:"timeout", ...c.endings.timeout};
       const dir = end && !r.deal ? end.dir : r.dir;
       const p = G.stats.PRICE, say = r.deal ? pick([`Sold, for ${r.deal.crowns} ${cur}${r.deal.item ? " and that " + r.deal.item : ""}!`, `${r.deal.crowns} ${cur}${r.deal.item ? " and the " + r.deal.item : ""}. Done, and done!`])
         : end ? "" : p !== before ? pick([`${p} ${cur}. Not a coin less.`, `For you, ${p} ${cur}.`, `I could do ${p}, and I'm robbing myself.`]) : r.note === "lowball" ? pick([`${r.offer}? I'll pretend I didn't hear that. Still ${p}.`, `${r.offer}! Ha! It's ${p}.`]) : r.offer != null ? `Still ${p} ${cur}.` : "";
@@ -1153,12 +1215,13 @@ async function turn(text){
     }
   } catch (e) { console.error(e); addMsg("sys", "The runtime hiccuped. Try that again."); G.turn--; }
   dbg.stats = {...G.stats}; S.busy = false; renderMeters();
-  if (end){ G.over = true; dbg.end = end.title; setTimeout(() => finish(end), 1400); } else renderSugg();
+  if (end){ G.over = true; dbg.end = end.title; setTimeout(() => finish(end), 1400); } else { renderSugg(); saveGame(); }
 }
 function score(){ const c = G.cart; if (c.engine === "dice") return `${G.stats.HP} HP and ${G.stats.GOLD} ${c.dice.cur} left`; if (c.engine === "barter") return `Asking price ${G.stats.PRICE} · patience ${G.stats.PATIENCE}`; return c.stats.map(s => `${s.label} ${G.stats[s.key]}`).join(" · "); }
 function finish(e){
   G.over = true; renderMeters();
   const c = G.cart; DB.best[c.id] = e.won ? "won" : (DB.best[c.id] || "played"); save();
+  endExtras(c, e); renderHelp();
   $("#endc").className = "endc" + (e.won ? " win" : ""); $("#endK").textContent = score(); $("#endT").textContent = e.title; $("#endP").textContent = e.text;
   renderRate(); $("#end").classList.add("on"); $("#again").focus();
 }
@@ -1195,17 +1258,18 @@ function gameCard(g){
 }
 function renderPortal(mode){
   const day = Math.floor(Date.now() / 864e5), f = BUILTIN[day % BUILTIN.length];
-  $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#play-${f.id}"><button class="go" tabindex="-1">Play now</button></a><span class="small">${kb(cartSize(f))} cartridge on a ${gbOf(f.runtime)} GB runtime you install once</span></div></div></div>`;
-  $("#featured").hidden = mode === "yours";
-  $("#cats").innerHTML = mode === "yours" ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
-  const list = mode === "yours" ? USER_CARTS : BUILTIN.filter(c => filter === "all" || c.genre === filter);
-  $("#shelfTitle").textContent = mode === "yours" ? "Your carts" : filter === "all" ? "All cartridges" : GENRES[filter];
-  const shelf = mode === "yours" ? [] : [...COMMUNITY_CARTS.filter(c => filter === "all" || c.genre === filter).map(c => card(c)), ...COMMUNITY_GAMES.filter(g => filter === "all" || g.genre === filter).map(gameCard)];
-  $("#shelfSec").hidden = mode === "yours" || !COMMUNITY_OK;
-  $("#shelfGrid").innerHTML = shelf.length ? shelf.join("") : `<div class="empty">Nothing on the shelf in this category yet. <a href="#make">Make a cart</a> and press <b>Submit to the shelf</b>.</div>`;
-  $("#grid").innerHTML = list.length ? list.map(c => card(c)).join("") : `<div class="empty">${mode==="yours" ? 'No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.' : "No carts in this category yet."}</div>`;
-  const games = allGames().filter(g => !g.hidden && !g.community && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
-  $("#gamesH").hidden = !games.length && mode !== "yours"; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
+  $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#${DB.saves[f.id] ? "continue" : "play"}-${f.id}"><button class="go" tabindex="-1">${DB.saves[f.id] ? "Continue" : "Play now"}</button></a><a href="#info-${f.id}"><button class="ghost" tabindex="-1">Details and medals</button></a></div></div></div>`;
+  const yours = mode === "yours";
+  $("#pitch").hidden = yours || PR().onboarded && (PR().stats.plays > 0 || Object.keys(DB.plays).length > 0);
+  $("#featured").hidden = yours; $("#browseBar").hidden = yours; $("#tagRow").hidden = yours; $("#contSec").hidden = true;
+  $("#cats").innerHTML = yours ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
+  $("#shelfTitle").textContent = yours ? "Your carts" : filter === "all" ? "Browse games" : GENRES[filter];
+  $("#shelfSec").hidden = true;
+  if (!yours){ renderBrowse(); $("#gamesH").hidden = true; $("#gamesGrid").innerHTML = ""; return; }
+  $("#browseCount").textContent = "";
+  $("#grid").innerHTML = USER_CARTS.length ? USER_CARTS.map(c => card(c)).join("") : `<div class="empty">No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.</div>`;
+  const games = allGames().filter(g => !g.bundled && !g.community);
+  $("#gamesH").hidden = false; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
 }
 $("#cats").onclick = e => { const k = e.target.dataset.cat; if (k) location.hash = k === "all" ? "#portal" : "#cat-" + k; };
 $("#grid").onclick = e => {
@@ -1224,6 +1288,11 @@ function route(){
   if (!h.startsWith("game-") && BR.frame){ BR.frame.remove(); BR.frame = null; }
   if (h.startsWith("c-")){ openSharedCart(h.slice(2)); return; }
   if (h.startsWith("g-")){ openSharedGame(h.slice(2)); return; }
+  if (h.startsWith("continue-")){ const c = cartById(h.slice(9)); if (c){ show("play"); resumeGame(c); window.scrollTo(0, 0); return; } }
+  if (h.startsWith("info-")){ show("info"); if (!renderInfo(h.slice(5))) location.hash = "#portal"; window.scrollTo(0, 0); return; }
+  if (h.startsWith("by-")){ show("info"); renderBy(decodeURIComponent(h.slice(3))); window.scrollTo(0, 0); return; }
+  if (h === "me"){ show("me"); renderMe(); return; }
+  if (h.startsWith("profile-")){ importProfile(h.slice(8)); return; }
   if (h.startsWith("play-")){ const c = cartById(h.slice(5)); if (c){ show("play"); newGame(c); window.scrollTo(0, 0); return; } }
   if (h.startsWith("game-")){ const g = h === "game-test" ? BR.pendingTest : allGames().find(x => x.id === h.slice(5)); if (g){ show("game"); playGame(g); window.scrollTo(0, 0); return; } }
   if (h.startsWith("edit-")){ const c = USER_CARTS.find(x => x.id === h.slice(5)); if (c){ show("make"); openEditor(c.src); return; } }
@@ -1347,6 +1416,22 @@ function renderEditor(){
       <div class="g4">${field("Asking price", "barter.price", b.price, {t:"num", min:2})}${field("Player's budget", "barter.budget", b.budget, {t:"num", min:1})}${field("Secret lowest price", "barter.floor", b.floor, {t:"num", min:1, hint:"Never sells below this."})}${field("Patience", "barter.patience", b.patience, {t:"num", min:20, max:100})}</div>
       ${field("How fast they come down", "barter.toughness", b.toughness, {range:[0.2, 0.6, 0.02], fmt:v => +v < 0.32 ? "stubborn" : +v < 0.47 ? "fair" : "a pushover", hint:"How much of the gap they give up each counteroffer. Charm makes them faster, rudeness slower."})}`);
   }
+  const MTYPES = {finish:"Reach any ending", win:"Win", lose:"Lose", ending:"Reach a specific ending", fast:"Win within N turns", nohints:"Win without hints", ...(c.engine === "social" ? {rule:"Trigger a rule", meter:"End with a meter at a value"} : {}), ...(c.engine === "dice" ? {nat20:"Roll a natural 20"} : {}), ...(c.engine === "barter" ? {price:"Win at or under a price", trade:"Offer something in trade", story:"Ask about the item"} : {})};
+  const ENDKEYS = c.engine === "social" ? [["win", "Win"], ["lose", "Lose"], ["good", "Good ending"], ["timeout", "Time ran out"]] : c.engine === "dice" ? [["victory", "Defeated the foe"], ["paid", "Paid"], ["bribed", "Bribed"], ["sneaked", "Sneaked past"], ["talked", "Talked past"], ["defeated", "Lost the fight"], ["timeout", "Time ran out"]] : [["deal", "Deal in budget"], ["overpaid", "Overpaid"], ["lose", "Thrown out"], ["timeout", "Time ran out"]];
+  const medalCards = (c.medals || []).map((m, i) => {
+    const w = m.when || {}, t = MTYPES[w.type] ? w.type : "finish";
+    const extra = t === "ending" ? field("Which ending", `medals.${i}.when.value`, w.value, {sel:ENDKEYS})
+      : t === "rule" ? field("Which rule", `medals.${i}.when.value`, w.value, {sel:(c.rules || []).map(r => [r.name, r.name])})
+      : t === "meter" ? `<div class="g3">${field("Meter", `medals.${i}.when.meter`, w.meter, {sel:(c.meters || []).map(mm => [mm.id, mm.label])})}${field("Is", `medals.${i}.when.op`, w.op, {sel:[[">=", "at least"], ["<=", "at most"]]})}${field("Value", `medals.${i}.when.value`, w.value, {t:"num", min:0, max:100})}</div>`
+      : t === "fast" || t === "price" ? field(t === "fast" ? "Turns" : "Price", `medals.${i}.when.value`, w.value, {t:"num", min:1}) : "";
+    return `<div class="rule pos" data-medal="${i}"><div class="rh">${medalIcon(m.points)}<input class="rname" data-k="medals.${i}.name" value="${esc(m.name)}" aria-label="Medal name" maxlength="40"><button type="button" class="ghost sm" data-delmedal="${i}">Remove</button></div>
+      <div class="g3">${field("Earned when the player…", `medals.${i}.when.type`, t, {sel:Object.entries(MTYPES)})}${field("Points", `medals.${i}.points`, m.points, {t:"num", sel:[[5, "5 (bronze)"], [10, "10 (silver)"], [25, "25 (gold)"], [50, "50 (rare)"], [100, "100 (legendary)"]]})}<label class="tog" style="align-self:end"><input type="checkbox" data-k="medals.${i}.secret" data-t="bool" ${m.secret ? "checked" : ""}> Secret until earned</label></div>
+      ${extra}${field("Description", `medals.${i}.desc`, m.desc, {len:120, ph:"What the player did"})}</div>`;
+  }).join("");
+  h += sec("medals", "Medals and tags", "Medals give players goals beyond winning. Without any, a cart gets three basics: finish, win, and win fast.", `
+    ${field("Tags", "tags", (c.tags || []).join(", "), {t:"list", ph:"romance, mystery, cozy", hint:"Up to five, comma-separated. Players can browse by tag."})}
+    <div class="rules">${medalCards || '<div class="empty">Using the three basic medals. Add your own to reward secrets, styles of play and near misses.</div>'}</div>
+    ${(c.medals || []).length < 12 ? `<button type="button" class="go sm" data-addmedal>+ Add a medal</button>` : ""}`);
   const E = c.endings || {};
   const endBlock = (k, title, note, withMin) => `<div class="endb"><h4>${title}</h4>${note ? `<p class="note">${note}</p>` : ""}<div class="g2">${field("Title", `endings.${k}.title`, E[k]?.title, {len:60})}${withMin ? field("Only if the first meter is at least", `endings.${k}.min`, E[k]?.min ?? 50, {t:"num", min:0, max:100}) : "<div></div>"}</div>${field("What happens (shown on the end screen)", `endings.${k}.text`, E[k]?.text, {area:true, rows:2})}${field("Final line direction", `endings.${k}.line`, E[k]?.line, {ph:"Tell the character what to say as the scene ends.", hint:"The model writes the character's last line from this."})}</div>`;
   let endH = "";
@@ -1515,7 +1600,7 @@ $("#edMain").addEventListener("input", e => {
 // changes that reshape the form (a meter renamed or flipped, an effect set) re-render once the field is committed
 $("#edMain").addEventListener("change", e => {
   const k = e.target.dataset.k || "";
-  if (/^meters\.\d+\.(goal|label)$/.test(k) || /\.effects\./.test(k) || /^look\.colors/.test(k)){ const y = scrollY; renderEditor(); scrollTo(0, y); }
+  if (/^meters\.\d+\.(goal|label)$/.test(k) || /\.effects\./.test(k) || /^look\.colors/.test(k) || /^medals\.\d+\.(when\.type|points)$/.test(k) || /^rules\.\d+\.name$/.test(k)){ const y = scrollY; renderEditor(); scrollTo(0, y); }
 });
 $("#edMain").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return; const y = scrollY, D = b.dataset;
@@ -1525,6 +1610,8 @@ $("#edMain").addEventListener("click", e => {
   if (D.addmeter != null){ ED.meters.push(newMeter(ED.meters.length)); }
   else if (D.delmeter != null){ const m = ED.meters.splice(+D.delmeter, 1)[0]; ED.rules.forEach(r => delete r.effects[m.id]); }
   else if (D.addrule != null){ ED.rules.push(newRule()); }
+  else if (D.addmedal != null){ ED.medals = ED.medals || []; ED.medals.push({id:"m" + uid(), name:"New medal", desc:"", points:10, when:{type:"win"}}); }
+  else if (D.delmedal != null){ ED.medals.splice(+D.delmedal, 1); }
   else if (D.delrule != null){ ED.rules.splice(+D.delrule, 1); }
   else if (D.uprule != null){ const i = +D.uprule; [ED.rules[i - 1], ED.rules[i]] = [ED.rules[i], ED.rules[i - 1]]; }
   else if (D.save != null){ saveED(); toast("Saved to Your carts"); return renderSide(); }
@@ -1543,7 +1630,7 @@ function importText(t){ try { const c = sanitizeV3(JSON.parse(t)); openEditor(c)
 $("#eImport").onclick = () => importText($("#eJson").value);
 $("#eFile").onchange = async e => { const f = e.target.files[0]; if (f) importText(await f.text()); e.target.value = ""; };
 
-const BUNDLED_GAMES = [{"id": "zoltar", "title": "Zoltar's Last Fortune", "author": "Cartridge Zone", "genre": "roleplay", "blurb": "An example uploaded game. Ask the old arcade machine a question; it streams a prophecy and prints a lucky card using JSON mode.", "colors": ["#3a1530", "#c9a227", "#ffe9a8"], "motif": "disk", "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Zoltar's Last Fortune<\/title>\n<style>\n  /* An example uploaded game. It only uses the standard OpenAI API shape: POST /v1/chat/completions. */\n  :root{--brass:#c9a227;--ruby:#8b1e3f;--ink:#f6ecd2}\n  *{box-sizing:border-box}\n  body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#3a1530,#0e0610 70%);color:var(--ink);font:17px/1.5 Georgia,serif;display:grid;place-items:center;padding:18px}\n  .cab{width:min(560px,100%);background:linear-gradient(#5a1a2e,#2a0b18);border:6px solid var(--brass);border-radius:28px 28px 10px 10px;box-shadow:0 0 0 3px #000,0 30px 60px #000a,inset 0 0 40px #0008;padding:20px;display:grid;gap:14px}\n  .marquee{text-align:center;font:700 26px/1.1 Georgia,serif;letter-spacing:.08em;color:#ffe9a8;text-shadow:0 0 12px #ffb300,0 0 2px #000}\n  .glass{background:radial-gradient(circle at 50% 40%,#2e1a3f,#0b0710 75%);border:4px solid var(--brass);border-radius:16px;min-height:200px;padding:18px;display:grid;gap:10px;align-content:center;text-align:center}\n  .eye{font-size:40px;filter:drop-shadow(0 0 10px #a0f)}\n  .fortune{font-style:italic;font-size:19px;min-height:3em;white-space:pre-wrap}\n  .card{display:none;margin:0 auto;background:var(--ink);color:#2a0b18;border-radius:8px;padding:10px 16px;font:15px/1.4 Georgia,serif;border:2px dashed var(--ruby);max-width:320px}\n  .card.on{display:block}\n  form{display:flex;gap:8px}\n  input{flex:1;min-width:0;font:inherit;padding:10px 12px;border-radius:8px;border:2px solid var(--brass);background:#1a0a12;color:var(--ink)}\n  button{font:700 16px Georgia,serif;padding:10px 16px;border-radius:8px;border:0;background:linear-gradient(#ffd76a,var(--brass));color:#2a0b18;cursor:pointer;box-shadow:0 3px 0 #6b4f0f}\n  button:disabled{opacity:.5;cursor:wait}\n  .small{font-size:13px;opacity:.75;text-align:center}\n<\/style>\n<\/head>\n<body>\n<div class=\"cab\">\n  <div class=\"marquee\">ZOLTAR SPEAKS<\/div>\n  <div class=\"glass\"><div class=\"eye\" aria-hidden=\"true\">\u25c9<\/div><div class=\"fortune\" id=\"fortune\">Ask Zoltar a question, then insert a coin.<\/div><div class=\"card\" id=\"card\"><\/div><\/div>\n  <form id=\"f\"><input id=\"q\" placeholder=\"Will I find love? Should I quit my job?\" aria-label=\"Your question\" maxlength=\"160\"><button id=\"go\">Insert coin<\/button><\/form>\n  <div class=\"small\" id=\"status\">Runs on the model in your own browser. Nothing leaves this machine.<\/div>\n<\/div>\n<script>\n// 1. Streaming: a plain fetch to the OpenAI chat endpoint, read as server-sent events.\nasync function streamFortune(question, onText){\n  const res = await fetch(\"/v1/chat/completions\", {\n    method: \"POST\",\n    headers: {\"Content-Type\": \"application/json\"},\n    body: JSON.stringify({\n      stream: true, temperature: 0.9, max_tokens: 150,\n      messages: [\n        {role: \"system\", content: \"You are Zoltar, an ancient fortune-telling machine at a seaside arcade. Speak in grand, mysterious, slightly funny prophecy. Two or three short sentences, under 60 words. Never break character.\"},\n        {role: \"user\", content: \"My question for Zoltar: \" + question}\n      ]\n    })\n  });\n  const reader = res.body.getReader(), dec = new TextDecoder(); let buf = \"\";\n  while (true){\n    const {value, done} = await reader.read(); if (done) break;\n    buf += dec.decode(value, {stream: true});\n    const events = buf.split(\"\\n\\n\"); buf = events.pop();\n    for (const ev of events){\n      const data = ev.replace(/^data: /, \"\");\n      if (data === \"[DONE]\") return;\n      const delta = JSON.parse(data).choices?.[0]?.delta?.content;\n      if (delta) onText(delta);\n    }\n  }\n}\n// 2. JSON mode: ask for structured output with a schema.\nasync function luckyCard(question){\n  const res = await fetch(\"/v1/chat/completions\", {\n    method: \"POST\",\n    body: JSON.stringify({\n      temperature: 0.8, max_tokens: 80,\n      response_format: {type: \"json_object\", schema: {type: \"object\", properties: {lucky_number: {type: \"integer\"}, lucky_color: {type: \"string\"}, avoid: {type: \"string\"}}, required: [\"lucky_number\", \"lucky_color\", \"avoid\"]}},\n      messages: [{role: \"system\", content: \"You are Zoltar. Answer in JSON.\"}, {role: \"user\", content: \"Give a lucky number, a lucky color and one thing to avoid for someone who asked: \" + question}]\n    })\n  });\n  return JSON.parse((await res.json()).choices[0].message.content);\n}\ndocument.getElementById(\"f\").onsubmit = async e => {\n  e.preventDefault();\n  const q = document.getElementById(\"q\").value.trim() || \"What does my future hold?\";\n  const out = document.getElementById(\"fortune\"), card = document.getElementById(\"card\"), go = document.getElementById(\"go\");\n  go.disabled = true; card.classList.remove(\"on\"); out.textContent = \"\"; document.getElementById(\"status\").textContent = \"Zoltar is consulting the fog\u2026\";\n  try {\n    await streamFortune(q, t => out.textContent += t);\n    const c = await luckyCard(q);\n    card.textContent = `Lucky number ${c.lucky_number} \u00b7 Lucky color ${c.lucky_color} \u00b7 Avoid: ${c.avoid}`; card.classList.add(\"on\");\n    document.getElementById(\"status\").textContent = \"Runs on the model in your own browser. Nothing leaves this machine.\";\n  } catch (err) { out.textContent = \"The machine sputters. (\" + err.message + \")\"; }\n  go.disabled = false;\n};\n<\/script>\n<\/body>\n<\/html>\n"}, {"id": "starter", "title": "Starter template", "author": "Cartridge Zone", "genre": "roleplay", "blurb": "The smallest possible game: a chat with an innkeeper, in about 30 lines. Copy it and make it yours.", "colors": ["#16171b", "#ff5b1f", "#b6f23a"], "motif": "disk", "hidden": true, "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>My Cartridge Zone game<\/title>\n<style>\n  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#16171b;color:#efede6;font:17px/1.5 system-ui,sans-serif;padding:20px}\n  main{width:min(520px,100%);display:grid;gap:12px}\n  #log{min-height:200px;background:#212329;border-radius:10px;padding:14px;white-space:pre-wrap}\n  form{display:flex;gap:8px} input{flex:1;font:inherit;padding:10px;border-radius:8px;border:1px solid #444;background:#111;color:inherit}\n  button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:#ff5b1f;color:#1a0d05;font-weight:700}\n<\/style>\n<\/head>\n<body>\n<main>\n  <h1>My game<\/h1>\n  <div id=\"log\">Say something to start.<\/div>\n  <form id=\"f\"><input id=\"say\" placeholder=\"Type here\" aria-label=\"Your move\"><button>Send<\/button><\/form>\n<\/main>\n<script>\n// Your game can call the standard OpenAI chat API. Cartridge Zone answers it with the model\n// running on the player's own GPU. No API key, no server, and no network access from the game.\nconst history = [{role: \"system\", content: \"You are a friendly innkeeper in a fantasy tavern. Reply in one or two sentences.\"}];\ndocument.getElementById(\"f\").onsubmit = async e => {\n  e.preventDefault();\n  const text = document.getElementById(\"say\").value.trim(); if (!text) return;\n  document.getElementById(\"say\").value = \"\";\n  history.push({role: \"user\", content: text});\n  const res = await fetch(\"/v1/chat/completions\", {method: \"POST\", body: JSON.stringify({messages: history, max_tokens: 80})});\n  const reply = (await res.json()).choices[0].message.content;\n  history.push({role: \"assistant\", content: reply});\n  document.getElementById(\"log\").textContent += \"\\n\\nYou: \" + text + \"\\nInnkeeper: \" + reply;\n};\n// Tips: keep game logic (scores, dice, inventory) in your own code and let the model write the words.\n// Small in-browser models are good at short in-character lines and bad at keeping score.\n<\/script>\n<\/body>\n<\/html>\n"}];
+const BUNDLED_GAMES = [{"id": "zoltar", "title": "Zoltar's Last Fortune", "author": "Cartridge Zone", "genre": "roleplay", "blurb": "An example uploaded game. Ask the old arcade machine a question; it streams a prophecy and prints a lucky card using JSON mode.", "colors": ["#3a1530", "#c9a227", "#ffe9a8"], "motif": "disk", "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Zoltar's Last Fortune<\/title>\n<style>\n  /* An example uploaded game. It only uses the standard OpenAI API shape: POST /v1/chat/completions. */\n  :root{--brass:#c9a227;--ruby:#8b1e3f;--ink:#f6ecd2}\n  *{box-sizing:border-box}\n  body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#3a1530,#0e0610 70%);color:var(--ink);font:17px/1.5 Georgia,serif;display:grid;place-items:center;padding:18px}\n  .cab{width:min(560px,100%);background:linear-gradient(#5a1a2e,#2a0b18);border:6px solid var(--brass);border-radius:28px 28px 10px 10px;box-shadow:0 0 0 3px #000,0 30px 60px #000a,inset 0 0 40px #0008;padding:20px;display:grid;gap:14px}\n  .marquee{text-align:center;font:700 26px/1.1 Georgia,serif;letter-spacing:.08em;color:#ffe9a8;text-shadow:0 0 12px #ffb300,0 0 2px #000}\n  .glass{background:radial-gradient(circle at 50% 40%,#2e1a3f,#0b0710 75%);border:4px solid var(--brass);border-radius:16px;min-height:200px;padding:18px;display:grid;gap:10px;align-content:center;text-align:center}\n  .eye{font-size:40px;filter:drop-shadow(0 0 10px #a0f)}\n  .fortune{font-style:italic;font-size:19px;min-height:3em;white-space:pre-wrap}\n  .card{display:none;margin:0 auto;background:var(--ink);color:#2a0b18;border-radius:8px;padding:10px 16px;font:15px/1.4 Georgia,serif;border:2px dashed var(--ruby);max-width:320px}\n  .card.on{display:block}\n  form{display:flex;gap:8px}\n  input{flex:1;min-width:0;font:inherit;padding:10px 12px;border-radius:8px;border:2px solid var(--brass);background:#1a0a12;color:var(--ink)}\n  button{font:700 16px Georgia,serif;padding:10px 16px;border-radius:8px;border:0;background:linear-gradient(#ffd76a,var(--brass));color:#2a0b18;cursor:pointer;box-shadow:0 3px 0 #6b4f0f}\n  button:disabled{opacity:.5;cursor:wait}\n  .small{font-size:13px;opacity:.75;text-align:center}\n<\/style>\n<\/head>\n<body>\n<div class=\"cab\">\n  <div class=\"marquee\">ZOLTAR SPEAKS<\/div>\n  <div class=\"glass\"><div class=\"eye\" aria-hidden=\"true\">\u25c9<\/div><div class=\"fortune\" id=\"fortune\">Ask Zoltar a question, then insert a coin.<\/div><div class=\"card\" id=\"card\"><\/div><\/div>\n  <form id=\"f\"><input id=\"q\" placeholder=\"Will I find love? Should I quit my job?\" aria-label=\"Your question\" maxlength=\"160\"><button id=\"go\">Insert coin<\/button><\/form>\n  <div class=\"small\" id=\"status\">Runs on the model in your own browser. Nothing leaves this machine.<\/div>\n<\/div>\n<script>\n// 1. Streaming: a plain fetch to the OpenAI chat endpoint, read as server-sent events.\nasync function streamFortune(question, onText){\n  const res = await fetch(\"/v1/chat/completions\", {\n    method: \"POST\",\n    headers: {\"Content-Type\": \"application/json\"},\n    body: JSON.stringify({\n      stream: true, temperature: 0.9, max_tokens: 150,\n      messages: [\n        {role: \"system\", content: \"You are Zoltar, an ancient fortune-telling machine at a seaside arcade. Speak in grand, mysterious, slightly funny prophecy. Two or three short sentences, under 60 words. Never break character.\"},\n        {role: \"user\", content: \"My question for Zoltar: \" + question}\n      ]\n    })\n  });\n  const reader = res.body.getReader(), dec = new TextDecoder(); let buf = \"\";\n  while (true){\n    const {value, done} = await reader.read(); if (done) break;\n    buf += dec.decode(value, {stream: true});\n    const events = buf.split(\"\\n\\n\"); buf = events.pop();\n    for (const ev of events){\n      const data = ev.replace(/^data: /, \"\");\n      if (data === \"[DONE]\") return;\n      const delta = JSON.parse(data).choices?.[0]?.delta?.content;\n      if (delta) onText(delta);\n    }\n  }\n}\n// 2. JSON mode: ask for structured output with a schema.\nasync function luckyCard(question){\n  const res = await fetch(\"/v1/chat/completions\", {\n    method: \"POST\",\n    body: JSON.stringify({\n      temperature: 0.8, max_tokens: 80,\n      response_format: {type: \"json_object\", schema: {type: \"object\", properties: {lucky_number: {type: \"integer\"}, lucky_color: {type: \"string\"}, avoid: {type: \"string\"}}, required: [\"lucky_number\", \"lucky_color\", \"avoid\"]}},\n      messages: [{role: \"system\", content: \"You are Zoltar. Answer in JSON.\"}, {role: \"user\", content: \"Give a lucky number, a lucky color and one thing to avoid for someone who asked: \" + question}]\n    })\n  });\n  return JSON.parse((await res.json()).choices[0].message.content);\n}\ndocument.getElementById(\"f\").onsubmit = async e => {\n  e.preventDefault();\n  const q = document.getElementById(\"q\").value.trim() || \"What does my future hold?\";\n  const out = document.getElementById(\"fortune\"), card = document.getElementById(\"card\"), go = document.getElementById(\"go\");\n  go.disabled = true; card.classList.remove(\"on\"); out.textContent = \"\"; document.getElementById(\"status\").textContent = \"Zoltar is consulting the fog\u2026\";\n  try {\n    await streamFortune(q, t => out.textContent += t);\n    const c = await luckyCard(q);\n    card.textContent = `Lucky number ${c.lucky_number} \u00b7 Lucky color ${c.lucky_color} \u00b7 Avoid: ${c.avoid}`; card.classList.add(\"on\");\n    // 3. Platform extras: medals, a scoreboard and a save slot (optional; they do nothing outside Cartridge Zone)\n    if (window.cartridge){\n      const count = ((await cartridge.load(\"fortunes\")) || 0) + 1;\n      await cartridge.save(\"fortunes\", count);\n      await cartridge.postScore(count, \"fortunes\");\n      await cartridge.unlockMedal(\"seeker\", {name: \"Seeker\", desc: \"Ask Zoltar a question.\", points: 5});\n      if (count >= 5) await cartridge.unlockMedal(\"regular\", {name: \"Regular\", desc: \"Hear five fortunes.\", points: 10});\n      if (/love/i.test(q)) await cartridge.unlockMedal(\"romantic\", {name: \"Hopeless Romantic\", desc: \"Ask Zoltar about love.\", points: 5});\n      document.getElementById(\"status\").textContent = `Fortunes told to you: ${count}. Runs on the model in your own browser.`;\n    } else document.getElementById(\"status\").textContent = \"Runs on the model in your own browser. Nothing leaves this machine.\";\n  } catch (err) { out.textContent = \"The machine sputters. (\" + err.message + \")\"; }\n  go.disabled = false;\n};\n<\/script>\n<\/body>\n<\/html>\n"}, {"id": "starter", "title": "Starter template", "author": "Cartridge Zone", "genre": "roleplay", "blurb": "The smallest possible game: a chat with an innkeeper, in about 30 lines. Copy it and make it yours.", "colors": ["#16171b", "#ff5b1f", "#b6f23a"], "motif": "disk", "hidden": true, "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>My Cartridge Zone game<\/title>\n<style>\n  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#16171b;color:#efede6;font:17px/1.5 system-ui,sans-serif;padding:20px}\n  main{width:min(520px,100%);display:grid;gap:12px}\n  #log{min-height:200px;background:#212329;border-radius:10px;padding:14px;white-space:pre-wrap}\n  form{display:flex;gap:8px} input{flex:1;font:inherit;padding:10px;border-radius:8px;border:1px solid #444;background:#111;color:inherit}\n  button{font:inherit;padding:10px 16px;border-radius:8px;border:0;background:#ff5b1f;color:#1a0d05;font-weight:700}\n<\/style>\n<\/head>\n<body>\n<main>\n  <h1>My game<\/h1>\n  <div id=\"log\">Say something to start.<\/div>\n  <form id=\"f\"><input id=\"say\" placeholder=\"Type here\" aria-label=\"Your move\"><button>Send<\/button><\/form>\n<\/main>\n<script>\n// Your game can call the standard OpenAI chat API. Cartridge Zone answers it with the model\n// running on the player's own GPU. No API key, no server, and no network access from the game.\nconst history = [{role: \"system\", content: \"You are a friendly innkeeper in a fantasy tavern. Reply in one or two sentences.\"}];\ndocument.getElementById(\"f\").onsubmit = async e => {\n  e.preventDefault();\n  const text = document.getElementById(\"say\").value.trim(); if (!text) return;\n  document.getElementById(\"say\").value = \"\";\n  history.push({role: \"user\", content: text});\n  const res = await fetch(\"/v1/chat/completions\", {method: \"POST\", body: JSON.stringify({messages: history, max_tokens: 80})});\n  const reply = (await res.json()).choices[0].message.content;\n  history.push({role: \"assistant\", content: reply});\n  document.getElementById(\"log\").textContent += \"\\n\\nYou: \" + text + \"\\nInnkeeper: \" + reply;\n};\n// Tips: keep game logic (scores, dice, inventory) in your own code and let the model write the words.\n// Small in-browser models are good at short in-character lines and bad at keeping score.\n<\/script>\n<\/body>\n<\/html>\n"}];
 
 /* ---------- uploaded games: any HTML game, talking to the local model through an OpenAI-compatible API ---------- */
 const GAME_CSP = "default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' blob: https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src data: https://fonts.gstatic.com; img-src data: blob:; media-src data: blob:; connect-src 'none'; worker-src blob:; frame-src 'none'; form-action 'none'; base-uri 'none'";
@@ -1587,7 +1674,12 @@ const SHIM = `(() => {
       call("chat", {messages, ...opts, stream:true}, c => { q.push(c.choices?.[0]?.delta?.content || ""); wake && wake(); }).then(() => { done = true; wake && wake(); }, e => { err = e; done = true; wake && wake(); });
       while (true){ if (q.length){ const t = q.shift(); if (t) yield t; continue; } if (done){ if (err) throw err; return; } await new Promise(r => wake = r); wake = null; }
     },
-    info: () => call("info")
+    info: () => call("info"),
+    player: () => call("player"),
+    unlockMedal: (id, info = {}) => call("medal", {id, ...info}),
+    postScore: (value, board = "default") => call("score", {value, board}),
+    save: (slot, data) => call("save", {slot, data}),
+    load: slot => call("load", {slot})
   };
 })();`;
 function gameDoc(html){
@@ -1642,6 +1734,7 @@ function mockCompletion(req){
 async function bridgeHandle(m, reply){
   if (m.path === "models") return reply("done", {object:"list", data:ORDER.map(k => ({id:k, object:"model", owned_by:"cartridge-zone", model:RT[k].model, ready:S.loaded === k}))});
   if (m.path === "info") return reply("done", {runtime:S.loaded, model:S.loaded ? RT[S.loaded].model : null, demo:MOCK});
+  if (["player", "medal", "score", "save", "load"].includes(m.path)) return reply("done", gameApi(m.path, m.body || {}));
   if (m.path !== "chat") return reply("error", {status:404, message:"Unknown endpoint"});
   let req; try { req = cleanChat(m.body); } catch (e) { return reply("error", e); }
   BR.q = BR.q.then(async () => {
@@ -1665,6 +1758,32 @@ async function bridgeHandle(m, reply){
     } catch (e) { console.error(e); reply("error", {status:500, message:String(e?.message || e)}); }
     finally { BR.running = null; renderGameStats(); }
   });
+}
+/* The Newgrounds.io-style API: player, medals, scoreboards and save slots, kept per game in this browser. */
+function gameData(id){ return DB.gameData[id] = DB.gameData[id] || {medals:{}, scores:{}, saves:{}}; }
+function gameApi(path, b){
+  const g = BR.game; if (!g) return null;
+  const gd = gameData(g.id), str = (v, n) => String(v ?? "").slice(0, n);
+  if (path === "player"){ const p = PR(); return {name:p.name || "Player", level:levelOf(p.xp), title:titleOf(levelOf(p.xp)), avatar:avatarSVG(p.avatar, 64)}; }
+  if (path === "medal"){
+    const id = str(b.id, 24).toLowerCase().replace(/[^a-z0-9-]/g, ""); if (!id) return {error:"A medal needs an id"};
+    if (!gd.medals[id] && Object.keys(gd.medals).length >= 30) return {error:"This game has reached its 30-medal limit"};
+    const meta = {name:str(b.name || id, 40), desc:str(b.desc, 120), points:[5, 10, 25, 50, 100].includes(+b.points) ? +b.points : 10};
+    gd.medals[id] = meta; const fresh = award(g.id, {id, ...meta}); save(); return {id, unlocked:fresh};
+  }
+  if (path === "score"){
+    const v = Number(b.value); if (!Number.isFinite(v)) return {error:"Score must be a number"};
+    const board = str(b.board || "default", 24), prev = gd.scores[board], isBest = prev == null || v > prev;
+    if (isBest) gd.scores[board] = v; if (board === "default") PR().best[g.id] = Math.max(PR().best[g.id] ?? -Infinity, v); save();
+    return {board, best:Math.max(v, prev ?? v), isBest};
+  }
+  if (path === "save"){
+    const slot = str(b.slot || "default", 24), json = JSON.stringify(b.data ?? null);
+    if (json.length > 100000) return {error:"Save data is limited to 100 KB per slot"};
+    if (!(slot in gd.saves) && Object.keys(gd.saves).length >= 10) return {error:"Games get up to 10 save slots"};
+    gd.saves[slot] = JSON.parse(json); save(); return {slot, saved:true};
+  }
+  if (path === "load") return gd.saves[str(b.slot || "default", 24)] ?? null;
 }
 addEventListener("message", e => {
   if (!BR.frame || e.source !== BR.frame.contentWindow) return;
@@ -1788,8 +1907,8 @@ async function loadCommunity(){
     COMMUNITY_CARTS = []; COMMUNITY_GAMES = [];
     for (const it of (idx.items || []).slice(0, 300)){
       try {
-        if (it.type === "cart" && it.cart){ const v3 = sanitizeV3({...it.cart, id:/^c-[a-z0-9-]+$/.test(it.id) ? it.id : undefined}); const c = runtimeCart(v3); Object.assign(c, {community:true, author:String(it.author || it.login || "").slice(0, 40), issue:+it.issue || 0}); COMMUNITY_CARTS.push(c); }
-        if (it.type === "game" && /^community\/games\/[a-z0-9-]+\.html$/.test(it.path || "")) COMMUNITY_GAMES.push({id:it.id, title:String(it.title).slice(0, 60), author:String(it.author || it.login || "").slice(0, 40), blurb:String(it.blurb || "").slice(0, 160), genre:it.genre || "roleplay", path:it.path, community:true, issue:+it.issue || 0, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk"});
+        if (it.type === "cart" && it.cart){ const v3 = sanitizeV3({...it.cart, id:/^c-[a-z0-9-]+$/.test(it.id) ? it.id : undefined}); const c = runtimeCart(v3); Object.assign(c, {community:true, author:String(it.author || it.login || "").slice(0, 40), login:String(it.login || "").slice(0, 40), added:String(it.added || ""), issue:+it.issue || 0}); COMMUNITY_CARTS.push(c); }
+        if (it.type === "game" && /^community\/games\/[a-z0-9-]+\.html$/.test(it.path || "")) COMMUNITY_GAMES.push({id:it.id, title:String(it.title).slice(0, 60), author:String(it.author || it.login || "").slice(0, 40), blurb:String(it.blurb || "").slice(0, 160), genre:it.genre || "roleplay", path:it.path, community:true, login:String(it.login || "").slice(0, 40), added:String(it.added || ""), tags:Array.isArray(it.tags) ? it.tags.slice(0, 5).map(String) : [], issue:+it.issue || 0, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk"});
       } catch (e) { console.warn("Skipped a shelf item", it?.id, e); }
     }
   } catch (e) { console.warn("No community shelf", e); }
@@ -1814,11 +1933,306 @@ async function submitGame(g){
 }
 function openOut(url, msg){ const w = window.open(url, "_blank"); if (w) w.opener = null; if (msg) toast(msg); if (!w) prompt2("Open this link to submit", url); }
 
+/* ---------- the player: profile, avatar, XP, medals, bests, saves (all in this browser) ---------- */
+DB.profile = Object.assign({name:"", xp:0, medals:{}, best:{}, onboarded:false, stats:{plays:0, wins:0, turns:0, hints:0}}, DB.profile || {});
+DB.profile.avatar = Object.assign({bg:0, skin:1, shape:0, eyes:0, mouth:0, hat:0, acc:0}, DB.profile.avatar || {});
+DB.profile.stats = Object.assign({plays:0, wins:0, turns:0, hints:0}, DB.profile.stats);
+DB.saves = DB.saves || {}; DB.gameData = DB.gameData || {};
+const PR = () => DB.profile;
+const levelOf = xp => Math.floor(Math.sqrt(xp / 25)) + 1;
+const xpFor = lv => 25 * (lv - 1) ** 2;
+const TITLES = [[1, "Newbie"], [2, "Button Masher"], [3, "Regular"], [5, "Veteran"], [8, "Cart Collector"], [12, "Legend"], [20, "Grand Master"]];
+const titleOf = lv => TITLES.filter(([l]) => lv >= l).at(-1)[1];
+const medalPoints = () => Object.values(PR().medals).reduce((a, m) => a + (m.points || 0), 0);
+
+/* Avatar: layered SVG parts. Some items unlock with levels, plays or specific medals. */
+const AV = {
+  bg:["#ff5b1f", "#7c5cff", "#b6f23a", "#ff4f9a", "#2bb3ff", "#ffd166", "#3b3f49"],
+  skin:["#f6d1b1", "#e8b08a", "#c68a5e", "#8d5a3b", "#5b3a26", "#9fd38a", "#b7a3ff"],
+  shape:[["Round", "M32 12c11 0 18 8 18 19s-7 21-18 21-18-10-18-21 7-19 18-19z"], ["Square", "M15 14h34v34c0 4-3 6-6 6H21c-3 0-6-2-6-6z"], ["Egg", "M32 10c10 0 16 12 16 23S41 54 32 54 16 44 16 33s6-23 16-23z"]],
+  eyes:[["Dots", e => `<circle cx="25" cy="31" r="2.6" fill="#111"/><circle cx="39" cy="31" r="2.6" fill="#111"/>`], ["Wide", e => `<circle cx="25" cy="31" r="5" fill="#fff"/><circle cx="39" cy="31" r="5" fill="#fff"/><circle cx="26" cy="32" r="2.4" fill="#111"/><circle cx="40" cy="32" r="2.4" fill="#111"/>`], ["Sleepy", e => `<path d="M21 31h8M35 31h8" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>`], ["Visor", e => `<rect x="18" y="27" width="28" height="8" rx="4" fill="#111"/><rect x="21" y="29" width="22" height="3" rx="1.5" fill="#2bb3ff"/>`, {level:4}], ["Stars", e => `<path d="M25 27l1.4 3h3l-2.4 2 1 3-3-2-3 2 1-3-2.4-2h3zM39 27l1.4 3h3l-2.4 2 1 3-3-2-3 2 1-3-2.4-2h3z" fill="#ffd166" stroke="#111" stroke-width=".6"/>`, {medals:10}]],
+  mouth:[["Smile", () => `<path d="M26 42c4 4 8 4 12 0" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"/>`], ["Flat", () => `<path d="M26 43h12" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>`], ["Grin", () => `<path d="M24 40h16c0 6-4 8-8 8s-8-2-8-8z" fill="#111"/><path d="M26 40h12v2H26z" fill="#fff"/>`], ["Oh", () => `<circle cx="32" cy="43" r="3" fill="#111"/>`], ["Fangs", () => `<path d="M26 41h12" stroke="#111" stroke-width="2.5" stroke-linecap="round"/><path d="M28 42l1.5 4 1.5-4M33 42l1.5 4 1.5-4" fill="#fff" stroke="#111" stroke-width=".6"/>`, {medal:"fang:win"}]],
+  hat:[["None", () => ""], ["Beanie", () => `<path d="M16 22c0-9 7-14 16-14s16 5 16 14z" fill="#ff5b1f"/><rect x="14" y="20" width="36" height="5" rx="2.5" fill="#c44514"/><circle cx="32" cy="7" r="3" fill="#ffd166"/>`], ["Cap", () => `<path d="M16 22c0-8 7-13 16-13s16 5 16 13z" fill="#2bb3ff"/><path d="M44 21h12c0 2-2 3-4 3H44z" fill="#1a7fb8"/>`, {plays:3}], ["Tiny hat", () => `<rect x="27" y="4" width="10" height="9" rx="1" fill="#3b2a1a"/><rect x="23" y="12" width="18" height="3" rx="1.5" fill="#3b2a1a"/><rect x="27" y="10" width="10" height="2" fill="#b6f23a"/>`, {medal:"tollbridge:paid"}], ["Crown", () => `<path d="M18 18l4-11 6 7 4-9 4 9 6-7 4 11z" fill="#ffd166" stroke="#b8860b" stroke-width="1"/>`, {level:5}], ["Wizard", () => `<path d="M14 20L32 0l18 20z" fill="#7c5cff"/><circle cx="28" cy="11" r="1.5" fill="#ffd166"/><circle cx="36" cy="15" r="1.2" fill="#ffd166"/>`, {level:8}], ["Headphones", () => `<path d="M12 32c0-14 9-22 20-22s20 8 20 22" stroke="#222" stroke-width="4" fill="none"/><rect x="8" y="28" width="8" height="12" rx="3" fill="#ff4f9a"/><rect x="48" y="28" width="8" height="12" rx="3" fill="#ff4f9a"/>`, {plays:10}]],
+  acc:[["None", () => ""], ["Glasses", () => `<circle cx="25" cy="31" r="6" fill="none" stroke="#111" stroke-width="2"/><circle cx="39" cy="31" r="6" fill="none" stroke="#111" stroke-width="2"/><path d="M31 31h2" stroke="#111" stroke-width="2"/>`], ["Monocle", () => `<circle cx="39" cy="31" r="6" fill="none" stroke="#b8860b" stroke-width="2"/><path d="M45 33l3 12" stroke="#b8860b" stroke-width="1.2"/>`, {medals:3}], ["Scarf", () => `<path d="M18 52h28v6H18z" fill="#ff4f9a"/><path d="M38 56h6v8h-6z" fill="#d63a7e"/>`, {medal:"meridian:win"}], ["Magnifier", () => `<circle cx="50" cy="48" r="6" fill="#ffffff55" stroke="#c9a227" stroke-width="2.5"/><path d="M54 53l6 6" stroke="#c9a227" stroke-width="3"/>`, {medalPoints:100}]]
+};
+function unlockedReq(req){
+  if (!req) return true; const p = PR();
+  if (req.level && levelOf(p.xp) < req.level) return false;
+  if (req.plays && p.stats.plays < req.plays) return false;
+  if (req.medals && Object.keys(p.medals).length < req.medals) return false;
+  if (req.medalPoints && medalPoints() < req.medalPoints) return false;
+  if (req.medal && !p.medals[req.medal]) return false;
+  return true;
+}
+const reqText = req => !req ? "" : req.level ? `Reach level ${req.level}` : req.plays ? `Play ${req.plays} games` : req.medals ? `Earn ${req.medals} medals` : req.medalPoints ? `Earn ${req.medalPoints} medal points` : req.medal ? `Medal: ${medalName(req.medal)}` : "";
+function avatarSVG(a = PR().avatar, size = 64){
+  const pick2 = (arr, i) => arr[Math.min(i | 0, arr.length - 1)];
+  const sh = pick2(AV.shape, a.shape)[1], eyes = pick2(AV.eyes, a.eyes)[1], mouth = pick2(AV.mouth, a.mouth)[1], hat = pick2(AV.hat, a.hat)[1], acc = pick2(AV.acc, a.acc)[1];
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true"><rect width="64" height="64" rx="12" fill="${pick2(AV.bg, a.bg)}"/><path d="${sh}" fill="${pick2(AV.skin, a.skin)}" stroke="#0003" stroke-width="1.5"/>${eyes()}${mouth()}${acc()}${hat()}</svg>`;
+}
+function renderMeChip(){ const p = PR(), lv = levelOf(p.xp); $("#meChip").innerHTML = `${avatarSVG(p.avatar, 34)}<span><b>${esc(p.name || "Player")}</b><small>Lv ${lv} · ${titleOf(lv)}</small></span>`; }
+
+/* XP and medal toasts */
+function addXP(n){
+  const p = PR(), before = levelOf(p.xp); p.xp += Math.max(0, Math.round(n)); save();
+  const after = levelOf(p.xp); if (after > before) popMedal({name:`Level ${after}: ${titleOf(after)}`, desc:"New avatar items may have unlocked.", points:0, level:true});
+  renderMeChip(); return after > before ? after : 0;
+}
+function popMedal(m){
+  const el = document.createElement("div"); el.className = "mtoast" + (m.level ? " lv" : "");
+  el.innerHTML = `${medalIcon(m.points, !!m.level)}<div><small>${m.level ? "Level up" : "Medal unlocked"}</small><b>${esc(m.name)}</b><span>${esc(m.desc || "")}${m.points ? ` · +${m.points}` : ""}</span></div>`;
+  $("#mtoasts").append(el); setTimeout(() => el.classList.add("on"), 20); setTimeout(() => { el.classList.remove("on"); setTimeout(() => el.remove(), 400); }, 4200);
+}
+const MEDAL_COLORS = {5:"#c68a5e", 10:"#c0c6cf", 25:"#ffd166", 50:"#2bb3ff", 100:"#ff4f9a"};
+function medalIcon(points, level){ const c = level ? "#b6f23a" : MEDAL_COLORS[points] || "#c0c6cf"; return `<svg viewBox="0 0 40 40" class="micon" aria-hidden="true"><path d="M12 2h6l2 10-5 3zM28 2h-6l-2 10 5 3z" fill="${c}" opacity=".6"/><circle cx="20" cy="25" r="12" fill="${c}" stroke="#0006" stroke-width="2"/><path d="M20 18l2 5h5l-4 3 1.5 5-4.5-3-4.5 3 1.5-5-4-3h5z" fill="#0005"/></svg>`; }
+
+/* Medals: a cart can define its own; every cart gets the basics. */
+const DEFAULT_MEDALS = c => [{id:"finish", name:"Showed Up", desc:"Reach any ending.", points:5, when:{type:"finish"}}, {id:"win", name:"Winner", desc:"Win the game.", points:10, when:{type:"win"}}, {id:"fast", name:"Speedrun", desc:`Win within ${Math.max(2, Math.ceil(c.turns / 2))} turns.`, points:25, when:{type:"fast", value:Math.max(2, Math.ceil(c.turns / 2))}}];
+const medalsOf = c => (c.medals && c.medals.length ? c.medals : DEFAULT_MEDALS(c));
+const MEDAL_INDEX = {};
+function medalName(key){ if (MEDAL_INDEX[key]) return MEDAL_INDEX[key]; const [cid, mid] = key.split(":"); const c = (typeof cartById === "function") && cartById(cid); const m = c && medalsOf(c).find(x => x.id === mid); return MEDAL_INDEX[key] = m ? m.name : mid; }
+function award(cartId, m){
+  const key = `${cartId}:${m.id}`, p = PR(); if (p.medals[key]) return false;
+  const pts = [5, 10, 25, 50, 100].includes(+m.points) ? +m.points : 10;
+  p.medals[key] = {at:Date.now(), points:pts, name:String(m.name).slice(0, 40), desc:String(m.desc || "").slice(0, 120)}; save();
+  popMedal({...m, points:pts}); addXP(pts); (G?.medalsRun || []).push({...m, points:pts}); return true;
+}
+function meterKeyFor(c, ref){ if (!ref) return c.stats[0].key; if (c.stats.some(s => s.key === ref)) return ref; return c.meterIds?.[ref] || ref; }
+function checkMedals(c, ev){
+  for (const m of medalsOf(c)){
+    const w = m.when || {}; let ok = false;
+    if (ev.type === "turn"){
+      if (w.type === "rule") ok = (ev.hits || []).some(h => h.replace(/ \(x\d+\)$/, "").toLowerCase() === String(w.value).toLowerCase());
+      if (w.type === "nat20") ok = (ev.rolls || []).some(r => r.crit && !r.foe);
+      if (w.type === "trade") ok = !!ev.trade;
+      if (w.type === "story") ok = !!ev.story;
+    } else {
+      const e = ev.end;
+      if (w.type === "finish") ok = true;
+      if (w.type === "win") ok = e.won;
+      if (w.type === "lose") ok = !e.won && e.key !== "timeout" && e.key !== "good";
+      if (w.type === "ending") ok = e.key === w.value || e.method === w.value;
+      if (w.type === "fast") ok = e.won && G.turn <= +w.value;
+      if (w.type === "nohints") ok = e.won && !G.hints;
+      if (w.type === "price") ok = e.won && e.price != null && e.price <= +w.value;
+      if (w.type === "meter"){ const v = G.stats[meterKeyFor(c, w.meter)]; ok = v != null && (w.op === "<=" ? v <= +w.value : v >= +w.value); }
+    }
+    if (ok) award(c.id, m);
+  }
+}
+
+/* Scores and personal bests */
+function scoreOf(c, e){
+  if (c.engine === "social"){ const main = c.stats[0], v = G.stats[main.key]; return Math.round((main.bad ? 100 - v : v) + (e.won ? 100 + (c.turns - G.turn) * 10 : 0)); }
+  if (c.engine === "dice") return e.won ? 100 + G.stats.HP * 5 + G.stats.GOLD * 3 + (c.turns - G.turn) * 5 : G.stats.HP * 2;
+  if (c.engine === "barter") return e.won ? 100 + Math.round((c.budget - e.price) / c.budget * 100) + (c.turns - G.turn) * 5 : 0;
+  return 0;
+}
+function recordScore(id, s){ const p = PR(), prev = p.best[id]; const isBest = prev == null || s > prev; if (isBest) p.best[id] = s; save(); return {best:Math.max(s, prev ?? s), prev, isBest:isBest && prev != null, first:prev == null}; }
+
+/* Autosave: an unfinished game can be continued later. */
+function saveGame(){
+  if (!G || G.over || !G.turn || G.cart.shared) return;
+  DB.saves[G.cart.id] = {at:Date.now(), turn:G.turn, stats:G.stats, history:G.history.slice(-12), mem:G.mem, used:[...G.used], hints:G.hints || 0, log:$("#log").innerHTML.slice(0, 120000)};
+  const keys = Object.keys(DB.saves).sort((a, b) => DB.saves[b].at - DB.saves[a].at); for (const k of keys.slice(12)) delete DB.saves[k];
+  save();
+}
+function dropSave(id){ if (DB.saves[id]){ delete DB.saves[id]; save(); } }
+function resumeGame(c){
+  const sv = DB.saves[c.id]; if (!sv) return newGame(c);
+  newGame(c, true);
+  Object.assign(G, {turn:sv.turn, stats:sv.stats, history:sv.history || [], mem:sv.mem || {}, used:new Set(sv.used || []), hints:sv.hints || 0});
+  $("#log").innerHTML = sv.log || ""; addMsg("sys", "Game resumed where you left off.");
+  renderMeters(); renderSugg(); renderHelp(); scroll();
+}
+
+/* Hints: a nudge when stuck. Two per game. */
+function hint(){
+  const c = G.cart; if (G.over || (G.hints || 0) >= 2) return;
+  let t = "";
+  if (c.engine === "social"){
+    const helps = c.likes.filter(r => !G.mem[r.id] && Object.entries(r.d).some(([k, v]) => v * (c.stats.find(s => s.key === k)?.bad ? -1 : 1) > 0));
+    const r = helps[Math.floor(Math.random() * helps.length)];
+    t = r ? `Hint: ${c.character} might warm to talk about ${r.name.replace(/^clue:\s*/i, "")}.` : `Hint: you've found everything ${c.character} likes. Kindness and questions still help.`;
+  } else if (c.engine === "dice"){
+    const x = c.dice, st = G.stats, odds = (mod, dc) => clamp(Math.round((21 - clamp(dc - mod, 2, 20)) / 20 * 100), 5, 95);
+    t = `Hint: fighting hits ${odds(x.sheet.STR, x.dc.attack)}% of the time but ${x.foe} hits back. Talking works ${odds(x.sheet.CHA, x.dc.persuade + st._grumpy)}%, sneaking ${odds(x.sheet.DEX, x.dc.sneak + 2 * st._spotted)}%. Offering ${x.cur} gives a bonus to bribes, and searching can find more.`;
+  } else t = `Hint: ${c.character} warms to compliments and questions about the ${c.barter.item}, comes down faster when you're charming, and won't go below a secret price. Offering something to trade helps.`;
+  G.hints = (G.hints || 0) + 1; PR().stats.hints++; save();
+  addMsg("sys hint", t); renderHelp(); saveGame();
+}
+function renderHelp(){
+  const c = G.cart, left = 2 - (G.hints || 0);
+  const how = c.engine === "social" ? `Talk to ${esc(c.character)}. What you say moves the meters: the rules behind this cart reward some topics and punish others, and repeating a topic counts for less each time. ${c.stats.map(s => s.win != null ? `Get ${esc(s.label)} to ${s.win}` : s.winBelow != null ? `Get ${esc(s.label)} down to ${s.winBelow}` : "").filter(Boolean).join(" or ")} to win.`
+    : c.engine === "dice" ? `Get past ${esc(c.dice.foe)}. Say what you do: fight, talk, sneak, search, bribe or pay. Every action is a d20 roll against a difficulty, and ${esc(c.dice.foe)} fights back.`
+    : `Buy the ${esc(c.barter.item)} for ${c.budget} ${esc(c.barter.cur)} or less. Name offers, be charming, ask about it, or trade something. Say "deal" to accept the current price. Rudeness drains patience.`;
+  $("#howTo").innerHTML = `<p class="small" style="margin:0 0 8px">${how}</p><button type="button" class="ghost sm" id="hintBtn" ${left <= 0 || G.over ? "disabled" : ""}>Get a hint (${Math.max(0, left)} left)</button>`;
+  $("#hintBtn").onclick = hint;
+  const ms = medalsOf(c), got = ms.filter(m => PR().medals[`${c.id}:${m.id}`]).length;
+  $("#medalList").innerHTML = `<div class="small" style="margin-bottom:6px">${got} of ${ms.length} earned</div>` + ms.map(m => { const has = PR().medals[`${c.id}:${m.id}`]; return `<div class="mrow2 ${has ? "got" : ""}" title="${esc(m.desc)}">${medalIcon(m.points)}<span><b>${esc(has || !m.secret ? m.name : "Secret medal")}</b><small>${esc(has || !m.secret ? m.desc : "Keep playing to find out.")} · ${m.points}</small></span></div>`; }).join("");
+}
+
+/* End screen: medals, score, best, XP, what to play next */
+function upNext(c){
+  const played = DB.plays || {}, pool = allCarts().filter(x => x.id !== c.id && !x.shared && !USER_CARTS.some(u => u.id === x.id));
+  const fresh = pool.filter(x => !played[x.id]);
+  return fresh.find(x => x.genre === c.genre) || fresh[0] || pool.find(x => !DB.best[x.id] || DB.best[x.id] !== "won") || pool[0];
+}
+function endExtras(c, e){
+  const p = PR(); p.stats.plays++; p.stats.turns += G.turn; if (e.won) p.stats.wins++;
+  checkMedals(c, {type:"end", end:e});
+  const sc = scoreOf(c, e), rec = recordScore(c.id, sc);
+  addXP(5 + (e.won ? 20 : 0)); dropSave(c.id);
+  const run = G.medalsRun || [], nx = upNext(c);
+  $("#endScore").innerHTML = `<div class="scorebig">${sc}</div><div class="small">${rec.isBest ? "New personal best!" : rec.first ? "First score on this cart" : `Your best: ${rec.best}`} · +${5 + (e.won ? 20 : 0) + run.reduce((a, m) => a + m.points, 0)} XP</div>`;
+  $("#endMedals").innerHTML = run.length ? run.map(m => `<span class="mchip">${medalIcon(m.points)}${esc(m.name)}</span>`).join("") : `<span class="small">No new medals this time. ${medalsOf(c).filter(m => !p.medals[`${c.id}:${m.id}`]).length} left to find.</span>`;
+  $("#endNext").innerHTML = nx ? `<a class="nextc" href="#play-${esc(nx.id)}"><span class="nart">${art(nx)}</span><span><small>Up next</small><b>${esc(nx.title)}</b><span class="small">${esc(genreName(nx.genre))}${nx.community ? " · community" : ""}</span></span></a>` : "";
+}
+
+/* ---------- discovery: browse, search, sort, game pages, creator pages, community votes ---------- */
+let BROWSE = {q:"", sort:"featured", tag:""};
+/* Votes and reviews for community items live on their GitHub submission issues (reactions and comments). */
+let VOTES = {};
+async function loadVotes(){
+  if (PREVIEW || !COMMUNITY_OK) return;
+  try { const c = JSON.parse(localStorage.getItem("cz-votes") || "null"); if (c && Date.now() - c.at < 10 * 60e3){ VOTES = c.v; return; } } catch {}
+  try {
+    const r = await fetch(`https://api.github.com/repos/cpaik/cartridge-zone/issues?labels=submission&state=all&per_page=100`, {headers:{Accept:"application/vnd.github+json"}});
+    if (!r.ok) return;
+    VOTES = {}; for (const i of await r.json()) VOTES[i.number] = {up:(i.reactions?.["+1"] || 0) + (i.reactions?.heart || 0) + (i.reactions?.hooray || 0), down:i.reactions?.["-1"] || 0, comments:Math.max(0, (i.comments || 0) - 2)};
+    try { localStorage.setItem("cz-votes", JSON.stringify({at:Date.now(), v:VOTES})); } catch {}
+  } catch (e) { console.warn("votes unavailable", e); }
+}
+const votesOf = it => it.issue ? VOTES[it.issue] : null;
+const voteScore = it => { const v = votesOf(it); return v ? v.up - v.down : 0; };
+
+/* Everything playable, as one list */
+function catalog(){
+  const items = [];
+  BUILTIN.forEach((c, i) => items.push({kind:"cart", src:"Featured", it:c, order:i, added:"2026-11-23"}));
+  COMMUNITY_CARTS.forEach(c => items.push({kind:"cart", src:"Community", it:c, order:50, added:c.added || ""}));
+  COMMUNITY_GAMES.forEach(g => items.push({kind:"game", src:"Community", it:g, order:50, added:g.added || ""}));
+  BUNDLED_GAMES.filter(g => !g.hidden).forEach(g => items.push({kind:"game", src:"Example", it:{...g, bundled:true}, order:40, added:"2026-11-24"}));
+  return items;
+}
+const tagsOf = it => it.tags || [];
+function matches(x, q){ if (!q) return true; const it = x.it; return [it.title, it.blurb, it.author, it.character, it.login, genreName(it.genre), ...tagsOf(it)].join(" ").toLowerCase().includes(q.toLowerCase()); }
+function sorted(list){
+  const by = {featured:(a, b) => a.order - b.order || voteScore(b.it) - voteScore(a.it), new:(a, b) => String(b.added).localeCompare(String(a.added)), top:(a, b) => voteScore(b.it) - voteScore(a.it) || (DB.rate[b.it.id] || 0) - (DB.rate[a.it.id] || 0), played:(a, b) => (DB.plays[b.it.id] || 0) - (DB.plays[a.it.id] || 0), unplayed:(a, b) => (DB.plays[a.it.id] ? 1 : 0) - (DB.plays[b.it.id] ? 1 : 0) || a.order - b.order};
+  return [...list].sort(by[BROWSE.sort] || by.featured);
+}
+function browseCard(x){
+  const it = x.it, v = votesOf(it), best = PR().best[it.id], ms = x.kind === "cart" ? medalsOf(it) : null, got = ms ? ms.filter(m => PR().medals[`${it.id}:${m.id}`]).length : 0;
+  const href = x.kind === "cart" ? `#play-${esc(it.id)}` : `#game-${esc(it.id)}`;
+  return `<article class="card"><a class="art" href="#info-${esc(it.id)}" aria-label="${esc(it.title)} details">${art(x.kind === "cart" ? it : {title:it.title, motif:it.motif || "disk", colors:it.colors})}</a><div class="bd">
+    <div class="row" style="gap:6px"><span class="tag ${esc(it.genre)}">${esc(genreName(it.genre))}</span>${x.src !== "Featured" ? `<span class="tag up">${x.src}${it.author ? " · " + esc(it.author) : ""}</span>` : ""}${x.kind === "game" ? '<span class="tag">HTML game</span>' : ""}${DB.best[it.id] === "won" ? '<span class="tag" style="background:#0005;color:var(--lime)">Cleared</span>' : ""}</div>
+    <h3><a href="#info-${esc(it.id)}">${esc(it.title)}</a></h3><p>${esc(it.blurb)}</p>
+    <div class="meta">${v ? `<span class="votes">▲ ${v.up} ▼ ${v.down}</span><span>${v.comments} ${v.comments === 1 ? "review" : "reviews"}</span>` : ""}${ms ? `<span>${got}/${ms.length} medals</span>` : ""}${best != null ? `<span>best ${best}</span>` : ""}<span>${DB.plays[it.id] || 0} plays</span></div>
+    <div class="row"><a href="${DB.saves[it.id] ? `#continue-${esc(it.id)}` : href}"><button class="go" tabindex="-1">${DB.saves[it.id] ? "Continue" : "Play"}</button></a><a href="#info-${esc(it.id)}"><button class="ghost" tabindex="-1">Details</button></a></div>
+  </div></article>`;
+}
+function renderBrowse(){
+  const all = catalog(), tags = [...new Set(all.flatMap(x => tagsOf(x.it)))].sort();
+  const list = sorted(all.filter(x => (filter === "all" || x.it.genre === filter) && matches(x, BROWSE.q) && (!BROWSE.tag || tagsOf(x.it).includes(BROWSE.tag))));
+  $("#tagRow").innerHTML = tags.map(t => `<button type="button" class="tagb ${BROWSE.tag === t ? "on" : ""}" data-tag="${esc(t)}">#${esc(t)}</button>`).join("");
+  $("#browseCount").textContent = `${list.length} ${list.length === 1 ? "game" : "games"}${BROWSE.q ? ` matching “${BROWSE.q}”` : ""}${BROWSE.tag ? ` tagged #${BROWSE.tag}` : ""}`;
+  $("#grid").innerHTML = list.length ? list.map(browseCard).join("") : `<div class="empty">Nothing matches. Try another word, or <a href="#make">make the game you were looking for</a>.</div>`;
+  const cont = Object.entries(DB.saves).sort((a, b) => b[1].at - a[1].at).map(([id, sv]) => ({sv, c:cartById(id)})).filter(x => x.c);
+  $("#contSec").hidden = !cont.length;
+  $("#contRow").innerHTML = cont.slice(0, 6).map(({sv, c}) => `<a class="contc" href="#continue-${esc(c.id)}"><span class="nart">${art(c)}</span><span><b>${esc(c.title)}</b><small>Turn ${sv.turn} of ${c.turns} · ${new Date(sv.at).toLocaleDateString()}</small></span></a>`).join("");
+}
+$("#browseQ").addEventListener("input", e => { BROWSE.q = e.target.value.trim(); renderBrowse(); });
+$("#browseSort").onchange = e => { BROWSE.sort = e.target.value; renderBrowse(); };
+$("#tagRow").onclick = e => { const t = e.target.dataset.tag; if (t != null){ BROWSE.tag = BROWSE.tag === t ? "" : t; renderBrowse(); } };
+
+/* Game pages */
+function renderInfo(id){
+  const c = cartById(id), g = !c && allGames().find(x => x.id === id); if (!c && !g) return false;
+  const it = c || g, kind = c ? "cart" : "game", v = votesOf(it), p = PR();
+  const ms = c ? medalsOf(c) : Object.entries(DB.gameData[id]?.medals || {}).map(([mid, m]) => ({id:mid, ...m}));
+  const how = c ? (c.engine === "social" ? `A conversation. Talk to ${esc(c.character)} in your own words; the cart's rules turn what you say into meter changes, and the model plays the character.` : c.engine === "dice" ? `A d20 encounter with ${esc(c.dice.foe)}. Fight, talk, sneak, search, bribe or pay; real dice decide.` : `A haggle for a ${esc(c.barter.item)}. Get it for ${c.budget} ${esc(c.barter.cur)} or less.`) : "An uploaded HTML game, sandboxed, using the model on your GPU.";
+  const playHref = c ? `#play-${esc(id)}` : `#game-${esc(id)}`;
+  $("#infoBody").innerHTML = `<div class="ihero"><div class="iart">${art(c || {title:g.title, motif:g.motif || "disk", colors:g.colors})}</div><div class="itext">
+    <span class="kick">${esc(genreName(it.genre))}${it.author ? ` · by <a href="#by-${esc(it.login || it.author)}">${esc(it.author)}</a>` : it.community ? "" : " · Cartridge Zone"}</span>
+    <h1>${esc(it.title)}</h1><p class="lede">${esc(it.blurb)}</p>
+    ${tagsOf(it).length ? `<div class="row" style="gap:6px">${tagsOf(it).map(t => `<a class="tagb" href="#portal" data-gotag="${esc(t)}">#${esc(t)}</a>`).join("")}</div>` : ""}
+    <div class="row">${DB.saves[id] ? `<a href="#continue-${esc(id)}"><button class="go" tabindex="-1">Continue (turn ${DB.saves[id].turn})</button></a><a href="${playHref}"><button class="ghost" tabindex="-1">New game</button></a>` : `<a href="${playHref}"><button class="go" tabindex="-1">Play</button></a>`}${c ? `<a href="#fork-${esc(id)}"><button class="ghost" tabindex="-1">Remix</button></a>` : ""}</div>
+    <div class="istats"><span><b>${DB.plays[id] || 0}</b> your plays</span><span><b>${p.best[id] ?? "–"}</b> best score</span><span><b>${ms.filter(m => p.medals[`${id}:${m.id}`]).length}/${ms.length}</b> medals</span>${v ? `<span><b>▲ ${v.up} ▼ ${v.down}</b> community</span>` : ""}</div>
+  </div></div>
+  <div class="icols"><div class="panel"><h4>How to play</h4><p class="small" style="margin:0">${how}</p>${c ? `<p class="small">${c.turns} turns · built for the ${esc(RT[c.runtime]?.name || "Pocket")} runtime (${RT[c.runtime]?.model || ""}).</p>` : ""}</div>
+    <div class="panel"><h4>Medals</h4>${ms.length ? ms.map(m => { const has = p.medals[`${id}:${m.id}`]; return `<div class="mrow2 ${has ? "got" : ""}">${medalIcon(m.points)}<span><b>${esc(has || !m.secret ? m.name : "Secret medal")}</b><small>${esc(has || !m.secret ? m.desc || "" : "Keep playing to find out.")} · ${m.points}</small></span></div>`; }).join("") : '<p class="small">This game hasn\'t awarded any medals yet.</p>'}</div>
+    <div class="panel" id="reviews"><h4>Reviews</h4>${it.issue ? `<p class="small">Loading reviews…</p>` : `<p class="small">${it.community || kind === "game" && !g?.bundled ? "" : "Built-in games don't take reviews. "}Community games are reviewed on their GitHub submission page.</p>`}</div></div>`;
+  $("#infoBody").querySelectorAll("[data-gotag]").forEach(a => a.onclick = () => { BROWSE.tag = a.dataset.gotag; });
+  if (it.issue) loadReviews(it.issue);
+  return true;
+}
+async function loadReviews(n){
+  const el = $("#reviews"); if (!el) return;
+  let list = [];
+  try { const r = await fetch(`https://api.github.com/repos/cpaik/cartridge-zone/issues/${n}/comments?per_page=30`); if (r.ok) list = (await r.json()).filter(c => !/\[bot\]$/.test(c.user?.login || "")); } catch {}
+  const url = `${REPO_URL}/issues/${n}`;
+  el.innerHTML = `<h4>Reviews</h4>${list.length ? list.slice(-8).reverse().map(c => `<div class="review"><b>${esc(c.user.login)}</b> <span class="small">${new Date(c.created_at).toLocaleDateString()}</span><p>${esc(String(c.body).slice(0, 500))}</p></div>`).join("") : '<p class="small">No reviews yet. Be the first.</p>'}
+    <div class="row"><a href="${url}" target="_blank" rel="noopener"><button class="ghost sm" tabindex="-1">Vote ▲▼ on GitHub</button></a><a href="${url}#new_comment_field" target="_blank" rel="noopener"><button class="ghost sm" tabindex="-1">Write a review</button></a></div><p class="small">Votes are reactions (▲ is 👍, ❤️ or 🎉; ▼ is 👎) on the game's submission page.</p>`;
+}
+/* Creator pages */
+function renderBy(who){
+  const mine = x => (x.login || "").toLowerCase() === who.toLowerCase() || (x.author || "").toLowerCase() === who.toLowerCase();
+  const list = catalog().filter(x => x.src === "Community" && mine(x.it));
+  const ups = list.reduce((a, x) => a + (votesOf(x.it)?.up || 0), 0);
+  $("#infoBody").innerHTML = `<span class="kick">Creator</span><h1>${esc(who)}</h1><p class="lede">${list.length} ${list.length === 1 ? "game" : "games"} on the community shelf · ▲ ${ups} total${list[0]?.it.login ? ` · <a href="https://github.com/${esc(list[0].it.login)}" target="_blank" rel="noopener">GitHub profile</a>` : ""}</p><div class="grid" style="margin-top:18px">${list.map(browseCard).join("") || '<div class="empty">Nothing published yet.</div>'}</div>`;
+}
+
+/* Profile */
+function renderMe(){
+  const p = PR(), lv = levelOf(p.xp), nextXp = xpFor(lv + 1), pct = Math.round((p.xp - xpFor(lv)) / (nextXp - xpFor(lv)) * 100);
+  const part = (k, label) => `<div class="avpart"><label>${label}</label><div class="avopts">${AV[k].map((o, i) => { const req = Array.isArray(o) ? o[2] : null, ok = unlockedReq(req), on = p.avatar[k] === i; const sw = k === "bg" || k === "skin" ? `<span class="sw2" style="background:${o}"></span>` : `<span>${esc(o[0])}</span>`; return `<button type="button" class="avo ${on ? "on" : ""}" data-av="${k}" data-i="${i}" ${ok ? "" : "disabled"} title="${ok ? "" : esc(reqText(req))}">${sw}${ok ? "" : `<small>${esc(reqText(req))}</small>`}</button>`; }).join("")}</div></div>`;
+  const medals = Object.entries(p.medals).sort((a, b) => b[1].at - a[1].at);
+  $("#meBody").innerHTML = `<div class="mehero"><div class="mebig">${avatarSVG(p.avatar, 128)}</div><div style="flex:1;min-width:0">
+      <label for="meName">Player name</label><input id="meName" maxlength="24" value="${esc(p.name)}" placeholder="Choose a name">
+      <div class="lvl"><b>Level ${lv}</b> · ${titleOf(lv)} · ${p.xp} XP<div class="mb"><i style="width:${pct}%;background:var(--lime)"></i></div><span class="small">${nextXp - p.xp} XP to level ${lv + 1}. Medals, wins and plays all earn XP.</span></div>
+      <div class="istats"><span><b>${p.stats.plays}</b> games</span><span><b>${p.stats.wins}</b> wins</span><span><b>${medals.length}</b> medals</span><span><b>${medalPoints()}</b> medal points</span></div></div></div>
+    <div class="icols"><div class="panel"><h4>Avatar</h4>${part("bg", "Background")}${part("skin", "Colour")}${part("shape", "Head")}${part("eyes", "Eyes")}${part("mouth", "Mouth")}${part("hat", "Hat")}${part("acc", "Extra")}</div>
+      <div class="panel"><h4>Medal case</h4>${medals.length ? medals.map(([k, m]) => `<div class="mrow2 got">${medalIcon(m.points)}<span><b>${esc(m.name)}</b><small>${esc(m.desc || "")} · ${esc(medalGame(k))} · ${m.points}</small></span></div>`).join("") : '<p class="small">No medals yet. Every game has some; check a game\'s page to see them.</p>'}</div>
+      <div class="panel"><h4>Personal bests</h4>${Object.entries(p.best).length ? Object.entries(p.best).map(([id, s]) => { const it = cartById(id) || allGames().find(x => x.id === id); return it ? `<div class="brow"><a href="#info-${esc(id)}">${esc(it.title)}</a><b>${s}</b></div>` : ""; }).join("") : '<p class="small">Finish a game to set a score.</p>'}
+        <h4 style="margin-top:16px">Move your profile</h4><p class="small">Your profile lives in this browser. Copy a backup link to move it to another browser.</p><div class="row"><button type="button" class="ghost sm" id="meExport">Copy backup link</button></div></div></div>`;
+  $("#meName").oninput = e => { p.name = e.target.value.trim().slice(0, 24); save(); renderMeChip(); };
+  $("#meBody").querySelectorAll("[data-av]").forEach(b => b.onclick = () => { p.avatar[b.dataset.av] = +b.dataset.i; save(); renderMeChip(); renderMe(); });
+  $("#meExport").onclick = async () => { const url = siteBase() + "#profile-" + await pack({profile:p, plays:DB.plays, rate:DB.rate}); if (!await copyText(url, "Backup link copied. Open it in the other browser.")) prompt2("Copy your backup link", url); };
+}
+function medalGame(key){ const id = key.split(":")[0]; const it = cartById(id) || allGames().find(x => x.id === id); return it ? it.title : "a game"; }
+async function importProfile(payload){
+  try { const o = await unpack(payload); if (!o.profile) throw 0;
+    if (!confirm2()) return;
+    DB.profile = Object.assign(PR(), o.profile); DB.plays = Object.assign(DB.plays, o.plays || {}); DB.rate = Object.assign(DB.rate, o.rate || {}); save(); toast("Profile restored"); renderMeChip(); location.hash = "#me";
+  } catch { toast("That backup link is broken."); location.hash = "#portal"; }
+}
+const confirm2 = () => true;
+
+/* First visit: a short welcome that sets up a name, recommends a runtime and points at a first game. */
+function recommendRuntime(){ const mem = navigator.deviceMemory || 4, mobile = /Android|iPhone|iPad/i.test(navigator.userAgent); return mobile || mem < 8 ? "pocket" : "desk"; }
+function showOnboarding(step = 1){
+  const p = PR(), k = recommendRuntime(); const o = $("#onb"); o.hidden = false;
+  const steps = {
+    1:`<div class="kick">Welcome to Cartridge Zone</div><h2>Games that think, on your own GPU</h2><p class="lede">Every game here is played by a small AI model running in your browser. Nothing you type leaves this computer, and nobody pays a server bill.</p><div class="mehero">${avatarSVG(p.avatar, 72)}<div style="flex:1"><label for="onbName">What should we call you?</label><input id="onbName" maxlength="24" value="${esc(p.name)}" placeholder="Player name"><button type="button" class="ghost sm" id="onbRand" style="margin-top:8px">Shuffle avatar</button></div></div><div class="row"><button type="button" class="go" data-step="2">Next</button><button type="button" class="ghost" data-skip>Skip</button></div>`,
+    2:`<div class="kick">Step 2 of 3</div><h2>Install the console once</h2><p class="lede">${S.gpu ? `Your browser can run the models. We recommend <b>${RT[k].name}</b> (${RT[k].model}, ${gbOf(k)} GB) for this device. It downloads once and stays cached; you can browse while it installs.` : S.checked ? "This browser can't run the models (no WebGPU). Use Chrome or Edge, Safari 26+, or Firefox 141+ on Windows. You can still browse, make carts and try the scripted demo." : "Checking what your device can run…"}</p><div class="row">${S.gpu ? `<button type="button" class="go" data-install="${k}">Install ${RT[k].name} in the background</button>` : `<a href="?mock#portal"><button type="button" class="ghost" tabindex="-1">Try the scripted demo</button></a>`}<button type="button" class="ghost" data-step="3">${S.gpu ? "Later" : "Next"}</button></div>`,
+    3:`<div class="kick">Step 3 of 3</div><h2>Pick your first game</h2><p class="lede">Each game has medals to find and a score to beat. Stuck? Every game gives you two hints.</p><div class="onbpicks">${BUILTIN.slice(0, 3).map(c => `<a class="nextc" href="#info-${esc(c.id)}" data-done><span class="nart">${art(c)}</span><span><b>${esc(c.title)}</b><span class="small">${esc(genreName(c.genre))}</span></span></a>`).join("")}</div><div class="row"><button type="button" class="ghost" data-done>Just let me browse</button></div>`
+  };
+  $("#onbBody").innerHTML = steps[step];
+  $("#onbName")?.addEventListener("input", e => { p.name = e.target.value.trim().slice(0, 24); save(); renderMeChip(); });
+  $("#onbRand")?.addEventListener("click", () => { const a = p.avatar; for (const k2 of ["bg", "skin", "shape", "eyes", "mouth"]) a[k2] = Math.floor(Math.random() * AV[k2].length); while (!unlockedReq(AV.eyes[a.eyes][2])) a.eyes = 0; while (!unlockedReq(AV.mouth[a.mouth][2])) a.mouth = 0; save(); renderMeChip(); showOnboarding(1); });
+}
+$("#onb").addEventListener("click", e => {
+  const t = e.target.closest("[data-step],[data-skip],[data-done],[data-install]"); if (!t) return;
+  if (t.dataset.step) return showOnboarding(+t.dataset.step);
+  if (t.dataset.install){ DB.rt = t.dataset.install; save(); renderRt(); loadRuntime(t.dataset.install); return showOnboarding(3); }
+  PR().onboarded = true; save(); $("#onb").hidden = true;
+});
+
 /* ---------- start ---------- */
-if (DEV) window.CZ = {state:() => G, debug:() => G?.debug, S, BR, turn:t => turn(t), load:k => loadRuntime(k), carts:allCarts, games:allGames, editor:() => ED, compileCart, sanitizeV3, scoreSocial, resolveDice, resolveBarter};
+if (DEV) window.CZ = {PR, award, checkMedals, saveGame, state:() => G, debug:() => G?.debug, S, BR, turn:t => turn(t), load:k => loadRuntime(k), carts:allCarts, games:allGames, editor:() => ED, compileCart, sanitizeV3, scoreSocial, resolveDice, resolveBarter};
 $("#demoBar").hidden = !MOCK; $("#tokN").textContent = DB.tokens.toLocaleString();
-loadUserCarts();
-Promise.all([refreshGames(), probe().then(loadCommunity)]).then(() => { route(); renderRt(); });
+loadUserCarts(); renderMeChip();
+Promise.all([refreshGames(), probe().then(loadCommunity)]).then(() => { route(); renderRt(); loadVotes().then(() => { if (/^#?(portal|cat-|$)/.test(location.hash.slice(1) || "portal")) renderBrowse(); }); if (!PR().onboarded && !location.hash.match(/^#(c|g|profile)-/)) S.checked ? showOnboarding(1) : setTimeout(() => showOnboarding(1), 900); });
 document.addEventListener("click", e => { if (e.target.matches("[data-sharecart]")){ e.preventDefault(); if (G) shareCartLink(G.cart.src); } });
 probe().then(detect).then(() => { showDl(); S.checked = true; renderRt(); if (G) renderGate(); checkCache().then(() => { if (G) renderGate(); }); });
 

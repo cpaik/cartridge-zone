@@ -4,6 +4,8 @@ const PHONE_AWAY = ["phone .. away","phone .. off","phone .. dead","phone .. die
 const MORNING_HATE = ["mornings are a crime","mornings are the worst","mornings are awful","mornings are terrible","mornings are evil","morning is the worst","hate mornings","hate the morning","hate morning","not a morning person"];
 const BUILTIN_V3 = [
 { v:3, id:"meridian", title:"Last Train to Meridian", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"train", colors:["#1d2547","#ff4f9a","#ffd166"]},
+  tags:["romance","night","cozy"],
+  medals:[{id:"win", name:"Stars Aligned", desc:"Win Juno over.", points:10, when:{type:"win"}}, {id:"pun", name:"Groaner", desc:"Make Juno groan at a pun.", points:5, when:{type:"rule", value:"Puns and jokes"}}, {id:"unplug", name:"Unplugged", desc:"Put your phone away.", points:5, when:{type:"rule", value:"Phone away"}}, {id:"astrology", name:"Wrong Kind of Stars", desc:"Bring up astrology with an astronomer.", points:5, secret:true, when:{type:"rule", value:"Astrology"}}, {id:"maybe", name:"A Maybe", desc:"Get her number without winning outright.", points:10, when:{type:"ending", value:"good"}}, {id:"fast", name:"Express Service", desc:"Win within 6 turns.", points:25, when:{type:"fast", value:6}}, {id:"nohints", name:"Navigator", desc:"Win without using a hint.", points:10, when:{type:"nohints"}}, {id:"derailed", name:"Derailed", desc:"Drive Juno to another carriage.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Juno", blurb:"The night train is stalled in the snow. The woman across the aisle has noticed you're reading your star chart upside down.",
   persona:"You are Juno, 29, an astronomer's assistant riding a night train that is stalled in a snowstorm. The player is the stranger sitting across from you. You are dry, witty and a little guarded, but curious. You secretly love terrible puns.",
   voice:["Bold of you to assume I know where we are either.","That pun was criminal. Do another one.","Phones out on a night like this? Look up. The snow is doing the stars' job."],
@@ -32,6 +34,8 @@ const BUILTIN_V3 = [
     timeout:{title:"Next stop", text:"The train lurches forward. Juno nods goodbye and goes back to her chart.", line:"The train is moving again. Say a brief, neutral goodbye."}
   }},
 { v:3, id:"fang", title:"Blind Date With a Vampire", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"fang", colors:["#2a0d1e","#e0115f","#f5e6c8"]},
+  tags:["romance","horror","comedy"],
+  medals:[{id:"win", name:"Bitten", desc:"Win Ezra over.", points:10, when:{type:"win"}}, {id:"garlic", name:"Garlic Breath", desc:"Mention garlic to a vampire.", points:5, secret:true, when:{type:"rule", value:"Garlic"}}, {id:"oldsoul", name:"Old Soul", desc:"Bond over something old and beautiful.", points:5, when:{type:"rule", value:"Old and beautiful things"}}, {id:"clean", name:"Above Suspicion", desc:"Finish with suspicion at 5 or lower.", points:10, when:{type:"meter", meter:"m2", op:"<=", value:5}}, {id:"fast", name:"Love at First Bite", desc:"Win within 6 turns.", points:25, when:{type:"fast", value:6}}, {id:"exposed", name:"Hunter's Mark", desc:"Convince Ezra you're a hunter.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Ezra", blurb:"He says he's a night-shift sommelier. He hasn't touched his food. Win him over without making him think you're a vampire hunter.",
   persona:"You are Ezra Vane, a 400-year-old vampire on a first date at a candlelit restaurant, pretending to be a human 'night-shift sommelier'. You are theatrical, old-fashioned, charming and lonely. You never admit to being a vampire, and you dodge questions about your age, food and daylight with flowery excuses.",
   voice:["The night is young. Unlike me. Unlike my wine cellar, I mean.","Garlic? How rustic. Do go on.","You're delightfully strange. I've met so few people worth staying up for."],
@@ -59,6 +63,8 @@ const BUILTIN_V3 = [
     timeout:{title:"Into the fog", text:"Ezra pays the bill and vanishes into the fog. A second date? Unclear.", line:"The date is over. Say a polite, theatrical goodbye."}
   }},
 { v:3, id:"tollbridge", title:"The Goblin Tollbridge", genre:"tabletop", engine:"dice", runtime:"pocket", look:{motif:"bridge", colors:["#1f3326","#b6f23a","#f2c14e"]},
+  tags:["fantasy","dice","combat"],
+  medals:[{id:"paid", name:"Hat Tax", desc:"Pay Grukk's toll.", points:5, when:{type:"ending", value:"paid"}}, {id:"talked", name:"Silver Tongue", desc:"Talk the toll down to nothing.", points:25, when:{type:"ending", value:"talked"}}, {id:"sneaked", name:"Ghost", desc:"Sneak across.", points:10, when:{type:"ending", value:"sneaked"}}, {id:"victory", name:"Bridge Troll", desc:"Defeat Grukk in a fight.", points:10, when:{type:"ending", value:"victory"}}, {id:"bribed", name:"Grease the Goblin", desc:"Bribe your way across.", points:10, when:{type:"ending", value:"bribed"}}, {id:"nat20", name:"Natural 20", desc:"Roll a natural 20.", points:10, when:{type:"nat20"}}, {id:"defeated", name:"The Long Way Down", desc:"Lose the fight.", points:5, secret:true, when:{type:"ending", value:"defeated"}}],
   character:"Grukk", blurb:"A d20 encounter. A goblin with a crossbow wants 10 gold to let you cross. You have 6. Fight, talk, bribe or sneak, with real dice and real hit points.",
   persona:"You are Grukk, a greedy, cowardly, pompous goblin who guards a rope bridge with a rusty crossbow. You are very proud of your tiny hat. You talk in short, cocky, broken sentences and call the player 'bridge-walker'.",
   voice:["Hat tax not included, bridge-walker.","You scratch the hat, you pay double!","Grukk not scared. Grukk is tactically worried."],
@@ -70,6 +76,8 @@ const BUILTIN_V3 = [
   sugg:["I draw my sword and attack Grukk.","I compliment Grukk's magnificent hat.","I try to sneak past while he counts his coins.","I offer Grukk 4 gold.","I pay the toll.","I search the planks for loose coins.","I tell Grukk the bridge looks unsafe, so it should be cheaper.","I tell him a riddle."],
   endings:{timeout:{title:"Nightfall", text:"Night falls. Grukk yawns, pulls a blanket over his hat and refuses to discuss it further.", line:"It's getting dark. Tell the bridge-walker the bridge is closed for the night."}}},
 { v:3, id:"bazaar", title:"The Brass Bazaar", genre:"roleplay", engine:"barter", runtime:"pocket", look:{motif:"bazaar", colors:["#3b1d0e","#ff8a3d","#ffd166"]},
+  tags:["haggling","comedy","fantasy"],
+  medals:[{id:"win", name:"Bargain", desc:"Buy the music box within budget.", points:10, when:{type:"win"}}, {id:"robbery", name:"Daylight Robbery", desc:"Buy it for 75 crowns or less.", points:25, when:{type:"price", value:75}}, {id:"swap", name:"Swap Meet", desc:"Offer something in trade.", points:5, when:{type:"trade"}}, {id:"weather", name:"Weather Report", desc:"Ask about the music box.", points:5, when:{type:"story"}}, {id:"fast", name:"Quick Sale", desc:"Win within 5 turns.", points:25, when:{type:"fast", value:5}}, {id:"thrown", name:"Thrown Out", desc:"Run out Ilse's patience.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
   character:"Ilse", blurb:"A music box that hums tomorrow's weather. Old Ilse wants 240 crowns. You have 90, a silver tongue, and maybe something to trade.",
   persona:"You are Old Ilse, a shrewd, funny merchant at a crowded brass bazaar. You are selling a music box that hums tomorrow's weather when wound. You love haggling, you love flattery, and you hate being insulted.",
   voice:["My dear, the box would weep.","Flattery is free. The box is not.","Now that is an offer I can almost hear."],
@@ -84,6 +92,7 @@ const BUILTIN_V3 = [
 /* Starting points in the cart maker. */
 const TEMPLATES = {
   dating:{ v:3, title:"Coffee With the Barista Who Hates Mornings", genre:"dating", engine:"social", runtime:"pocket", look:{motif:"cafe", colors:["#2b1d14","#ff8a3d","#ffd166"]},
+    tags:["romance","cozy","coffee"],
     character:"Rafe", blurb:"He's been awake since 4am. You're his first customer. Make him smile before he finishes your latte.",
     persona:"You are Rafe, a sleep-deprived barista at 6am. You are sarcastic but secretly soft-hearted, and you take latte art very seriously.",
     voice:["It's 6am. Lower your voice and your expectations.","That's either genius or a cry for help. I'll make it."],
@@ -104,6 +113,8 @@ const TEMPLATES = {
       lose:{title:"Wrong name", text:"Your cup says 'Brenda'. Your name is not Brenda.", line:"You've had enough of this customer. Hand over the coffee with a deadpan goodbye."},
       timeout:{title:"Next in line", text:"The morning rush arrives and Rafe is swept away.", line:"The rush is starting. Say a quick goodbye."}}},
   mystery:{ v:3, title:"The Butler Did What?", genre:"mystery", engine:"social", runtime:"pocket", look:{motif:"castle", colors:["#1b1b2f","#c9a227","#e8e1cf"]},
+    tags:["mystery","detective"],
+    medals:[{id:"win", name:"Case Closed", desc:"Get a confession.", points:10, when:{type:"win"}}, {id:"goodcop", name:"Good Cop", desc:"Show the butler some empathy.", points:5, when:{type:"rule", value:"Empathy"}}, {id:"fast", name:"Sharp Detective", desc:"Get a confession within 7 turns.", points:25, when:{type:"fast", value:7}}, {id:"lawyer", name:"Lawyered Up", desc:"Push until he calls his solicitor.", points:5, secret:true, when:{type:"ending", value:"lose"}}],
     character:"Pennington", blurb:"Lord Ashby is dead in the library. The butler was the last to see him. Get a confession before he calls his lawyer.",
     persona:"You are Mr. Pennington, the elderly butler of Ashby Hall, being questioned by a detective about Lord Ashby's death. You are polite, formal and proud, and you are hiding that you argued with Lord Ashby about the will the night he died.",
     voice:["I have served this house for forty years, detective.","I'm sure I couldn't say, sir.","One does not raise one's voice at Ashby Hall."],
@@ -128,6 +139,7 @@ const TEMPLATES = {
       good:{min:50, title:"A crack in the story", text:"Pennington doesn't confess, but he can't explain the muddy boots. You'll be back.", line:"The interview is ending. You're shaken. Say something that almost gives you away."},
       timeout:{title:"Case open", text:"The inspector calls time. The butler bows and withdraws.", line:"The interview is over. Bow and withdraw politely."}}},
   dungeon:{ v:3, title:"The Troll Under the Stairs", genre:"tabletop", engine:"dice", runtime:"pocket", look:{motif:"castle", colors:["#1c2430","#b6f23a","#c08457"]},
+    tags:["fantasy","dice","combat"],
     character:"Mossgut", blurb:"A troll lives under the cellar stairs and charges rent to anyone who wants the wine. Fight, haggle, sneak or bribe.",
     persona:"You are Mossgut, a lazy, sentimental troll who lives under the cellar stairs. You speak slowly, love soup, and call the player 'little climber'.",
     voice:["Rent is rent, little climber.","Mossgut hungry. Mossgut always hungry."],
@@ -137,6 +149,7 @@ const TEMPLATES = {
     sugg:["I swing my axe at the troll.","I ask Mossgut what kind of soup he likes.","I tiptoe down the stairs.","I offer 4 silver.","I search the cellar for coins."],
     endings:{timeout:{title:"Bedtime", text:"Mossgut falls asleep mid-sentence. You'll have to come back tomorrow.", line:"You're very sleepy. Tell the climber to come back tomorrow."}}},
   merchant:{ v:3, title:"The Lamp Seller", genre:"roleplay", engine:"barter", runtime:"pocket", look:{motif:"bazaar", colors:["#2b1640","#ffd166","#ff8a3d"]},
+    tags:["haggling","fantasy"],
     character:"Faruq", blurb:"A lamp that might contain a genie, or might just be a lamp. Faruq wants 500 dinars. You have 200.",
     persona:"You are Faruq, a dramatic, honey-tongued lamp seller. You are selling a brass lamp that may or may not contain a genie. You adore compliments and long stories, and you hate being called a fraud.",
     voice:["A lamp like this chooses its owner, my friend.","You wound me. Deeply. Financially."],
