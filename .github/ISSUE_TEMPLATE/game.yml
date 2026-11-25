@@ -1,0 +1,42 @@
+name: Submit a game
+description: Put an HTML game that uses the OpenAI-compatible API on the community shelf.
+title: "[game] "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Put the game's title after **[game]** above, then paste the whole .html file below (up to 60 KB; for bigger games, open a pull request adding it to `community/games/`).
+        Games run sandboxed with no network access. A check runs automatically; a maintainer reviews it before it goes on the shelf.
+  - type: input
+    id: credit
+    attributes:
+      label: Credit as
+      description: The name shown on the shelf. Leave blank to use your GitHub username.
+  - type: input
+    id: pitch
+    attributes:
+      label: One-line pitch
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Roleplay
+        - Dating sim
+        - Mystery
+        - Tabletop
+  - type: textarea
+    id: html
+    attributes:
+      label: Game HTML
+      render: html
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Permission
+      options:
+        - label: I made this game, and anyone may play it.
+          required: true

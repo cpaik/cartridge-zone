@@ -29,7 +29,7 @@ const runtimeCart = v3 => ({...compileCart(v3), src:v3, motif:v3.look?.motif, co
 const BUILTIN = BUILTIN_V3.map(runtimeCart);
 let USER_CARTS = [];
 function loadUserCarts(){ USER_CARTS = []; for (const c of DB.carts){ try { USER_CARTS.push(runtimeCart(sanitizeV3(c))); } catch (e) { console.warn("Skipped a saved cart", e); } } }
-const allCarts = () => [...BUILTIN, ...USER_CARTS];
+const allCarts = () => [...BUILTIN, ...COMMUNITY_CARTS, ...USER_CARTS, ...Object.values(TEMP_CARTS)];
 const cartById = id => allCarts().find(c => c.id === id);
 const cartSize = c => new Blob([JSON.stringify(c.src || c)]).size;
 const kb = n => (n/1024).toFixed(1) + " KB";
@@ -176,8 +176,8 @@ function newGame(c){
   if (c.scene) addMsg("ev", c.scene);
   if (c.opening){ addMsg("npc", c.opening); G.history.push({role:"assistant", content:c.opening}); }
   $("#pPic").innerHTML = art(c); $("#pKick").textContent = `${genreName(c.genre)} · ${c.character}`; $("#pTitle").textContent = c.title;
-  $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.src?.id?.startsWith("u-") ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`}. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
-  renderSugg(); renderMeters(); renderGate();
+  $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.community ? ` · by ${esc(c.author)}${c.issue ? ` (<a href="${REPO_URL}/issues/${c.issue}" target="_blank" rel="noopener">submission</a>)` : ""}` : ""}${USER_CARTS.some(x => x.id === c.id) ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`} · <a href="#" data-sharecart>copy a play link</a>. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
+  renderSugg(); renderMeters(); renderGate(); renderShareBar(c);
 }
 function renderSugg(){
   const pool = (G.cart.sugg || []).filter(s => !G.used.has(s));
@@ -309,7 +309,7 @@ function card(c, preview){
   const r = DB.rate[c.id], p = DB.plays[c.id] || 0, mine = USER_CARTS.some(x => x.id === c.id);
   const btns = preview ? "" : `<div class="row"><a href="#play-${esc(c.id)}"><button class="go" tabindex="-1">Play</button></a>${mine ? `<a href="#edit-${esc(c.id)}"><button class="ghost" tabindex="-1">Edit</button></a><button class="ghost" data-del="${esc(c.id)}" aria-label="Delete ${esc(c.title)}">Delete</button>` : `<a href="#fork-${esc(c.id)}"><button class="ghost" tabindex="-1">Remix</button></a>`}</div>`;
   return `<article class="card"><div class="art">${art(c)}</div><div class="bd">
-    <div class="row" style="gap:6px"><span class="tag ${esc(c.genre)}">${esc(genreName(c.genre))}</span>${mine?'<span class="tag">Yours</span>':""}${DB.best[c.id]==="won"?'<span class="tag" style="background:#0005;color:var(--lime)">Cleared</span>':""}</div>
+    <div class="row" style="gap:6px"><span class="tag ${esc(c.genre)}">${esc(genreName(c.genre))}</span>${mine?'<span class="tag">Yours</span>':""}${c.community?`<span class="tag up">Community${c.author ? " · " + esc(c.author) : ""}</span>`:""}${DB.best[c.id]==="won"?'<span class="tag" style="background:#0005;color:var(--lime)">Cleared</span>':""}</div>
     <h3>${esc(c.title)}</h3><p>${esc(c.blurb)}</p>
     <div class="meta"><span>${kb(cartSize(c))} cart</span><span>${esc(RT[c.runtime]?.name || "Pocket")} runtime</span>${preview ? "" : `<span>${p} ${p===1?"play":"plays"}</span>`}${r?`<span class="stars" aria-label="your rating ${r} of 5">${"★".repeat(r)}</span>`:""}</div>
     ${btns}
@@ -329,10 +329,13 @@ function renderPortal(mode){
   $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#play-${f.id}"><button class="go" tabindex="-1">Play now</button></a><span class="small">${kb(cartSize(f))} cartridge on a ${gbOf(f.runtime)} GB runtime you install once</span></div></div></div>`;
   $("#featured").hidden = mode === "yours";
   $("#cats").innerHTML = mode === "yours" ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
-  const list = mode === "yours" ? USER_CARTS : allCarts().filter(c => filter === "all" || c.genre === filter);
+  const list = mode === "yours" ? USER_CARTS : BUILTIN.filter(c => filter === "all" || c.genre === filter);
   $("#shelfTitle").textContent = mode === "yours" ? "Your carts" : filter === "all" ? "All cartridges" : GENRES[filter];
+  const shelf = mode === "yours" ? [] : [...COMMUNITY_CARTS.filter(c => filter === "all" || c.genre === filter).map(c => card(c)), ...COMMUNITY_GAMES.filter(g => filter === "all" || g.genre === filter).map(gameCard)];
+  $("#shelfSec").hidden = mode === "yours" || !COMMUNITY_OK;
+  $("#shelfGrid").innerHTML = shelf.length ? shelf.join("") : `<div class="empty">Nothing on the shelf in this category yet. <a href="#make">Make a cart</a> and press <b>Submit to the shelf</b>.</div>`;
   $("#grid").innerHTML = list.length ? list.map(c => card(c)).join("") : `<div class="empty">${mode==="yours" ? 'No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.' : "No carts in this category yet."}</div>`;
-  const games = allGames().filter(g => !g.hidden && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
+  const games = allGames().filter(g => !g.hidden && !g.community && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
   $("#gamesH").hidden = !games.length && mode !== "yours"; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
 }
 $("#cats").onclick = e => { const k = e.target.dataset.cat; if (k) location.hash = k === "all" ? "#portal" : "#cat-" + k; };
@@ -350,6 +353,8 @@ function route(){
   document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === h || (a.dataset.r === "make" && /^(edit|fork)-/.test(h))));
   $("#end").classList.remove("on");
   if (!h.startsWith("game-") && BR.frame){ BR.frame.remove(); BR.frame = null; }
+  if (h.startsWith("c-")){ openSharedCart(h.slice(2)); return; }
+  if (h.startsWith("g-")){ openSharedGame(h.slice(2)); return; }
   if (h.startsWith("play-")){ const c = cartById(h.slice(5)); if (c){ show("play"); newGame(c); window.scrollTo(0, 0); return; } }
   if (h.startsWith("game-")){ const g = h === "game-test" ? BR.pendingTest : allGames().find(x => x.id === h.slice(5)); if (g){ show("game"); playGame(g); window.scrollTo(0, 0); return; } }
   if (h.startsWith("edit-")){ const c = USER_CARTS.find(x => x.id === h.slice(5)); if (c){ show("make"); openEditor(c.src); return; } }
@@ -362,7 +367,9 @@ function route(){
 addEventListener("hashchange", route);
 document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#end").classList.contains("on")) $("#end").classList.remove("on"); });
 
-async function probe(){
+let PROBED = null;
+function probe(){ return PROBED || (PROBED = probe1()); }
+async function probe1(){
   if (MOCK) return;
   const t = new Promise(r => setTimeout(() => r("slow"), 4000));
   const f = fetch("https://huggingface.co/api/models/mlc-ai/Llama-3.2-1B-Instruct-q4f16_1-MLC", {method:"HEAD", mode:"no-cors", cache:"no-store"}).then(() => "ok", () => "blocked");

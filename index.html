@@ -194,6 +194,9 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
 .ggate{position:absolute;inset:0;background:#000c;display:grid;place-items:center;padding:16px}
 @media(max-width:1000px){.ed,.up{grid-template-columns:minmax(0,1fr)}.edside{position:static;max-height:none}.tpls{grid-template-columns:repeat(2,minmax(0,1fr))}.motifs{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.g3,.g5,.g6,.toggles,.seg{grid-template-columns:minmax(0,1fr)}.g6{grid-template-columns:repeat(2,minmax(0,1fr))}.gwrap{height:70vh}}
+.sharebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:#2a1a10;border-bottom:1px solid var(--or)}
+.dlg{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:70;padding:16px}.dlg .panel{width:min(560px,100%)}
+#gActs{gap:6px}
 </style>
 </head>
 <body>
@@ -234,6 +237,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
     </div>
     <div class="shelfh"><h2 id="shelfTitle">All cartridges</h2><div class="cats" id="cats"></div></div>
     <div class="grid" id="grid"></div>
+    <div id="shelfSec" hidden><div class="shelfh" style="margin-top:34px"><h2>Community shelf</h2><span class="small">Made by players and reviewed before they go up. <a href="#make">Make a cart</a> or <a href="#upload">upload a game</a>, then press Submit to the shelf.</span></div><div class="grid" id="shelfGrid"></div></div>
     <div class="shelfh" id="gamesH" style="margin-top:34px"><h2>Uploaded games</h2><span class="small">Any HTML game that calls the OpenAI chat API runs here, on the player's GPU. <a href="#upload">Upload yours</a>.</span></div>
     <div class="grid" id="gamesGrid"></div>
   </section>
@@ -242,6 +246,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
     <div class="play">
       <div class="stage">
         <div class="sthd"><div class="pic" id="pPic"></div><div style="flex:1"><div class="kick" id="pKick"></div><h2 id="pTitle"></h2></div><a href="#portal" class="small">Exit</a></div>
+        <div class="sharebar" id="pShare" hidden></div>
         <div class="log" id="log" aria-live="polite"></div>
         <div class="inp" id="inp">
           <div class="sugg" id="sugg"></div>
@@ -269,7 +274,9 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
           <form id="benchForm" class="row" style="flex-wrap:nowrap"><input id="benchIn" placeholder="Try a line…" aria-label="Test line" maxlength="300"><button class="go sm">Try</button></form>
           <div class="row" style="margin-top:8px"><button type="button" class="ghost sm" id="benchSugg">Play the suggested lines</button><button type="button" class="ghost sm" id="benchReset">Reset</button></div>
           <div class="row" id="benchState" style="margin-top:8px;gap:6px"></div><div id="benchOut"></div></div>
-        <div class="panel"><h4>Share</h4><p class="note">A cart is just this JSON. Copy it to share; paste someone else's to import.</p>
+        <div class="panel"><h4>Share</h4>
+          <div class="row" style="margin-bottom:10px"><button type="button" class="go sm" id="eShareLink">Copy play link</button><button type="button" class="ok sm" id="eSubmit">Submit to the shelf</button></div>
+          <p class="note">A play link holds the whole cart, so anyone can play it right away. Submitting opens a GitHub issue; once a maintainer approves it, it goes on the community shelf for everyone. Underneath, a cart is just this JSON:</p>
           <textarea id="eJson" rows="7" spellcheck="false" style="font:12px/1.4 ui-monospace,Menlo,monospace" aria-label="Cartridge JSON"></textarea>
           <div class="row" style="margin-top:8px"><button type="button" class="sm" id="eCopy">Copy JSON</button><button type="button" class="sm" id="eImport">Import pasted JSON</button>
           <label class="filebtn">Open file<input type="file" id="eFile" accept=".json,application/json" hidden></label></div></div>
@@ -287,6 +294,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
         <div class="g2"><div><label for="uTitle">Title</label><input id="uTitle" maxlength="60"></div><div><label for="uAuthor">Made by</label><input id="uAuthor" maxlength="40"></div></div>
         <div class="g2"><div><label for="uBlurb">One-line pitch</label><input id="uBlurb" maxlength="160"></div><div><label for="uGenre">Category</label><select id="uGenre"><option value="roleplay">Roleplay</option><option value="dating">Dating sim</option><option value="mystery">Mystery</option><option value="tabletop">Tabletop</option></select></div></div>
         <div class="row"><button type="button" class="go" id="uTest">Play test</button><button type="button" class="ok" id="uSave">Save to your games</button><button type="button" class="ghost" id="uLoadExample">Load the example</button></div>
+        <div class="row"><button type="button" class="ghost sm" id="uShare">Copy play link</button><button type="button" class="ghost sm" id="uSubmit">Submit to the shelf</button></div>
         <p class="note">Uploaded games are saved in this browser. To share one, send the .html file; it runs for anyone who uploads it here.</p>
       </form>
       <div class="fs docs">
@@ -319,7 +327,7 @@ for await (const t of cartridge.stream(messages)) out.textContent += t;</code></
   </section>
 
   <section class="view" id="v-game">
-    <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
+    <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><div class="row" id="gActs"></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
     <div class="gwrap" id="gFrameWrap">
       <div class="ggate" id="gGate" hidden><div class="endc"><div class="kick">This game wants to use the model</div><p class="lede" id="gGateTxt"></p><button class="go" id="gGateBtn">Install and play</button></div></div>
     </div>
@@ -334,6 +342,7 @@ for await (const t of cartridge.stream(messages)) out.textContent += t;</code></
   <div class="row" style="justify-content:center"><button class="go" id="again">Play again</button><a href="#portal"><button class="ghost" tabindex="-1">Front page</button></a></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div class="dlg" id="shareDlg" hidden role="dialog" aria-modal="true" aria-labelledby="shareDlgT"><div class="panel"><h4 id="shareDlgT">Copy this link</h4><textarea id="shareDlgIn" rows="4" readonly style="font:12px/1.4 ui-monospace,Menlo,monospace"></textarea><div class="row" style="margin-top:8px"><button type="button" class="sm" id="shareDlgClose">Done</button></div></div></div>
 
 <script type="module" id="app">
 {
@@ -771,6 +780,93 @@ const TEMPLATES = {
 };
 /*CARTS-END*/
 
+/*FORMAT-START*/
+/* Cart format v3: shared by the site and the community-shelf GitHub Action. Pure: no DOM. */
+const RUNTIME_IDS = ["pocket", "desk", "tower"];
+const okHex = s => /^#[0-9a-f]{6}$/i.test(s || "") ? s : null;
+const clampF = (v, a, b) => Math.max(a, Math.min(b, v));
+const uid = () => Math.random().toString(36).slice(2, 7);
+const GENRE_NAMES = {dating:"Dating sim", mystery:"Mystery", tabletop:"Tabletop", roleplay:"Roleplay"};
+const MOTIFS = ["train","fang","bridge","bazaar","cafe","castle","forest","disk"];
+const BANDS = [["delighted","Big win"],["pleased","Small win"],["neutral","Nothing much"],["annoyed","Small loss"],["offended","Big loss"]];
+const clone = o => JSON.parse(JSON.stringify(o));
+const ENGINES = {social:["Conversation", "Win someone over, crack a suspect, talk your way in. Meters move when the player says things your rules recognise."], dice:["Dice encounter", "A d20 standoff with real hit points. Fight, talk, bribe, sneak or search; the dice decide."], barter:["Haggle", "Bargain for one item. Your merchant counters offers, warms to charm and loses patience with insults."]};
+const newMeter = i => ({id:"m" + uid(), label:i ? "Suspicion" : "Affection", goal:i ? "down" : "up", start:i ? 20 : 30, win:i ? "" : 80, lose:i ? 85 : 5, drift:i ? -2 : 0, step:16, color:i ? "#9aa3b5" : "#ff4f9a"});
+/* old carts (v1 with a raw prompt, v2 with likes/dislikes text) become v3 */
+function upgradeOld(o){
+  const m = o.meter || (Array.isArray(o.stats) && o.stats[0]) || {};
+  const list = v => (Array.isArray(v) ? v : String(v || "").split(/[,\n]/)).map(x => String(x).trim().toLowerCase()).filter(x => x.length > 1).slice(0, 40);
+  const rules = [];
+  if (list(o.likes).length) rules.push({name:"Likes", phrases:list(o.likes), effects:{m1:7}, react:"You like that and warm up."});
+  if (list(o.dislikes).length) rules.push({name:"Dislikes", phrases:list(o.dislikes), effects:{m1:-10}, react:"You dislike that and let it show."});
+  return {v:3, id:o.id, title:o.title, genre:o.genre, engine:"social", runtime:o.runtime, look:{motif:"disk", colors:o.colors || []}, character:o.character, blurb:o.blurb,
+    persona:o.persona || o.system || "", voice:String(o.voiceLines || "").split("\n").map(x => x.trim()).filter(Boolean), opening:o.opening, turns:o.turns,
+    meters:[{id:"m1", label:m.label || "Affection", start:m.start ?? 30, win:m.win ?? 80, lose:m.loseBelow ?? 5}], rules};
+}
+function sanitizeV3(o){
+  if (!o || typeof o !== "object") throw new Error("That isn't a cartridge.");
+  if (!(o.v >= 3)) o = upgradeOld(o);
+  if (!o.title || !(o.persona || o.character)) throw new Error("A cartridge needs at least a title and a character.");
+  const s = (v, n = 2000) => String(v ?? "").slice(0, n);
+  const num = (v, a, b, d) => v === "" || v == null || !Number.isFinite(+v) ? d : clampF(Math.round(+v * 100) / 100, a, b);
+  const arr = (v, max) => Array.isArray(v) ? v.slice(0, max) : [];
+  const strs = (v, max, n) => arr(v, max).map(x => s(x, n).trim()).filter(Boolean);
+  const engine = ENGINES[o.engine] ? o.engine : "social";
+  const out = {v:3, id:/^[uc]-[a-z0-9-]{1,60}$/.test(o.id || "") ? o.id : "u-" + s(o.title, 30).toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now().toString(36),
+    title:s(o.title, 60), genre:GENRE_NAMES[o.genre] ? o.genre : "roleplay", engine, runtime:RUNTIME_IDS.includes(o.runtime) ? o.runtime : "pocket",
+    look:{motif:MOTIFS.includes(o.look?.motif) ? o.look.motif : "disk", colors:[0, 1, 2].map(i => okHex(o.look?.colors?.[i]) || ["#24314f", "#ff4f9a", "#ffd166"][i])},
+    character:s(o.character || "Stranger", 40), blurb:s(o.blurb, 160), persona:s(o.persona, 1500), voice:strs(o.voice, 6, 200), scene:s(o.scene, 400), opening:s(o.opening, 400),
+    turns:num(o.turns, 3, 30, 10), style:{length:o.style?.length === "medium" ? "medium" : "short", creativity:num(o.style?.creativity, 0.3, 1.2, 0.8)},
+    sugg:strs(o.sugg, 16, 160)};
+  const end = e => e ? {title:s(e.title, 60), text:s(e.text, 300), line:s(e.line, 300), ...(e.min != null ? {min:num(e.min, 0, 100, 50)} : {})} : undefined;
+  out.endings = {}; for (const k of ["win", "lose", "good", "timeout"]) if (o.endings?.[k]) out.endings[k] = end(o.endings[k]);
+  if (engine === "social"){
+    out.meters = arr(o.meters, 3).map((m, i) => ({id:/^m[a-z0-9]{1,8}$/.test(m?.id || "") ? m.id : "m" + (i + 1), label:s(m?.label || "Meter", 20), goal:m?.goal === "down" ? "down" : "up",
+      start:num(m?.start, 0, 100, 30), win:num(m?.win, 0, 100, ""), lose:num(m?.lose, 0, 100, ""), drift:num(m?.drift, -10, 10, 0), step:num(m?.step, 4, 40, 16), color:okHex(m?.color) || "#ff4f9a"}));
+    if (!out.meters.length) out.meters = [newMeter(0)];
+    const ids = new Set(out.meters.map(m => m.id));
+    out.rules = arr(o.rules, 40).map(r => ({name:s(r?.name, 60), phrases:strs(r?.phrases, 80, 60), unless:strs(r?.unless, 40, 60),
+      effects:Object.fromEntries(Object.entries(r?.effects || {}).filter(([k, v]) => ids.has(k) && Number.isFinite(+v) && +v).map(([k, v]) => [k, clampF(Math.round(+v), -40, 40)])), react:s(r?.react, 240)}));
+    out.reactions = {}; for (const [b] of BANDS) out.reactions[b] = strs(o.reactions?.[b], 4, 200);
+    out.moods = strs(o.moods, 5, 20); if (out.moods.length !== 5) delete out.moods;
+    out.generic = {}; for (const k of [...GENERIC.filter(g => !g.locked).map(g => g.id), ...Object.keys(EXTRA_GENERIC)]) out.generic[k] = o.generic?.[k] !== false;
+    out.sens = {up:num(o.sens?.up, 0.4, 2, 1), down:num(o.sens?.down, 0.4, 2, 1)};
+    if (o.examples) out.examples = {good:strs(o.examples.good, 5, 160), bad:strs(o.examples.bad, 5, 160), neutral:strs(o.examples.neutral, 5, 160)};
+  }
+  if (engine === "dice"){
+    const d = o.dice || {};
+    out.dice = {foe:s(d.foe || out.character, 30), place:s(d.place || "gate", 30), cur:s(d.cur || "gold", 16), hp:num(d.hp, 1, 99, 12), foeHP:num(d.foeHP, 1, 199, 14), gold:num(d.gold, 0, 999, 6), toll:num(d.toll, 1, 999, 10),
+      foeDamage:[4, 6, 8, 10, 12].includes(+d.foeDamage) ? +d.foeDamage : 6, foeAttack:num(d.foeAttack, -2, 10, 3), ac:num(d.ac, 5, 25, 12),
+      dc:{attack:num(d.dc?.attack, 2, 30, 12), persuade:num(d.dc?.persuade, 2, 30, 12), sneak:num(d.dc?.sneak, 2, 30, 15), search:num(d.dc?.search, 2, 30, 10)},
+      sheet:{STR:num(d.sheet?.STR, -3, 8, 2), DEX:num(d.sheet?.DEX, -3, 8, 1), CHA:num(d.sheet?.CHA, -3, 8, 1), WIS:num(d.sheet?.WIS, -3, 8, 0)},
+      endTexts:Object.fromEntries(["victory","paid","bribed","sneaked","talked","defeated"].map(k => [k, s(d.endTexts?.[k], 300)]).filter(([, v]) => v))};
+  }
+  if (engine === "barter"){
+    const b = o.barter || {};
+    out.barter = {item:s(b.item || "curio", 40), cur:s(b.cur || "crowns", 16), price:num(b.price, 2, 99999, 240), budget:num(b.budget, 1, 99999, 90), floor:num(b.floor, 1, 99999, 70), patience:num(b.patience, 20, 100, 100), toughness:num(b.toughness, 0.2, 0.6, 0.4), trades:b.trades !== false};
+  }
+  return out;
+}
+
+
+/* Server-side gate for the community shelf: hard errors block publishing; warnings are reported. */
+function validateCart(raw){
+  const errors = [], warnings = [];
+  let c; try { c = sanitizeV3(raw); } catch (e) { return {errors:[e.message || String(e)], warnings, cart:null}; }
+  let comp; try { comp = compileCart(c); } catch (e) { errors.push("The cart didn't compile: " + (e.message || e)); return {errors, warnings, cart:c}; }
+  if (!c.persona.trim()) errors.push("Describe who the character is.");
+  if (c.engine === "social"){
+    const helps = comp.likes.filter(r => Object.entries(r.d).some(([k, v]) => v * (comp.stats.find(s => s.key === k)?.bad ? -1 : 1) > 0));
+    if (!helps.length) errors.push("No rule helps the player, so the cart can't be played meaningfully.");
+    if (comp.stats.every(s => s.win == null && s.winBelow == null)) warnings.push("No meter has a win point.");
+  }
+  if (c.engine === "dice" && c.dice.gold >= c.dice.toll) warnings.push("The player can pay on turn one.");
+  if (c.engine === "barter"){ if (c.barter.budget < c.barter.floor) errors.push("The budget is below the secret lowest price, so it can't be won."); if (c.barter.floor >= c.barter.price) errors.push("The lowest price must be below the asking price."); }
+  if (!(c.voice || []).length) warnings.push("No example lines under How they talk.");
+  return {errors, warnings, cart:c};
+}
+/*FORMAT-END*/
+
 const SRC = (() => { const d = document.documentElement.cloneNode(true); d.querySelectorAll("script:not(#app), meta[http-equiv]").forEach(n => n.remove()); return "<!DOCTYPE html>\n" + d.outerHTML; })();
 const LIB = "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.87/+esm";
 const QS = new URLSearchParams(location.search);
@@ -802,7 +898,7 @@ const runtimeCart = v3 => ({...compileCart(v3), src:v3, motif:v3.look?.motif, co
 const BUILTIN = BUILTIN_V3.map(runtimeCart);
 let USER_CARTS = [];
 function loadUserCarts(){ USER_CARTS = []; for (const c of DB.carts){ try { USER_CARTS.push(runtimeCart(sanitizeV3(c))); } catch (e) { console.warn("Skipped a saved cart", e); } } }
-const allCarts = () => [...BUILTIN, ...USER_CARTS];
+const allCarts = () => [...BUILTIN, ...COMMUNITY_CARTS, ...USER_CARTS, ...Object.values(TEMP_CARTS)];
 const cartById = id => allCarts().find(c => c.id === id);
 const cartSize = c => new Blob([JSON.stringify(c.src || c)]).size;
 const kb = n => (n/1024).toFixed(1) + " KB";
@@ -949,8 +1045,8 @@ function newGame(c){
   if (c.scene) addMsg("ev", c.scene);
   if (c.opening){ addMsg("npc", c.opening); G.history.push({role:"assistant", content:c.opening}); }
   $("#pPic").innerHTML = art(c); $("#pKick").textContent = `${genreName(c.genre)} · ${c.character}`; $("#pTitle").textContent = c.title;
-  $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.src?.id?.startsWith("u-") ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`}. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
-  renderSugg(); renderMeters(); renderGate();
+  $("#cartInfo").innerHTML = `${kb(cartSize(c))} cartridge · ${c.engine === "social" ? "conversation rules" : c.engine === "dice" ? "d20 rules" : "haggling rules"}${c.community ? ` · by ${esc(c.author)}${c.issue ? ` (<a href="${REPO_URL}/issues/${c.issue}" target="_blank" rel="noopener">submission</a>)` : ""}` : ""}${USER_CARTS.some(x => x.id === c.id) ? ` · <a href="#edit-${esc(c.id)}">edit this cart</a>` : ` · <a href="#fork-${esc(c.id)}">remix this cart</a>`} · <a href="#" data-sharecart>copy a play link</a>. The rules decide every number; the model only voices ${esc(c.character)}.<br>Built for ${RT[c.runtime]?.name || "Pocket"}. Adapter: none, prompt only.`;
+  renderSugg(); renderMeters(); renderGate(); renderShareBar(c);
 }
 function renderSugg(){
   const pool = (G.cart.sugg || []).filter(s => !G.used.has(s));
@@ -1082,7 +1178,7 @@ function card(c, preview){
   const r = DB.rate[c.id], p = DB.plays[c.id] || 0, mine = USER_CARTS.some(x => x.id === c.id);
   const btns = preview ? "" : `<div class="row"><a href="#play-${esc(c.id)}"><button class="go" tabindex="-1">Play</button></a>${mine ? `<a href="#edit-${esc(c.id)}"><button class="ghost" tabindex="-1">Edit</button></a><button class="ghost" data-del="${esc(c.id)}" aria-label="Delete ${esc(c.title)}">Delete</button>` : `<a href="#fork-${esc(c.id)}"><button class="ghost" tabindex="-1">Remix</button></a>`}</div>`;
   return `<article class="card"><div class="art">${art(c)}</div><div class="bd">
-    <div class="row" style="gap:6px"><span class="tag ${esc(c.genre)}">${esc(genreName(c.genre))}</span>${mine?'<span class="tag">Yours</span>':""}${DB.best[c.id]==="won"?'<span class="tag" style="background:#0005;color:var(--lime)">Cleared</span>':""}</div>
+    <div class="row" style="gap:6px"><span class="tag ${esc(c.genre)}">${esc(genreName(c.genre))}</span>${mine?'<span class="tag">Yours</span>':""}${c.community?`<span class="tag up">Community${c.author ? " · " + esc(c.author) : ""}</span>`:""}${DB.best[c.id]==="won"?'<span class="tag" style="background:#0005;color:var(--lime)">Cleared</span>':""}</div>
     <h3>${esc(c.title)}</h3><p>${esc(c.blurb)}</p>
     <div class="meta"><span>${kb(cartSize(c))} cart</span><span>${esc(RT[c.runtime]?.name || "Pocket")} runtime</span>${preview ? "" : `<span>${p} ${p===1?"play":"plays"}</span>`}${r?`<span class="stars" aria-label="your rating ${r} of 5">${"★".repeat(r)}</span>`:""}</div>
     ${btns}
@@ -1102,10 +1198,13 @@ function renderPortal(mode){
   $("#featured").innerHTML = `<div class="feat">${art(f)}<div class="ov"><span class="kick">Daily feature · ${esc(genreName(f.genre))}</span><h1>${esc(f.title)}</h1><p class="lede">${esc(f.blurb)}</p><div class="row"><a href="#play-${f.id}"><button class="go" tabindex="-1">Play now</button></a><span class="small">${kb(cartSize(f))} cartridge on a ${gbOf(f.runtime)} GB runtime you install once</span></div></div></div>`;
   $("#featured").hidden = mode === "yours";
   $("#cats").innerHTML = mode === "yours" ? "" : Object.entries(GENRES).map(([k,v]) => `<button class="${filter===k?"on":""}" data-cat="${k}">${v}</button>`).join("");
-  const list = mode === "yours" ? USER_CARTS : allCarts().filter(c => filter === "all" || c.genre === filter);
+  const list = mode === "yours" ? USER_CARTS : BUILTIN.filter(c => filter === "all" || c.genre === filter);
   $("#shelfTitle").textContent = mode === "yours" ? "Your carts" : filter === "all" ? "All cartridges" : GENRES[filter];
+  const shelf = mode === "yours" ? [] : [...COMMUNITY_CARTS.filter(c => filter === "all" || c.genre === filter).map(c => card(c)), ...COMMUNITY_GAMES.filter(g => filter === "all" || g.genre === filter).map(gameCard)];
+  $("#shelfSec").hidden = mode === "yours" || !COMMUNITY_OK;
+  $("#shelfGrid").innerHTML = shelf.length ? shelf.join("") : `<div class="empty">Nothing on the shelf in this category yet. <a href="#make">Make a cart</a> and press <b>Submit to the shelf</b>.</div>`;
   $("#grid").innerHTML = list.length ? list.map(c => card(c)).join("") : `<div class="empty">${mode==="yours" ? 'No carts yet. <a href="#make">Make a cart</a> or remix one from the front page.' : "No carts in this category yet."}</div>`;
-  const games = allGames().filter(g => !g.hidden && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
+  const games = allGames().filter(g => !g.hidden && !g.community && (mode === "yours" ? !g.bundled : filter === "all" || g.genre === filter));
   $("#gamesH").hidden = !games.length && mode !== "yours"; $("#gamesGrid").innerHTML = games.length ? games.map(gameCard).join("") : `<div class="empty">No uploaded games yet. <a href="#upload">Upload one</a>.</div>`;
 }
 $("#cats").onclick = e => { const k = e.target.dataset.cat; if (k) location.hash = k === "all" ? "#portal" : "#cat-" + k; };
@@ -1123,6 +1222,8 @@ function route(){
   document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === h || (a.dataset.r === "make" && /^(edit|fork)-/.test(h))));
   $("#end").classList.remove("on");
   if (!h.startsWith("game-") && BR.frame){ BR.frame.remove(); BR.frame = null; }
+  if (h.startsWith("c-")){ openSharedCart(h.slice(2)); return; }
+  if (h.startsWith("g-")){ openSharedGame(h.slice(2)); return; }
   if (h.startsWith("play-")){ const c = cartById(h.slice(5)); if (c){ show("play"); newGame(c); window.scrollTo(0, 0); return; } }
   if (h.startsWith("game-")){ const g = h === "game-test" ? BR.pendingTest : allGames().find(x => x.id === h.slice(5)); if (g){ show("game"); playGame(g); window.scrollTo(0, 0); return; } }
   if (h.startsWith("edit-")){ const c = USER_CARTS.find(x => x.id === h.slice(5)); if (c){ show("make"); openEditor(c.src); return; } }
@@ -1135,7 +1236,9 @@ function route(){
 addEventListener("hashchange", route);
 document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#end").classList.contains("on")) $("#end").classList.remove("on"); });
 
-async function probe(){
+let PROBED = null;
+function probe(){ return PROBED || (PROBED = probe1()); }
+async function probe1(){
   if (MOCK) return;
   const t = new Promise(r => setTimeout(() => r("slow"), 4000));
   const f = fetch("https://huggingface.co/api/models/mlc-ai/Llama-3.2-1B-Instruct-q4f16_1-MLC", {method:"HEAD", mode:"no-cors", cache:"no-store"}).then(() => "ok", () => "blocked");
@@ -1148,73 +1251,10 @@ $("#dlBtn").onclick = async () => { try { await dl.save({filename:"cartridge-zon
 
 
 /* ---------- cart maker ---------- */
-const uid = () => Math.random().toString(36).slice(2, 7);
-const ENGINES = {social:["Conversation", "Win someone over, crack a suspect, talk your way in. Meters move when the player says things your rules recognise."], dice:["Dice encounter", "A d20 standoff with real hit points. Fight, talk, bribe, sneak or search; the dice decide."], barter:["Haggle", "Bargain for one item. Your merchant counters offers, warms to charm and loses patience with insults."]};
-const GENRE_NAMES = {dating:"Dating sim", mystery:"Mystery", tabletop:"Tabletop", roleplay:"Roleplay"};
-const MOTIFS = ["train","fang","bridge","bazaar","cafe","castle","forest","disk"];
-const BANDS = [["delighted","Big win"],["pleased","Small win"],["neutral","Nothing much"],["annoyed","Small loss"],["offended","Big loss"]];
 const COMMON = new Set("a an the i you me my your it is are was be to of in on at and or but so if ok okay yes no not do does did have has had what how why who when where this that there here like just really very much can will would could should get got go going know think want need say said tell good bad nice well oh hi hey".split(" "));
 let ED = null, benchMem = {}, benchSt = null, edTimer = null;
 const RFMT = {};
-const clone = o => JSON.parse(JSON.stringify(o));
-const newMeter = i => ({id:"m" + uid(), label:i ? "Suspicion" : "Affection", goal:i ? "down" : "up", start:i ? 20 : 30, win:i ? "" : 80, lose:i ? 85 : 5, drift:i ? -2 : 0, step:16, color:i ? "#9aa3b5" : "#ff4f9a"});
 const newRule = () => ({name:"New rule", phrases:[], unless:[], effects:{}, react:""});
-
-/* old carts (v1 with a raw prompt, v2 with likes/dislikes text) become v3 */
-function upgradeOld(o){
-  const m = o.meter || (Array.isArray(o.stats) && o.stats[0]) || {};
-  const list = v => (Array.isArray(v) ? v : String(v || "").split(/[,\n]/)).map(x => String(x).trim().toLowerCase()).filter(x => x.length > 1).slice(0, 40);
-  const rules = [];
-  if (list(o.likes).length) rules.push({name:"Likes", phrases:list(o.likes), effects:{m1:7}, react:"You like that and warm up."});
-  if (list(o.dislikes).length) rules.push({name:"Dislikes", phrases:list(o.dislikes), effects:{m1:-10}, react:"You dislike that and let it show."});
-  return {v:3, id:o.id, title:o.title, genre:o.genre, engine:"social", runtime:o.runtime, look:{motif:"disk", colors:o.colors || []}, character:o.character, blurb:o.blurb,
-    persona:o.persona || o.system || "", voice:String(o.voiceLines || "").split("\n").map(x => x.trim()).filter(Boolean), opening:o.opening, turns:o.turns,
-    meters:[{id:"m1", label:m.label || "Affection", start:m.start ?? 30, win:m.win ?? 80, lose:m.loseBelow ?? 5}], rules};
-}
-function sanitizeV3(o){
-  if (!o || typeof o !== "object") throw new Error("That isn't a cartridge.");
-  if (!(o.v >= 3)) o = upgradeOld(o);
-  if (!o.title || !(o.persona || o.character)) throw new Error("A cartridge needs at least a title and a character.");
-  const s = (v, n = 2000) => String(v ?? "").slice(0, n);
-  const num = (v, a, b, d) => v === "" || v == null || !Number.isFinite(+v) ? d : clamp(Math.round(+v * 100) / 100, a, b);
-  const arr = (v, max) => Array.isArray(v) ? v.slice(0, max) : [];
-  const strs = (v, max, n) => arr(v, max).map(x => s(x, n).trim()).filter(Boolean);
-  const engine = ENGINES[o.engine] ? o.engine : "social";
-  const out = {v:3, id:/^u-[a-z0-9-]{1,60}$/.test(o.id || "") ? o.id : "u-" + s(o.title, 30).toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now().toString(36),
-    title:s(o.title, 60), genre:GENRE_NAMES[o.genre] ? o.genre : "roleplay", engine, runtime:RT[o.runtime] ? o.runtime : "pocket",
-    look:{motif:MOTIFS.includes(o.look?.motif) ? o.look.motif : "disk", colors:[0, 1, 2].map(i => hex(o.look?.colors?.[i]) || ["#24314f", "#ff4f9a", "#ffd166"][i])},
-    character:s(o.character || "Stranger", 40), blurb:s(o.blurb, 160), persona:s(o.persona, 1500), voice:strs(o.voice, 6, 200), scene:s(o.scene, 400), opening:s(o.opening, 400),
-    turns:num(o.turns, 3, 30, 10), style:{length:o.style?.length === "medium" ? "medium" : "short", creativity:num(o.style?.creativity, 0.3, 1.2, 0.8)},
-    sugg:strs(o.sugg, 16, 160)};
-  const end = e => e ? {title:s(e.title, 60), text:s(e.text, 300), line:s(e.line, 300), ...(e.min != null ? {min:num(e.min, 0, 100, 50)} : {})} : undefined;
-  out.endings = {}; for (const k of ["win", "lose", "good", "timeout"]) if (o.endings?.[k]) out.endings[k] = end(o.endings[k]);
-  if (engine === "social"){
-    out.meters = arr(o.meters, 3).map((m, i) => ({id:/^m[a-z0-9]{1,8}$/.test(m?.id || "") ? m.id : "m" + (i + 1), label:s(m?.label || "Meter", 20), goal:m?.goal === "down" ? "down" : "up",
-      start:num(m?.start, 0, 100, 30), win:num(m?.win, 0, 100, ""), lose:num(m?.lose, 0, 100, ""), drift:num(m?.drift, -10, 10, 0), step:num(m?.step, 4, 40, 16), color:hex(m?.color) || "#ff4f9a"}));
-    if (!out.meters.length) out.meters = [newMeter(0)];
-    const ids = new Set(out.meters.map(m => m.id));
-    out.rules = arr(o.rules, 40).map(r => ({name:s(r?.name, 60), phrases:strs(r?.phrases, 80, 60), unless:strs(r?.unless, 40, 60),
-      effects:Object.fromEntries(Object.entries(r?.effects || {}).filter(([k, v]) => ids.has(k) && Number.isFinite(+v) && +v).map(([k, v]) => [k, clamp(Math.round(+v), -40, 40)])), react:s(r?.react, 240)}));
-    out.reactions = {}; for (const [b] of BANDS) out.reactions[b] = strs(o.reactions?.[b], 4, 200);
-    out.moods = strs(o.moods, 5, 20); if (out.moods.length !== 5) delete out.moods;
-    out.generic = {}; for (const k of [...GENERIC.filter(g => !g.locked).map(g => g.id), ...Object.keys(EXTRA_GENERIC)]) out.generic[k] = o.generic?.[k] !== false;
-    out.sens = {up:num(o.sens?.up, 0.4, 2, 1), down:num(o.sens?.down, 0.4, 2, 1)};
-    if (o.examples) out.examples = {good:strs(o.examples.good, 5, 160), bad:strs(o.examples.bad, 5, 160), neutral:strs(o.examples.neutral, 5, 160)};
-  }
-  if (engine === "dice"){
-    const d = o.dice || {};
-    out.dice = {foe:s(d.foe || out.character, 30), place:s(d.place || "gate", 30), cur:s(d.cur || "gold", 16), hp:num(d.hp, 1, 99, 12), foeHP:num(d.foeHP, 1, 199, 14), gold:num(d.gold, 0, 999, 6), toll:num(d.toll, 1, 999, 10),
-      foeDamage:[4, 6, 8, 10, 12].includes(+d.foeDamage) ? +d.foeDamage : 6, foeAttack:num(d.foeAttack, -2, 10, 3), ac:num(d.ac, 5, 25, 12),
-      dc:{attack:num(d.dc?.attack, 2, 30, 12), persuade:num(d.dc?.persuade, 2, 30, 12), sneak:num(d.dc?.sneak, 2, 30, 15), search:num(d.dc?.search, 2, 30, 10)},
-      sheet:{STR:num(d.sheet?.STR, -3, 8, 2), DEX:num(d.sheet?.DEX, -3, 8, 1), CHA:num(d.sheet?.CHA, -3, 8, 1), WIS:num(d.sheet?.WIS, -3, 8, 0)},
-      endTexts:Object.fromEntries(["victory","paid","bribed","sneaked","talked","defeated"].map(k => [k, s(d.endTexts?.[k], 300)]).filter(([, v]) => v))};
-  }
-  if (engine === "barter"){
-    const b = o.barter || {};
-    out.barter = {item:s(b.item || "curio", 40), cur:s(b.cur || "crowns", 16), price:num(b.price, 2, 99999, 240), budget:num(b.budget, 1, 99999, 90), floor:num(b.floor, 1, 99999, 70), patience:num(b.patience, 20, 100, 100), toughness:num(b.toughness, 0.2, 0.6, 0.4), trades:b.trades !== false};
-  }
-  return out;
-}
 
 /* ---------- open, switch, save ---------- */
 function withDefaults(){ if (ED.engine === "social" && !(ED.moods && ED.moods.length === 5)) ED.moods = DEFAULT_MOODS.map(x => x[1]); }
@@ -1496,6 +1536,8 @@ $("#edMain").addEventListener("click", e => {
 $("#benchForm").onsubmit = e => { e.preventDefault(); benchTry(); };
 $("#benchSugg").onclick = benchRunSugg;
 $("#benchReset").onclick = benchReset;
+$("#eShareLink").onclick = () => shareCartLink(sanitizeV3(ED));
+$("#eSubmit").onclick = () => submitCart(sanitizeV3(ED));
 $("#eCopy").onclick = async () => { try { await navigator.clipboard.writeText($("#eJson").value); toast("JSON copied"); } catch { $("#eJson").select(); toast("Selected. Press Ctrl/Cmd+C"); } };
 function importText(t){ try { const c = sanitizeV3(JSON.parse(t)); openEditor(c); saveED(); toast(`Imported "${c.title}"`); } catch (e) { toast(e.message || "That isn't valid JSON"); } }
 $("#eImport").onclick = () => importText($("#eJson").value);
@@ -1566,7 +1608,7 @@ const GDB = {
 };
 let MY_GAMES = [];
 const refreshGames = async () => { MY_GAMES = await GDB.all(); MY_GAMES.sort((a, b) => b.added - a.added); };
-const allGames = () => [...BUNDLED_GAMES.map(g => ({...g, bundled:true})), ...MY_GAMES];
+const allGames = () => [...BUNDLED_GAMES.map(g => ({...g, bundled:true})), ...COMMUNITY_GAMES, ...MY_GAMES];
 
 /* ---------- the bridge: parent side ---------- */
 const BR = {frame:null, game:null, q:Promise.resolve(), running:null, calls:0, tokens:0, waiters:[]};
@@ -1634,10 +1676,13 @@ addEventListener("message", e => {
 function renderGameStats(){ const el = $("#gStats"); if (el) el.textContent = `${BR.calls} model ${BR.calls === 1 ? "call" : "calls"} · ${BR.tokens.toLocaleString()} tokens on this device`; }
 
 /* ---------- playing an uploaded game ---------- */
-function playGame(g){
+async function playGame(g){
+  if (!g.html && g.path){ try { const r = await fetch(g.path); if (!r.ok) throw 0; g.html = (await r.text()).slice(0, MAX_GAME * 2); } catch { toast("Couldn't load that game."); location.hash = "#portal"; return; } }
   BR.game = g; BR.calls = 0; BR.tokens = 0;
+  $("#gActs").innerHTML = (g.shared ? `<button type="button" class="ok sm" data-savegame>Save to your games</button>` : "") + `<button type="button" class="ghost sm" data-sharegame>Copy play link</button>`;
   $("#gTitle").textContent = g.title; $("#gKick").textContent = `Uploaded game${g.author ? " · by " + g.author : ""}`;
   $("#gInfo").textContent = g.blurb || "";
+  if (g.community && g.issue) $("#gKick").innerHTML = `Community game · by ${esc(g.author)} · <a href="${REPO_URL}/issues/${g.issue}" target="_blank" rel="noopener">submission</a>`;
   const holder = $("#gFrameWrap"); holder.querySelector("iframe")?.remove();
   const f = document.createElement("iframe");
   f.setAttribute("sandbox", "allow-scripts allow-forms allow-modals allow-pointer-lock"); f.setAttribute("title", g.title); f.setAttribute("referrerpolicy", "no-referrer");
@@ -1669,12 +1714,112 @@ $("#uSave").onclick = async () => { const g = draftGame(); if (!g) return; await
 $("#uStarter").onclick = async () => { const t = BUNDLED_GAMES.find(g => g.id === "starter")?.html || ""; try { await navigator.clipboard.writeText(t); toast("Starter template copied"); } catch { setDraft(t, "starter.html"); toast("Starter template loaded into the box"); } };
 $("#uLoadExample").onclick = () => { const z = BUNDLED_GAMES.find(g => g.id === "zoltar"); setDraft(z.html, "zoltar.html"); toast("Example loaded. Press Play test."); };
 $("#gGateBtn").onclick = () => loadRuntime(DB.rt);
+$("#gActs").onclick = async e => {
+  const g = BR.game; if (!g) return;
+  if (e.target.dataset.sharegame != null) shareGameLink(g);
+  if (e.target.dataset.savegame != null){ const copy = {...g, id:"g-" + hashId(g.html) + "-" + Date.now().toString(36), shared:false}; await GDB.put(copy); await refreshGames(); e.target.remove(); toast("Saved to Your games"); }
+};
+$("#uSubmit").onclick = () => { const g = draftGame(); if (g) submitGame(g); };
+$("#uShare").onclick = () => { const g = draftGame(); if (g) shareGameLink(g); };
+
+/* ---------- share links and the community shelf ---------- */
+const SITE_URL = "https://cpaik.github.io/cartridge-zone/";
+const REPO_URL = "https://github.com/cpaik/cartridge-zone";
+const siteBase = () => /github\.io$/.test(location.hostname) || location.hostname === "localhost" ? location.origin + location.pathname : SITE_URL;
+let COMMUNITY_CARTS = [], COMMUNITY_GAMES = [], TEMP_CARTS = {}, COMMUNITY_OK = false;
+
+/* A cart (or small game) packed into a URL: deflate + base64url. */
+const b64u = bytes => { let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+const unb64u = s => { const b = atob(s.replace(/-/g, "+").replace(/_/g, "/")); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
+async function pack(obj){
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  if (!window.CompressionStream) return "j" + b64u(bytes);
+  const z = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer());
+  return "z" + b64u(z);
+}
+async function unpack(s){
+  const bytes = unb64u(s.slice(1));
+  if (s[0] === "z") return JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text());
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+const hashId = s => { let h = 2166136261; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); };
+async function copyText(t, msg){ try { await navigator.clipboard.writeText(t); toast(msg); return true; } catch { return false; } }
+async function shareCartLink(v3){ const c = clone(v3); delete c.id; const url = siteBase() + "#c-" + await pack(c); if (!await copyText(url, `Play link copied (${(url.length / 1024).toFixed(1)} KB). Anyone who opens it can play.`)) prompt2("Copy this play link", url); }
+async function shareGameLink(g){
+  const url = siteBase() + "#g-" + await pack({title:g.title, author:g.author, blurb:g.blurb, genre:g.genre, html:g.html});
+  if (url.length > 60000) return toast("This game is too big for a link. Save it, or submit it to the shelf.");
+  if (!await copyText(url, "Play link copied. Anyone who opens it can play.")) prompt2("Copy this play link", url);
+}
+function prompt2(label, text){ $("#shareDlgT").textContent = label; $("#shareDlgIn").value = text; $("#shareDlg").hidden = false; $("#shareDlgIn").select(); }
+$("#shareDlgClose").onclick = () => { $("#shareDlg").hidden = true; };
+
+/* Opening a link someone sent. */
+async function openSharedCart(payload){
+  try {
+    const v3 = sanitizeV3({...await unpack(payload), id:undefined});
+    v3.id = "u-shared-" + hashId(payload); const c = runtimeCart(v3); c.shared = true; TEMP_CARTS[c.id] = c;
+    show("play"); newGame(c); window.scrollTo(0, 0);
+  } catch (e) { console.error(e); toast("That play link is broken or incomplete."); location.hash = "#portal"; }
+}
+async function openSharedGame(payload){
+  try {
+    const o = await unpack(payload); if (typeof o.html !== "string") throw 0;
+    const g = {id:"shared-" + hashId(payload), title:String(o.title || "Shared game").slice(0, 60), author:String(o.author || "").slice(0, 40), blurb:String(o.blurb || "").slice(0, 160), genre:o.genre || "roleplay", html:o.html.slice(0, MAX_GAME), shared:true, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk", added:Date.now()};
+    show("game"); await playGame(g); window.scrollTo(0, 0);
+  } catch (e) { console.error(e); toast("That play link is broken or incomplete."); location.hash = "#portal"; }
+}
+function renderShareBar(c){
+  const el = $("#pShare"); if (!el) return;
+  if (!c?.shared){ el.hidden = true; return; }
+  el.hidden = false; el.innerHTML = `<span>Someone shared this cart with you.</span><button type="button" class="ok sm" data-keep>Save to your carts</button><button type="button" class="ghost sm" data-remix>Remix it</button>`;
+}
+$("#pShare").onclick = e => {
+  const c = G?.cart; if (!c) return;
+  if (e.target.dataset.keep != null){ const src = clone(c.src); src.id = "u-" + hashId(JSON.stringify(src)) + "-" + Date.now().toString(36); DB.carts.unshift(src); save(); loadUserCarts(); $("#pShare").hidden = true; toast("Saved to Your carts"); }
+  if (e.target.dataset.remix != null){ const src = clone(c.src); delete src.id; show("make"); openEditor(src); history.replaceState(null, "", "#make"); }
+};
+
+/* The shelf: community/index.json, written by the GitHub Action when a maintainer approves a submission. */
+async function loadCommunity(){
+  if (PREVIEW) return;
+  try {
+    const r = await fetch("community/index.json", {cache:"no-cache"}); if (!r.ok) return;
+    const idx = await r.json(); COMMUNITY_OK = true;
+    COMMUNITY_CARTS = []; COMMUNITY_GAMES = [];
+    for (const it of (idx.items || []).slice(0, 300)){
+      try {
+        if (it.type === "cart" && it.cart){ const v3 = sanitizeV3({...it.cart, id:/^c-[a-z0-9-]+$/.test(it.id) ? it.id : undefined}); const c = runtimeCart(v3); Object.assign(c, {community:true, author:String(it.author || it.login || "").slice(0, 40), issue:+it.issue || 0}); COMMUNITY_CARTS.push(c); }
+        if (it.type === "game" && /^community\/games\/[a-z0-9-]+\.html$/.test(it.path || "")) COMMUNITY_GAMES.push({id:it.id, title:String(it.title).slice(0, 60), author:String(it.author || it.login || "").slice(0, 40), blurb:String(it.blurb || "").slice(0, 160), genre:it.genre || "roleplay", path:it.path, community:true, issue:+it.issue || 0, colors:["#1a1d2b", "#7c5cff", "#b6f23a"], motif:"disk"});
+      } catch (e) { console.warn("Skipped a shelf item", it?.id, e); }
+    }
+  } catch (e) { console.warn("No community shelf", e); }
+}
+
+/* Submitting: open a pre-filled GitHub issue form. The Action checks it and comments. */
+async function submitCart(v3){
+  const v = validateCart(v3);
+  if (v.errors.length) return toast("Fix this first: " + v.errors[0]);
+  const json = JSON.stringify({...v.cart, id:undefined});
+  const base = `${REPO_URL}/issues/new?template=cart.yml&title=${encodeURIComponent("[cart] " + v.cart.title)}`;
+  const full = base + "&cart=" + encodeURIComponent(json);
+  if (full.length <= 7800) return openOut(full, "Opening GitHub. Submit the issue there; a check will reply in a minute.");
+  await copyText(json, "Cart JSON copied. Paste it into the Cart JSON field on GitHub.");
+  openOut(base);
+}
+async function submitGame(g){
+  if (new Blob([g.html]).size > 60 * 1024){ toast("Games over 60 KB go in by pull request. Opening the repo."); return openOut(REPO_URL + "/tree/main/community"); }
+  const url = `${REPO_URL}/issues/new?template=game.yml&title=${encodeURIComponent("[game] " + g.title)}&pitch=${encodeURIComponent(g.blurb || "")}&credit=${encodeURIComponent(g.author || "")}`;
+  await copyText(g.html, "Game HTML copied. Paste it into the Game HTML field on GitHub.");
+  openOut(url);
+}
+function openOut(url, msg){ const w = window.open(url, "_blank"); if (w) w.opener = null; if (msg) toast(msg); if (!w) prompt2("Open this link to submit", url); }
 
 /* ---------- start ---------- */
 if (DEV) window.CZ = {state:() => G, debug:() => G?.debug, S, BR, turn:t => turn(t), load:k => loadRuntime(k), carts:allCarts, games:allGames, editor:() => ED, compileCart, sanitizeV3, scoreSocial, resolveDice, resolveBarter};
 $("#demoBar").hidden = !MOCK; $("#tokN").textContent = DB.tokens.toLocaleString();
 loadUserCarts();
-refreshGames().then(() => { route(); renderRt(); });
+Promise.all([refreshGames(), probe().then(loadCommunity)]).then(() => { route(); renderRt(); });
+document.addEventListener("click", e => { if (e.target.matches("[data-sharecart]")){ e.preventDefault(); if (G) shareCartLink(G.cart.src); } });
 probe().then(detect).then(() => { showDl(); S.checked = true; renderRt(); if (G) renderGate(); checkCache().then(() => { if (G) renderGate(); }); });
 
 }

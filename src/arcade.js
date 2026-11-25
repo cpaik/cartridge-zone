@@ -61,7 +61,7 @@ const GDB = {
 };
 let MY_GAMES = [];
 const refreshGames = async () => { MY_GAMES = await GDB.all(); MY_GAMES.sort((a, b) => b.added - a.added); };
-const allGames = () => [...BUNDLED_GAMES.map(g => ({...g, bundled:true})), ...MY_GAMES];
+const allGames = () => [...BUNDLED_GAMES.map(g => ({...g, bundled:true})), ...COMMUNITY_GAMES, ...MY_GAMES];
 
 /* ---------- the bridge: parent side ---------- */
 const BR = {frame:null, game:null, q:Promise.resolve(), running:null, calls:0, tokens:0, waiters:[]};
@@ -129,10 +129,13 @@ addEventListener("message", e => {
 function renderGameStats(){ const el = $("#gStats"); if (el) el.textContent = `${BR.calls} model ${BR.calls === 1 ? "call" : "calls"} · ${BR.tokens.toLocaleString()} tokens on this device`; }
 
 /* ---------- playing an uploaded game ---------- */
-function playGame(g){
+async function playGame(g){
+  if (!g.html && g.path){ try { const r = await fetch(g.path); if (!r.ok) throw 0; g.html = (await r.text()).slice(0, MAX_GAME * 2); } catch { toast("Couldn't load that game."); location.hash = "#portal"; return; } }
   BR.game = g; BR.calls = 0; BR.tokens = 0;
+  $("#gActs").innerHTML = (g.shared ? `<button type="button" class="ok sm" data-savegame>Save to your games</button>` : "") + `<button type="button" class="ghost sm" data-sharegame>Copy play link</button>`;
   $("#gTitle").textContent = g.title; $("#gKick").textContent = `Uploaded game${g.author ? " · by " + g.author : ""}`;
   $("#gInfo").textContent = g.blurb || "";
+  if (g.community && g.issue) $("#gKick").innerHTML = `Community game · by ${esc(g.author)} · <a href="${REPO_URL}/issues/${g.issue}" target="_blank" rel="noopener">submission</a>`;
   const holder = $("#gFrameWrap"); holder.querySelector("iframe")?.remove();
   const f = document.createElement("iframe");
   f.setAttribute("sandbox", "allow-scripts allow-forms allow-modals allow-pointer-lock"); f.setAttribute("title", g.title); f.setAttribute("referrerpolicy", "no-referrer");
@@ -164,3 +167,10 @@ $("#uSave").onclick = async () => { const g = draftGame(); if (!g) return; await
 $("#uStarter").onclick = async () => { const t = BUNDLED_GAMES.find(g => g.id === "starter")?.html || ""; try { await navigator.clipboard.writeText(t); toast("Starter template copied"); } catch { setDraft(t, "starter.html"); toast("Starter template loaded into the box"); } };
 $("#uLoadExample").onclick = () => { const z = BUNDLED_GAMES.find(g => g.id === "zoltar"); setDraft(z.html, "zoltar.html"); toast("Example loaded. Press Play test."); };
 $("#gGateBtn").onclick = () => loadRuntime(DB.rt);
+$("#gActs").onclick = async e => {
+  const g = BR.game; if (!g) return;
+  if (e.target.dataset.sharegame != null) shareGameLink(g);
+  if (e.target.dataset.savegame != null){ const copy = {...g, id:"g-" + hashId(g.html) + "-" + Date.now().toString(36), shared:false}; await GDB.put(copy); await refreshGames(); e.target.remove(); toast("Saved to Your games"); }
+};
+$("#uSubmit").onclick = () => { const g = draftGame(); if (g) submitGame(g); };
+$("#uShare").onclick = () => { const g = draftGame(); if (g) shareGameLink(g); };

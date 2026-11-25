@@ -1,0 +1,30 @@
+name: Submit a cart
+description: Put a cart you made on the Cartridge Zone community shelf.
+title: "[cart] "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Paste your cart below. In the cart maker, the **Submit to the shelf** button fills this in for you (or copies the JSON so you can paste it).
+        A check runs automatically and comments on this issue. A maintainer then reviews it; once approved it appears on the shelf for everyone.
+  - type: input
+    id: credit
+    attributes:
+      label: Credit as
+      description: The name shown on the shelf. Leave blank to use your GitHub username.
+  - type: textarea
+    id: cart
+    attributes:
+      label: Cart JSON
+      description: From the Share panel in the cart maker.
+      render: json
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Permission
+      options:
+        - label: I made this cart, and anyone may play and remix it.
+          required: true

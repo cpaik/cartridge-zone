@@ -194,6 +194,9 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
 .ggate{position:absolute;inset:0;background:#000c;display:grid;place-items:center;padding:16px}
 @media(max-width:1000px){.ed,.up{grid-template-columns:minmax(0,1fr)}.edside{position:static;max-height:none}.tpls{grid-template-columns:repeat(2,minmax(0,1fr))}.motifs{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.g3,.g5,.g6,.toggles,.seg{grid-template-columns:minmax(0,1fr)}.g6{grid-template-columns:repeat(2,minmax(0,1fr))}.gwrap{height:70vh}}
+.sharebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:#2a1a10;border-bottom:1px solid var(--or)}
+.dlg{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:70;padding:16px}.dlg .panel{width:min(560px,100%)}
+#gActs{gap:6px}
 </style>
 </head>
 <body>
@@ -234,6 +237,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
     </div>
     <div class="shelfh"><h2 id="shelfTitle">All cartridges</h2><div class="cats" id="cats"></div></div>
     <div class="grid" id="grid"></div>
+    <div id="shelfSec" hidden><div class="shelfh" style="margin-top:34px"><h2>Community shelf</h2><span class="small">Made by players and reviewed before they go up. <a href="#make">Make a cart</a> or <a href="#upload">upload a game</a>, then press Submit to the shelf.</span></div><div class="grid" id="shelfGrid"></div></div>
     <div class="shelfh" id="gamesH" style="margin-top:34px"><h2>Uploaded games</h2><span class="small">Any HTML game that calls the OpenAI chat API runs here, on the player's GPU. <a href="#upload">Upload yours</a>.</span></div>
     <div class="grid" id="gamesGrid"></div>
   </section>
@@ -242,6 +246,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
     <div class="play">
       <div class="stage">
         <div class="sthd"><div class="pic" id="pPic"></div><div style="flex:1"><div class="kick" id="pKick"></div><h2 id="pTitle"></h2></div><a href="#portal" class="small">Exit</a></div>
+        <div class="sharebar" id="pShare" hidden></div>
         <div class="log" id="log" aria-live="polite"></div>
         <div class="inp" id="inp">
           <div class="sugg" id="sugg"></div>
@@ -269,7 +274,9 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
           <form id="benchForm" class="row" style="flex-wrap:nowrap"><input id="benchIn" placeholder="Try a line…" aria-label="Test line" maxlength="300"><button class="go sm">Try</button></form>
           <div class="row" style="margin-top:8px"><button type="button" class="ghost sm" id="benchSugg">Play the suggested lines</button><button type="button" class="ghost sm" id="benchReset">Reset</button></div>
           <div class="row" id="benchState" style="margin-top:8px;gap:6px"></div><div id="benchOut"></div></div>
-        <div class="panel"><h4>Share</h4><p class="note">A cart is just this JSON. Copy it to share; paste someone else's to import.</p>
+        <div class="panel"><h4>Share</h4>
+          <div class="row" style="margin-bottom:10px"><button type="button" class="go sm" id="eShareLink">Copy play link</button><button type="button" class="ok sm" id="eSubmit">Submit to the shelf</button></div>
+          <p class="note">A play link holds the whole cart, so anyone can play it right away. Submitting opens a GitHub issue; once a maintainer approves it, it goes on the community shelf for everyone. Underneath, a cart is just this JSON:</p>
           <textarea id="eJson" rows="7" spellcheck="false" style="font:12px/1.4 ui-monospace,Menlo,monospace" aria-label="Cartridge JSON"></textarea>
           <div class="row" style="margin-top:8px"><button type="button" class="sm" id="eCopy">Copy JSON</button><button type="button" class="sm" id="eImport">Import pasted JSON</button>
           <label class="filebtn">Open file<input type="file" id="eFile" accept=".json,application/json" hidden></label></div></div>
@@ -287,6 +294,7 @@ button.sm{min-height:36px;font-size:15px;padding:0 12px}
         <div class="g2"><div><label for="uTitle">Title</label><input id="uTitle" maxlength="60"></div><div><label for="uAuthor">Made by</label><input id="uAuthor" maxlength="40"></div></div>
         <div class="g2"><div><label for="uBlurb">One-line pitch</label><input id="uBlurb" maxlength="160"></div><div><label for="uGenre">Category</label><select id="uGenre"><option value="roleplay">Roleplay</option><option value="dating">Dating sim</option><option value="mystery">Mystery</option><option value="tabletop">Tabletop</option></select></div></div>
         <div class="row"><button type="button" class="go" id="uTest">Play test</button><button type="button" class="ok" id="uSave">Save to your games</button><button type="button" class="ghost" id="uLoadExample">Load the example</button></div>
+        <div class="row"><button type="button" class="ghost sm" id="uShare">Copy play link</button><button type="button" class="ghost sm" id="uSubmit">Submit to the shelf</button></div>
         <p class="note">Uploaded games are saved in this browser. To share one, send the .html file; it runs for anyone who uploads it here.</p>
       </form>
       <div class="fs docs">
@@ -319,7 +327,7 @@ for await (const t of cartridge.stream(messages)) out.textContent += t;</code></
   </section>
 
   <section class="view" id="v-game">
-    <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
+    <div class="sthd gh"><div style="flex:1"><div class="kick" id="gKick"></div><h2 id="gTitle"></h2><div class="small" id="gInfo"></div></div><div class="row" id="gActs"></div><span class="chip"><span class="dot y"></span>Sandboxed · no network</span><a href="#portal" class="small">Exit</a></div>
     <div class="gwrap" id="gFrameWrap">
       <div class="ggate" id="gGate" hidden><div class="endc"><div class="kick">This game wants to use the model</div><p class="lede" id="gGateTxt"></p><button class="go" id="gGateBtn">Install and play</button></div></div>
     </div>
@@ -334,15 +342,18 @@ for await (const t of cartridge.stream(messages)) out.textContent += t;</code></
   <div class="row" style="justify-content:center"><button class="go" id="again">Play again</button><a href="#portal"><button class="ghost" tabindex="-1">Front page</button></a></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div class="dlg" id="shareDlg" hidden role="dialog" aria-modal="true" aria-labelledby="shareDlgT"><div class="panel"><h4 id="shareDlgT">Copy this link</h4><textarea id="shareDlgIn" rows="4" readonly style="font:12px/1.4 ui-monospace,Menlo,monospace"></textarea><div class="row" style="margin-top:8px"><button type="button" class="sm" id="shareDlgClose">Done</button></div></div></div>
 
 <script type="module" id="app">
 {
 /*RULES*/
 /*CARTS*/
+/*FORMAT*/
 /*APP*/
 /*EDITOR*/
 /*GAMES*/
 /*ARCADE*/
+/*SHELF*/
 /*INIT*/
 }
 </script>

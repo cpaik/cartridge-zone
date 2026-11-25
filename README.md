@@ -22,7 +22,10 @@ A prototype "Newgrounds for local AI": a game portal where every game runs on a 
 
 - `src/rules.js`: all game rules (pure functions)
 - `src/carts.js`: the four built-in games and the editor templates, in the same v3 format players use
+- `src/format.js`: cart format v3 sanitising and validation, shared with the shelf Action
 - `src/editor.js`: the cart maker, health check and test bench
+- `src/shelf.js`: play links and the community shelf
+- `scripts/shelf.mjs`, `.github/`: the submission pipeline
 - `src/arcade.js`: uploaded games, the sandbox and the OpenAI-compatible bridge
 - `games/`: bundled example games
 - `src/app.js`: the UI and model calls
@@ -53,6 +56,16 @@ Any self-contained HTML game that calls the OpenAI chat API runs at `#upload`, u
 - the official `openai` JS SDK with `baseURL: "https://cartridge.local/v1"`
 
 Calls are answered by the model on the player's GPU, through a bridge from the sandboxed frame. Games run with `sandbox="allow-scripts allow-forms allow-modals"` and a content security policy that blocks all network access except public script CDNs. A game can't read the site's storage or send players' words anywhere. See `games/zoltar.html` (streaming and JSON mode) and `games/starter.html`.
+
+## Share and publish
+
+- **Play links:** the cart maker's Share panel and every play screen offer *Copy play link*. The whole cart is compressed into the URL (about 2 KB), so anyone who opens it can play immediately and save or remix it. Small uploaded games work the same way.
+- **The community shelf** is published from this repo, so it needs no server:
+  1. *Submit to the shelf* opens a pre-filled GitHub issue (`.github/ISSUE_TEMPLATE/cart.yml` or `game.yml`).
+  2. `.github/workflows/shelf.yml` runs `scripts/shelf.mjs`. It validates the submission with the same code the site uses (`src/format.js`) and comments with the result.
+  3. A maintainer adds the **approved** label. The Action writes the item to `community/index.json` (games go to `community/games/`), closes the issue and rebuilds the site.
+
+  Games over 60 KB come in by pull request instead.
 
 ## Built-in games
 
